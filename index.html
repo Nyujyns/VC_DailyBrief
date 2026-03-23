@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VC Daily Brief</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f5; color: #1a1a1a; font-size: 14px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .header h1 { font-size: 18px; font-weight: 600; }
+  .updated { font-size: 12px; color: #888; }
+  .subtitle { font-size: 11px; color: #bbb; margin-bottom: 24px; font-style: italic; }
+  .sec { font-size: 11px; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin: 28px 0 10px; display: flex; align-items: center; gap: 6px; }
+  .card { background: #fff; border-radius: 8px; border: 0.5px solid #e0e0db; padding: 16px; margin-bottom: 10px; }
+  .card-muted { background: #fafaf8; border-radius: 8px; border: 0.5px solid #e8e8e5; padding: 14px; margin-bottom: 10px; }
+  .empty { color: #bbb; font-size: 12px; font-style: italic; padding: 8px 0; }
+  .sub-label { font-size: 11px; color: #888; margin-bottom: 8px; font-weight: 500; }
+
+  /* 딜 테이블 */
+  .deal-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .deal-table th { text-align: left; font-size: 10px; color: #aaa; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #f0f0ec; text-transform: uppercase; letter-spacing: 0.05em; }
+  .deal-table td { padding: 8px 8px; border-bottom: 0.5px solid #f0f0ec; color: #444; vertical-align: top; }
+  .deal-table tr:last-child td { border-bottom: none; }
+  .deal-table .co { font-weight: 600; color: #1a1a1a; }
+
+  /* 시그널 아이템 */
+  .sig { padding: 12px 0; border-bottom: 0.5px solid #f0f0ec; }
+  .sig:last-child { border-bottom: none; padding-bottom: 0; }
+  .sig-fact { font-size: 13px; color: #1a1a1a; line-height: 1.65; }
+  .sig-source { font-size: 10px; color: #aaa; margin-top: 4px; display: inline-block; }
+  .sig-badge { display: inline-block; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+  .sb-green { background: #e6f4ea; color: #276749; }
+  .sb-yellow { background: #fef3cd; color: #b7791f; }
+  .sb-red { background: #fde8e8; color: #c0392b; }
+
+  /* 워치리스트 */
+  .watch-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .watch-tag { font-size: 11px; color: #888; padding: 4px 10px; border-radius: 99px; border: 0.5px solid #e0e0db; background: #fff; }
+  .watch-tag.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+  /* 특별 이벤트 */
+  .event-box { background: #fff; border-radius: 8px; border-left: 3px solid #e24b4a; padding: 14px 16px; margin-bottom: 10px; }
+  .event-tag { font-size: 10px; font-weight: 600; color: #e24b4a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .event-title { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+  .event-body { font-size: 12px; color: #666; line-height: 1.6; }
+  .event-body strong { color: #444; font-weight: 500; }
+  .event-urgency { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
+  .urg-now { background: #fde8e8; color: #c0392b; }
+  .urg-watch { background: #fef3cd; color: #b7791f; }
+  .urg-long { background: #e8f0fe; color: #1a56db; }
+
+  /* 소스 */
+  .source-list { font-size: 11px; color: #aaa; line-height: 1.8; }
+  .source-list strong { color: #888; font-weight: 500; }
+
+  .section-note { font-size: 11px; color: #bbb; margin-bottom: 12px; font-style: italic; }
+  .divider { height: 1px; background: #e8e8e5; margin: 32px 0; }
+
+  @media (max-width: 560px) {
+    .deal-table { font-size: 11px; }
+    .deal-table th, .deal-table td { padding: 6px 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>📡 VC Daily Brief</h1>
+    <span class="updated">업데이트: 2026.03.23</span>
+  </div>
+  <p class="subtitle">Raw Feed — 팩트만. 판단은 네가 직접.</p>
+
+  <!-- ================================================ -->
+  <!-- 1. 딜 플로우 -->
+  <!-- ================================================ -->
+  <p class="sec">💰 딜 플로우 (CAPITAL FLOW)</p>
+
+  <div class="card">
+    <p class="sub-label">국내</p>
+    <table class="deal-table">
+      <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
+      <tr><td class="co">—</td><td colspan="4" style="color:#bbb">첫 업데이트 대기 중</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <p class="sub-label">글로벌 (AI/핀테크/딥테크 $50M+)</p>
+    <table class="deal-table">
+      <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
+      <tr><td class="co">—</td><td colspan="4" style="color:#bbb">첫 업데이트 대기 중</td></tr>
+    </table>
+  </div>
+
+  <div class="card-muted">
+    <p class="sub-label">CVC / 전략적 투자</p>
+    <p class="empty">첫 업데이트 대기 중</p>
+  </div>
+
+  <div class="card-muted">
+    <p class="sub-label">정부 / 정책 자금</p>
+    <p class="empty">첫 업데이트 대기 중</p>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 2. 기술 & 제품 시그널 -->
+  <!-- ================================================ -->
+  <p class="sec">⚙️ 기술 &amp; 제품 시그널 (TECHNOLOGY READINESS)</p>
+  <div class="card">
+    <div class="sig">
+      <p class="sig-fact" style="color:#bbb;font-style:italic;">첫 업데이트 대기 중</p>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 3. 대기업 동향 -->
+  <!-- ================================================ -->
+  <p class="sec">🏢 대기업 동향 (BIG PLAYER MOVES)</p>
+  <p class="section-note">국내외 주요 대기업 · 빅테크의 전략적 움직임 — 신사업, 조직개편, CVC, M&amp;A, 제품 출시/폐지, 인력 이동</p>
+  <div class="card">
+    <div class="sig">
+      <p class="sig-fact" style="color:#bbb;font-style:italic;">첫 업데이트 대기 중</p>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 4. 수요 변화 -->
+  <!-- ================================================ -->
+  <p class="sec">📈 수요 변화 (DEMAND SHIFT)</p>
+  <div class="card">
+    <div class="sig">
+      <p class="sig-fact" style="color:#bbb;font-style:italic;">첫 업데이트 대기 중</p>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 5. 워치리스트 -->
+  <!-- ================================================ -->
+  <p class="sec">👁️ 워치리스트 트래커</p>
+  <div class="card">
+    <div class="watch-grid">
+      <span class="watch-tag">PortOne</span>
+      <span class="watch-tag">DSRV</span>
+      <span class="watch-tag">Spendit</span>
+      <span class="watch-tag">GhostPass</span>
+      <span class="watch-tag">CrossHub</span>
+      <span class="watch-tag">TokenSquare</span>
+      <span class="watch-tag">DeepX</span>
+      <span class="watch-tag">A ROBOT</span>
+      <span class="watch-tag">맥킨리라이스</span>
+    </div>
+    <p class="empty" style="margin-top:8px;">워치리스트 변동 없음</p>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 6. 특별 이벤트 (해당 시에만 주석 해제) -->
+  <!-- ================================================ -->
+  <!--
+  <p class="sec">⚡ 특별 이벤트</p>
+  <div class="event-box">
+    <p class="event-tag">규제 변화</p>
+    <p class="event-title">이벤트 제목</p>
+    <p class="event-body">
+      <strong>팩트:</strong> 내용<br>
+      <strong>영향 섹터:</strong> 내용<br>
+    </p>
+    <span class="event-urgency urg-now">즉시 대응</span>
+  </div>
+  -->
+
+  <div class="divider"></div>
+
+  <!-- ================================================ -->
+  <!-- 7. 소스 & 방법론 -->
+  <!-- ================================================ -->
+  <p class="sec">📎 소스 &amp; 방법론</p>
+  <div class="card-muted">
+    <div class="source-list">
+      <strong>서치 키워드:</strong> 업데이트 시 기재<br>
+      <strong>참고 매체:</strong> 업데이트 시 기재<br>
+      <strong>한계:</strong> 업데이트 시 기재<br>
+      <strong>신뢰도 기준:</strong> 🟢 공식 발표 · 🟡 언론 보도 · 🔴 루머/관계자
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
