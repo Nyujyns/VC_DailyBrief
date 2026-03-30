@@ -88,7 +88,7 @@ def collect_raw_news():
     messages = [{"role": "user", "content": COLLECT_USER}]
 
     response = client.messages.create(
-        model="claude-sonnet-4-5-20250514",
+        model="claude-sonnet-4-6",
         max_tokens=16000,
         system=COLLECT_SYSTEM,
         tools=[{
@@ -361,7 +361,7 @@ def generate_brief(raw_news):
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
     response = client.messages.create(
-        model="claude-sonnet-4-5-20250514",
+        model="claude-sonnet-4-6",
         max_tokens=16000,
         system=GENERATE_SYSTEM,
         messages=[{"role": "user", "content": user_msg}]
@@ -762,20 +762,31 @@ def build_html(b):
 # ══════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    # 어제 브리프 아카이브
-    if os.path.exists("index.html"):
-        shutil.copy("index.html", "prev.html")
-        print("기존 index.html → prev.html 아카이브 완료")
+    import traceback
+    try:
+        # 어제 브리프 아카이브
+        if os.path.exists("index.html"):
+            shutil.copy("index.html", "prev.html")
+            print("기존 index.html → prev.html 아카이브 완료")
 
-    # Phase 1: 웹 검색 수집
-    raw_news = collect_raw_news()
+        # Phase 1: 웹 검색 수집
+        print("=== Phase 1 시작 ===")
+        raw_news = collect_raw_news()
+        print(f"=== Phase 1 완료: {len(raw_news)}자 ===")
 
-    # Phase 2: 구조화
-    brief_data = generate_brief(raw_news)
+        # Phase 2: 구조화
+        print("=== Phase 2 시작 ===")
+        brief_data = generate_brief(raw_news)
+        print(f"=== Phase 2 완료: {len(brief_data)} keys ===")
 
-    # HTML 생성
-    html = build_html(brief_data)
+        # HTML 생성
+        html = build_html(brief_data)
 
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"index.html 생성 완료 ({date_str})")
+        with open("index.html", "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"index.html 생성 완료 ({date_str})")
+
+    except Exception as e:
+        print(f"❌ 오류 발생: {type(e).__name__}: {e}")
+        traceback.print_exc()
+        raise
