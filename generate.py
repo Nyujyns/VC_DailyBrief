@@ -90,14 +90,16 @@ def fetch_rss_feeds():
                 })
                 count += 1
             if count > 0:
-                print(f"  ✅ {name}: {count}건")
+                print(f"  [OK] {name}: {count}건")
+            else:
+                print(f"  [--] {name}: 0건")
         except Exception as e:
-            print(f"  ❌ {name}: {e}")
+            print(f"  [ERR] {name}: {e}")
 
     # 최대 60건으로 제한 (Gemini 무료 티어 토큰 제한 대응)
     if len(articles) > 60:
         articles = articles[:60]
-        print(f"  ⚠️ 60건으로 제한됨")
+        print(f"  >> 60건으로 제한됨")
 
     print(f"Phase 1 완료: 총 {len(articles)}건 수집")
     return articles
@@ -183,6 +185,23 @@ JSON 스키마:
 }}"""
 
 
+def extract_json(text):
+    """Gemini 응답에서 JSON을 안전하게 추출"""
+    text = text.strip()
+    # 마크다운 코드블록 제거
+    text = re.sub(r'^```(?:json)?\s*', '', text)
+    text = re.sub(r'\s*```\s*$', '', text)
+    text = text.strip()
+
+    # 첫 번째 { 부터 마지막 } 까지 추출
+    start = text.find('{')
+    end = text.rfind('}')
+    if start != -1 and end != -1 and end > start:
+        text = text[start:end + 1]
+
+    return json.loads(text)
+
+
 def generate_brief(raw_news_text):
     """Phase 2: Gemini로 구조화된 JSON 생성"""
     print("Phase 2: Gemini로 브리프 생성 중...")
@@ -200,6 +219,8 @@ def generate_brief(raw_news_text):
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
     # 재시도 로직 (무료 티어 분당 제한 대응)
+    response = None
+    last_error = None
     for attempt in range(3):
         try:
             response = client.models.generate_content(
@@ -213,16 +234,20 @@ def generate_brief(raw_news_text):
             )
             break
         except Exception as e:
+            last_error = e
             if "429" in str(e) or "rate" in str(e).lower() or "quota" in str(e).lower():
                 wait = 60 * (attempt + 1)
-                print(f"  ⚠️ 속도 제한 — {wait}초 대기 후 재시도 ({attempt+1}/3)")
+                print(f"  >> 속도 제한 — {wait}초 대기 후 재시도 ({attempt+1}/3)")
                 time.sleep(wait)
             else:
                 raise
 
+    # 3번 모두 실패한 경우
+    if response is None:
+        raise RuntimeError(f"Gemini API 3회 재시도 모두 실패: {last_error}")
+
     raw = response.text.strip()
-    raw = raw.replace("```json", "").replace("```", "").strip()
-    b = json.loads(raw)
+    b = extract_json(raw)
     print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
     return b
 
@@ -306,7 +331,7 @@ def build_html(b):
     for sec in b.get("sector_trends", []):
         sector_html += f"""
         <div class="sector-card">
-          <p class="sector-name">{esc(sec.get("emoji","📊"))} {esc(sec["sector"])}</p>
+          <p class="sector-name">{esc(sec.get("emoji",""))} {esc(sec["sector"])}</p>
           <p class="sector-label">왜 지금 뜨거운가</p>
           <p class="sector-text">{esc(sec.get("why_hot",""))}</p>
           <p class="sector-label">기술 동향</p>
@@ -332,27 +357,27 @@ def build_html(b):
     events_section = ""
     if events:
         events_html = "".join(
-            f'<div class="event-box"><p class="event-tag">{esc(e["tag"])}</p>'
-            f'<p class="event-title">{esc(e["title"])}</p>'
+            f'<div class="event-box"><p class="event-tag">{esc(e.get("tag",""))}</p>'
+            f'<p class="event-title">{esc(e.get("title",""))}</p>'
             f'<p class="event-body">{e.get("body_html","")}</p>'
             f'<span class="event-urgency {esc(e.get("urgency_class","urg-watch"))}">{esc(e.get("urgency_label","모니터링"))}</span></div>'
             for e in events
         )
-        events_section = f'<p class="sec">⚡ 특별 이벤트 (ALERTS)</p>{events_html}'
+        events_section = f'<p class="sec">특별 이벤트 (ALERTS)</p>{events_html}'
 
     hw_html = ""
     for i, h in enumerate(b.get("homework", []), 1):
         hw_type = h.get("type", "judge")
         type_class = {"judge":"hwt-judge","connect":"hwt-connect","understand":"hwt-understand"}.get(hw_type, "hwt-judge")
-        tags = "".join(f'<span class="hw-tag {esc(t["class"])}">{esc(t["label"])}</span>' for t in h.get("tags", []))
+        tags = "".join(f'<span class="hw-tag {esc(t.get("class",""))}">{esc(t.get("label",""))}</span>' for t in h.get("tags", []))
         hw_html += f"""
         <div class="hw-item">
           <div class="hw-title-row">
             <span class="hw-num">{i}</span>
             <span class="hw-type {type_class}">{esc(h.get("type_label","판단"))}</span>
-            <span class="hw-title-text">{esc(h["title"])}</span>
+            <span class="hw-title-text">{esc(h.get("title",""))}</span>
           </div>
-          <p class="hw-desc">{esc(h["desc"])}</p>
+          <p class="hw-desc">{esc(h.get("desc",""))}</p>
           <div class="hw-tags">{tags}</div>
         </div>"""
 
@@ -464,16 +489,16 @@ def build_html(b):
 <body>
 <div class="wrap">
   <div class="header">
-    <h1>📡 VC Daily Brief</h1>
+    <h1>VC Daily Brief</h1>
     <span class="updated">업데이트: {date_str} ({day_str})</span>
   </div>
   <p class="subtitle">Raw Feed — 팩트만. 판단은 네가 직접.</p>
 
-  <p class="sec">🎯 오늘의 핵심 (TODAY'S TOP 3)</p>
+  <p class="sec">오늘의 핵심 (TODAY'S TOP 3)</p>
   <p class="section-note">투심 전 30초 브리핑 — 팩트 + So What</p>
   <div class="top3-card">{top3_html}</div>
 
-  <p class="sec">💰 딜 플로우 (DEAL FLOW)</p>
+  <p class="sec">딜 플로우 (DEAL FLOW)</p>
   <div class="summary-bar">{chips_html}</div>
   {domestic_html}
   {global_html}
@@ -488,27 +513,27 @@ def build_html(b):
     <p class="sig-source">{b.get("deal_gov_source_html","")}</p>
   </div>
 
-  <p class="sec">📡 시그널 (SIGNALS)</p>
+  <p class="sec">시그널 (SIGNALS)</p>
   <p class="section-note">기술 · 대기업 · 산업 · 수요 · 정책 — 태그로 구분, 중복 없이, 시간순</p>
   <div class="card">{signals_html}</div>
 
-  <p class="sec">🔬 섹터 DEEP DIVE (SECTOR TRENDS)</p>
+  <p class="sec">섹터 DEEP DIVE (SECTOR TRENDS)</p>
   <p class="section-note">이번 주 가장 뜨거운 섹터의 기술 동향 — 매일 구성이 달라짐</p>
   {sector_html}
 
-  <p class="sec">👁️ 워치리스트 (WATCHLIST)</p>
+  <p class="sec">워치리스트 (WATCHLIST)</p>
   <div class="watch-card">{watchlist_html}</div>
 
   {events_section}
   <div class="divider"></div>
 
-  <p class="sec">📚 오늘의 숙제 (TODAY'S HOMEWORK)</p>
+  <p class="sec">오늘의 숙제 (TODAY'S HOMEWORK)</p>
   <p class="section-note">오늘 브리프에서 아직 답이 안 나온 질문. 안 파보면 투자 판단에 빈 구멍이 생기는 것.</p>
   <div class="hw-card">{hw_html}</div>
 
   <div class="divider"></div>
   <details>
-    <summary>📎 소스 &amp; 방법론</summary>
+    <summary>소스 &amp; 방법론</summary>
     <div class="card-muted" style="margin-top:8px;">
       <div class="source-list">
         <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, TechCrunch, VentureBeat, Google News RSS)<br>
@@ -516,12 +541,12 @@ def build_html(b):
         <strong>서치 키워드:</strong> {esc(src.get("keywords",""))}<br>
         <strong>참고 매체:</strong> {src.get("media_html","")}<br>
         <strong>한계:</strong> {esc(src.get("limits",""))}<br>
-        <strong>신뢰도:</strong> {esc(src.get("reliability","🟢 공식 발표 · 🟡 언론 보도 · 🔴 루머/관계자"))}
+        <strong>신뢰도:</strong> {esc(src.get("reliability","공식 발표 · 언론 보도 · 루머/관계자"))}
       </div>
     </div>
   </details>
   <div class="prev-link">
-    <a href="prev.html">← 어제 브리프 ({yesterday_str} {yesterday_day})</a>
+    <a href="prev.html">이전 브리프 ({yesterday_str} {yesterday_day})</a>
   </div>
 </div>
 </body>
@@ -541,6 +566,10 @@ if __name__ == "__main__":
 
         print("=== Phase 1 시작 ===")
         articles = fetch_rss_feeds()
+
+        if len(articles) == 0:
+            print("!! RSS 피드 수집 0건 — 빈 목록으로 계속 진행")
+
         raw_text = articles_to_text(articles)
         print(f"=== Phase 1 완료: {len(articles)}건, {len(raw_text)}자 ===")
 
@@ -554,6 +583,6 @@ if __name__ == "__main__":
         print(f"index.html 생성 완료 ({date_str})")
 
     except Exception as e:
-        print(f"❌ 오류 발생: {type(e).__name__}: {e}")
+        print(f"오류 발생: {type(e).__name__}: {e}")
         traceback.print_exc()
         raise
