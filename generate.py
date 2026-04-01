@@ -4,6 +4,7 @@ import os
 import shutil
 import re
 import traceback
+import time
 from datetime import datetime, timezone, timedelta
 from google import genai
 
@@ -92,6 +93,11 @@ def fetch_rss_feeds():
                 print(f"  ✅ {name}: {count}건")
         except Exception as e:
             print(f"  ❌ {name}: {e}")
+
+    # 최대 60건으로 제한 (Gemini 무료 티어 토큰 제한 대응)
+    if len(articles) > 60:
+        articles = articles[:60]
+        print(f"  ⚠️ 60건으로 제한됨")
 
     print(f"Phase 1 완료: 총 {len(articles)}건 수집")
     return articles
@@ -193,15 +199,26 @@ def generate_brief(raw_news_text):
 
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=user_msg,
-        config={
-            "system_instruction": GENERATE_SYSTEM,
-            "max_output_tokens": 16000,
-            "temperature": 0.3,
-        }
-    )
+    # 재시도 로직 (무료 티어 분당 제한 대응)
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=user_msg,
+                config={
+                    "system_instruction": GENERATE_SYSTEM,
+                    "max_output_tokens": 16000,
+                    "temperature": 0.3,
+                }
+            )
+            break
+        except Exception as e:
+            if "429" in str(e) or "rate" in str(e).lower() or "quota" in str(e).lower():
+                wait = 60 * (attempt + 1)
+                print(f"  ⚠️ 속도 제한 — {wait}초 대기 후 재시도 ({attempt+1}/3)")
+                time.sleep(wait)
+            else:
+                raise
 
     raw = response.text.strip()
     raw = raw.replace("```json", "").replace("```", "").strip()
