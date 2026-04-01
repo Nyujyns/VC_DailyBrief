@@ -179,7 +179,7 @@ def generate_brief(raw_news_text):
     for attempt in range(5):
         try:
             response = client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-2.0-flash-lite",
                 contents=user_msg,
                 config={
                     "system_instruction": GENERATE_SYSTEM,
