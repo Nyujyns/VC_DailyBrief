@@ -96,24 +96,24 @@ def fetch_rss_feeds():
         except Exception as e:
             print(f"  [ERR] {name}: {e}")
 
-    # 최대 60건으로 제한 (Gemini 무료 티어 토큰 제한 대응)
-    if len(articles) > 60:
-        articles = articles[:60]
-        print(f"  >> 60건으로 제한됨")
+    # 최대 30건으로 제한 (Gemini 무료 티어 입력 토큰 한도 대응)
+    if len(articles) > 30:
+        articles = articles[:30]
+        print(f"  >> 30건으로 제한됨")
 
     print(f"Phase 1 완료: 총 {len(articles)}건 수집")
     return articles
 
 
 def articles_to_text(articles):
-    """수집된 기사를 텍스트로 변환"""
+    """수집된 기사를 텍스트로 변환 (토큰 절약: 요약 100자 제한, 날짜 생략)"""
     lines = []
     for a in articles:
         lines.append(f"[{a['source']}] {a['title']}")
-        if a['summary']:
-            lines.append(f"  요약: {a['summary']}")
-        lines.append(f"  링크: {a['link']}")
-        lines.append(f"  날짜: {a['published']}")
+        summary = a.get('summary', '')[:100]
+        if summary:
+            lines.append(f"  {summary}")
+        lines.append(f"  {a['link']}")
         lines.append("")
     return "\n".join(lines)
 
@@ -122,67 +122,22 @@ def articles_to_text(articles):
 # PHASE 2: Gemini로 구조화된 브리프 생성
 # ══════════════════════════════════════════════════════════════
 
-GENERATE_SYSTEM = f"""너는 한국 VC 심사역을 위한 Daily Brief를 생성하는 전문 AI야.
-오늘은 {date_iso} ({day_str})이다.
+GENERATE_SYSTEM = f"""한국 VC 심사역용 Daily Brief JSON 생성. 오늘: {date_iso} ({day_str}).
+바이오 제외. 팩트 중심. source_html에 실제 URL <a> 태그 필수. 순수 JSON만 반환(코드블록 금지).
 
-너에게 RSS 피드로 수집된 최신 뉴스 목록이 주어진다.
-이 뉴스를 아래 기준에 따라 구조화된 JSON으로 변환해라.
+섹션:
+1. top3: 투심 전 30초 브리핑 3건. headline+so_what+source_html
+2. deals: 국내(바이오제외), 글로벌($200M+), CVC, 정부자금
+3. signals: 태그(기술|대기업|산업|수요|정책) 6~10개
+4. sector_trends: 뜨거운 2~3섹터. why_hot/tech_trend/key_players/investment_angle
+5. watchlist: PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스. 상태 🔴🟢🟡⚪
+6. special_events: 없으면 []
+7. homework: judge/connect/understand 2~3개
+8. sources: keywords/media_html/limits/reliability
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 섹션 1: 오늘의 핵심 3줄 (top3)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-선정 기준: "투심 전 30초 만에 공유할 3가지"
-각 항목에 반드시 "So What" (투자 함의) 포함.
-우선순위: 워치리스트 직접영향 > 시장구조 변화 > 판단 필요 대형이벤트
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 섹션 2: 딜 플로우 (deals)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-● 국내: 바이오 제외, 전수 수집, 주차별 구분
-● 글로벌: $200M+ 및 주목 섹터, 10~15건
-● CVC / 전략적 투자, 정부 / 정책 자금
-● 요약 칩: 건수/금액 통계
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 섹션 3: 시그널 (signals)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-태그: 기술|대기업|산업|수요|정책. 중복 금지, 시간순, 6~10개.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 섹션 4: 섹터 Deep Dive (sector_trends)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-이번 주 가장 뜨거운 2~3개 섹터. why_hot, tech_trend, key_players, investment_angle.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 섹션 5: 워치리스트 (watchlist)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-고정: PortOne, DSRV, Spendit, GhostPass, CrossHub, TokenSquare, DeepX, A ROBOT, 맥킨리라이스
-상태: 🔴부정 🟢긍정 🟡간접 ⚪변동없음 + note + last_checked
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-■ 섹션 6: 특별 이벤트 (special_events) — 없으면 []
-■ 섹션 7: 오늘의 숙제 (homework) — judge/connect/understand 2~3개
-■ 섹션 8: 소스 (sources) — keywords, media_html, limits, reliability
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-공통: 바이오 완전 제외. 팩트 중심. source_html에 실제 URL 링크 필수.
-순수 JSON만 반환. 마크다운 코드블록 금지.
-
-JSON 스키마:
-{{
-  "top3": [{{"headline":"","so_what":"","source_html":""}}],
-  "summary_chips": [{{"color":"#1a56db","text":""}}],
-  "deal_domestic_weeks": [{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],
-  "deal_global": {{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},
-  "deal_cvc": "", "deal_cvc_source_html": "",
-  "deal_gov": "", "deal_gov_source_html": "",
-  "signals": [{{"tag":"","fact":"","source_html":""}}],
-  "sector_trends": [{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],
-  "watchlist": [{{"name":"","status":"","note":"","last_checked":""}}],
-  "special_events": [],
-  "homework": [{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],
-  "sources": {{"keywords":"","media_html":"","limits":"","reliability":""}}
-}}"""
+JSON:
+{{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","status":"","note":"","last_checked":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}"
+"""
 
 
 def extract_json(text):
@@ -221,30 +176,36 @@ def generate_brief(raw_news_text):
     # 재시도 로직 (무료 티어 분당 제한 대응)
     response = None
     last_error = None
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             response = client.models.generate_content(
                 model="gemini-2.0-flash",
                 contents=user_msg,
                 config={
                     "system_instruction": GENERATE_SYSTEM,
-                    "max_output_tokens": 16000,
+                    "max_output_tokens": 8000,
                     "temperature": 0.3,
                 }
             )
             break
         except Exception as e:
             last_error = e
-            if "429" in str(e) or "rate" in str(e).lower() or "quota" in str(e).lower():
-                wait = 60 * (attempt + 1)
-                print(f"  >> 속도 제한 — {wait}초 대기 후 재시도 ({attempt+1}/3)")
+            err_str = str(e).lower()
+            if "429" in str(e) or "rate" in err_str or "quota" in err_str or "resource" in err_str:
+                # retryDelay 파싱 시도
+                delay_match = re.search(r'"retryDelay"\s*:\s*"(\d+)s"', str(e))
+                if delay_match:
+                    wait = int(delay_match.group(1)) + 5
+                else:
+                    wait = 65 * (attempt + 1)
+                print(f"  >> 속도 제한 — {wait}초 대기 후 재시도 ({attempt+1}/5)")
                 time.sleep(wait)
             else:
                 raise
 
-    # 3번 모두 실패한 경우
+    # 5번 모두 실패한 경우
     if response is None:
-        raise RuntimeError(f"Gemini API 3회 재시도 모두 실패: {last_error}")
+        raise RuntimeError(f"Gemini API 5회 재시도 모두 실패: {last_error}")
 
     raw = response.text.strip()
     b = extract_json(raw)
