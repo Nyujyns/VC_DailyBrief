@@ -6,6 +6,7 @@ import re
 import traceback
 import time
 from datetime import datetime, timezone, timedelta
+from google import genai
 from openai import OpenAI
 
 # ── 설정 ──
@@ -16,8 +17,9 @@ date_iso = today.strftime('%Y-%m-%d')
 day_names = ['월', '화', '수', '목', '금', '토', '일']
 day_str = day_names[today.weekday()]
 
-client = OpenAI(
-    api_key=os.environ["GROQ_API_KEY"],
+gemini_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY", ""))
+groq_client = OpenAI(
+    api_key=os.environ.get("GROQ_API_KEY", ""),
     base_url="https://api.groq.com/openai/v1"
 )
 
@@ -99,25 +101,28 @@ def fetch_rss_feeds():
         except Exception as e:
             print(f"  [ERR] {name}: {e}")
 
-    # 최대 30건으로 제한 (Gemini 무료 티어 입력 토큰 한도 대응)
-    if len(articles) > 30:
-        articles = articles[:30]
-        print(f"  >> 30건으로 제한됨")
+    # 최대 40건으로 제한
+    if len(articles) > 40:
+        articles = articles[:40]
+        print(f"  >> 40건으로 제한됨")
 
     print(f"Phase 1 완료: 총 {len(articles)}건 수집")
     return articles
 
 
-def articles_to_text(articles):
-    """수집된 기사를 텍스트로 변환 (토큰 절약: 요약 100자 제한, 날짜 생략)"""
+def articles_to_text(articles, compact=False):
+    """수집된 기사를 텍스트로 변환. compact=True면 제목+링크만."""
     lines = []
     for a in articles:
-        lines.append(f"[{a['source']}] {a['title']}")
-        summary = a.get('summary', '')[:100]
-        if summary:
-            lines.append(f"  {summary}")
-        lines.append(f"  {a['link']}")
-        lines.append("")
+        if compact:
+            lines.append(f"[{a['source']}] {a['title']} | {a['link']}")
+        else:
+            lines.append(f"[{a['source']}] {a['title']}")
+            summary = a.get('summary', '')[:150]
+            if summary:
+                lines.append(f"  {summary}")
+            lines.append(f"  {a['link']}")
+            lines.append("")
     return "\n".join(lines)
 
 
@@ -160,11 +165,8 @@ def extract_json(text):
     return json.loads(text)
 
 
-def generate_brief(raw_news_text):
-    """Phase 2: Groq (Llama) 로 구조화된 JSON 생성"""
-    print("Phase 2: Groq로 브리프 생성 중...")
-
-    user_msg = f"""아래는 RSS 피드로 수집된 최신 뉴스 목록이다.
+def make_user_msg(raw_news_text):
+    return f"""아래는 RSS 피드로 수집된 최신 뉴스 목록이다.
 이 내용을 기반으로 VC Daily Brief JSON을 생성해라.
 
 수집된 뉴스에 있는 팩트만 사용해라. 없는 뉴스를 만들지 마.
@@ -176,20 +178,122 @@ def generate_brief(raw_news_text):
 
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
-    response = client.chat.completions.create(
+
+def try_gemini(user_msg):
+    """1순위: Gemini 2.0 Flash"""
+    print("  [Gemini] 시도 중...")
+    response = gemini_client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=user_msg,
+        config={
+            "system_instruction": GENERATE_SYSTEM,
+            "max_output_tokens": 16000,
+            "temperature": 0.3,
+        }
+    )
+    return response.text.strip()
+
+
+def groq_call(system_prompt, user_prompt, max_tokens=2000):
+    """Groq API 단일 호출 (섹션별 분할용)"""
+    response = groq_client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
-            {"role": "system", "content": GENERATE_SYSTEM},
-            {"role": "user", "content": user_msg}
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
         ],
         temperature=0.3,
-        max_tokens=8000,
+        max_tokens=max_tokens,
     )
+    return response.choices[0].message.content.strip()
 
-    raw = response.choices[0].message.content.strip()
-    b = extract_json(raw)
-    print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
-    return b
+
+# ── Groq 섹션별 프롬프트 ──
+
+GROQ_BASE = f"한국 VC 심사역용 Daily Brief. 오늘: {date_iso} ({day_str}). 바이오 제외. 순수 JSON만 반환(코드블록 금지)."
+
+GROQ_SECTIONS = [
+    {
+        "name": "top3+chips+signals",
+        "system": GROQ_BASE + """
+아래 뉴스에서 3가지를 추출해라:
+1. top3: 투심 전 30초 브리핑 3건 (headline, so_what, source_html에 <a>태그 URL)
+2. summary_chips: 건수/금액 통계 칩 2~3개 (color, text)
+3. signals: 기술|대기업|산업|수요|정책 태그로 6~8개 (tag, fact, source_html)
+JSON: {"top3":[...],"summary_chips":[...],"signals":[...]}""",
+        "max_tokens": 2000,
+    },
+    {
+        "name": "deals",
+        "system": GROQ_BASE + """
+아래 뉴스에서 딜 플로우를 추출해라:
+1. deal_domestic_weeks: 국내 딜 (바이오 제외). label, rows=[{co,round,amount,investor,sector,date}], source_html
+2. deal_global: 글로벌 $200M+ 딜. 같은 구조
+3. deal_cvc: CVC/전략적 투자 텍스트, deal_cvc_source_html
+4. deal_gov: 정부/정책 자금 텍스트, deal_gov_source_html
+JSON: {"deal_domestic_weeks":[...],"deal_global":{...},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":""}""",
+        "max_tokens": 2000,
+    },
+    {
+        "name": "sectors+watchlist+homework",
+        "system": GROQ_BASE + """
+아래 뉴스에서 3가지를 추출해라:
+1. sector_trends: 뜨거운 2~3섹터 (sector, emoji, why_hot, tech_trend, key_players, investment_angle, source_html)
+2. watchlist: 고정 9개(PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스). 뉴스 없으면 ⚪. (name, status 🔴🟢🟡⚪, note, last_checked)
+3. homework: judge/connect/understand 2~3개 (type, type_label, title, desc, tags=[{class,label}])
+4. sources: {keywords, media_html, limits, reliability}
+5. special_events: 없으면 []
+JSON: {"sector_trends":[...],"watchlist":[...],"homework":[...],"sources":{...},"special_events":[]}""",
+        "max_tokens": 2500,
+    },
+]
+
+
+def try_groq_split(articles):
+    """Groq: 섹션별 분할 호출 후 병합"""
+    print("  [Groq] 섹션별 분할 호출...")
+    compact_text = articles_to_text(articles[:20], compact=True)
+    merged = {}
+
+    for i, sec in enumerate(GROQ_SECTIONS):
+        print(f"    [{i+1}/{len(GROQ_SECTIONS)}] {sec['name']}...")
+        user_prompt = f"뉴스 목록:\n{compact_text}\n\n순수 JSON만 반환."
+        raw = groq_call(sec["system"], user_prompt, sec["max_tokens"])
+        part = extract_json(raw)
+        merged.update(part)
+        if i < len(GROQ_SECTIONS) - 1:
+            time.sleep(10)  # TPM 리셋 대기
+
+    return merged
+
+
+def generate_brief(articles):
+    """Phase 2: Gemini 먼저 시도, 실패 시 Groq 섹션별 분할"""
+    print("Phase 2: 브리프 생성 중...")
+
+    # 1순위: Gemini (한 번에 전체)
+    if os.environ.get("GEMINI_API_KEY"):
+        try:
+            full_text = articles_to_text(articles, compact=False)
+            user_msg_full = make_user_msg(full_text)
+            raw = try_gemini(user_msg_full)
+            print("  [Gemini] 성공!")
+            b = extract_json(raw)
+            print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
+            return b
+        except Exception as e:
+            print(f"  [Gemini] 실패: {e}")
+
+    # 2순위: Groq 섹션 분할
+    if os.environ.get("GROQ_API_KEY"):
+        try:
+            b = try_groq_split(articles)
+            print(f"  [Groq] 성공! ({len(b)} keys)")
+            return b
+        except Exception as e:
+            print(f"  [Groq] 실패: {e}")
+
+    raise RuntimeError("Gemini, Groq 모두 실패")
 
 
 # ══════════════════════════════════════════════════════════════
@@ -510,11 +614,10 @@ if __name__ == "__main__":
         if len(articles) == 0:
             print("!! RSS 피드 수집 0건 — 빈 목록으로 계속 진행")
 
-        raw_text = articles_to_text(articles)
-        print(f"=== Phase 1 완료: {len(articles)}건, {len(raw_text)}자 ===")
+        print(f"=== Phase 1 완료: {len(articles)}건 ===")
 
         print("=== Phase 2 시작 ===")
-        brief_data = generate_brief(raw_text)
+        brief_data = generate_brief(articles)
         print(f"=== Phase 2 완료: {len(brief_data)} keys ===")
 
         html = build_html(brief_data)
