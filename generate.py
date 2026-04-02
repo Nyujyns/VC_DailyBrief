@@ -6,7 +6,7 @@ import re
 import traceback
 import time
 from datetime import datetime, timezone, timedelta
-from google import genai
+from openai import OpenAI
 
 # ── 설정 ──
 KST = timezone(timedelta(hours=9))
@@ -16,7 +16,10 @@ date_iso = today.strftime('%Y-%m-%d')
 day_names = ['월', '화', '수', '목', '금', '토', '일']
 day_str = day_names[today.weekday()]
 
-client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+client = OpenAI(
+    api_key=os.environ["GROQ_API_KEY"],
+    base_url="https://api.groq.com/openai/v1"
+)
 
 # ══════════════════════════════════════════════════════════════
 # PHASE 1: RSS 피드로 최신 뉴스 수집
@@ -158,8 +161,8 @@ def extract_json(text):
 
 
 def generate_brief(raw_news_text):
-    """Phase 2: Gemini로 구조화된 JSON 생성"""
-    print("Phase 2: Gemini로 브리프 생성 중...")
+    """Phase 2: Groq (Llama) 로 구조화된 JSON 생성"""
+    print("Phase 2: Groq로 브리프 생성 중...")
 
     user_msg = f"""아래는 RSS 피드로 수집된 최신 뉴스 목록이다.
 이 내용을 기반으로 VC Daily Brief JSON을 생성해라.
@@ -173,41 +176,17 @@ def generate_brief(raw_news_text):
 
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
-    # 재시도 로직 (무료 티어 분당 제한 대응)
-    response = None
-    last_error = None
-    for attempt in range(5):
-        try:
-            response = client.models.generate_content(
-                model="gemini-2.0-flash-lite",
-                contents=user_msg,
-                config={
-                    "system_instruction": GENERATE_SYSTEM,
-                    "max_output_tokens": 8000,
-                    "temperature": 0.3,
-                }
-            )
-            break
-        except Exception as e:
-            last_error = e
-            err_str = str(e).lower()
-            if "429" in str(e) or "rate" in err_str or "quota" in err_str or "resource" in err_str:
-                # retryDelay 파싱 시도
-                delay_match = re.search(r'"retryDelay"\s*:\s*"(\d+)s"', str(e))
-                if delay_match:
-                    wait = int(delay_match.group(1)) + 5
-                else:
-                    wait = 65 * (attempt + 1)
-                print(f"  >> 속도 제한 — {wait}초 대기 후 재시도 ({attempt+1}/5)")
-                time.sleep(wait)
-            else:
-                raise
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": GENERATE_SYSTEM},
+            {"role": "user", "content": user_msg}
+        ],
+        temperature=0.3,
+        max_tokens=8000,
+    )
 
-    # 5번 모두 실패한 경우
-    if response is None:
-        raise RuntimeError(f"Gemini API 5회 재시도 모두 실패: {last_error}")
-
-    raw = response.text.strip()
+    raw = response.choices[0].message.content.strip()
     b = extract_json(raw)
     print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
     return b
