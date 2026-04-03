@@ -135,20 +135,20 @@ def articles_to_text(articles, compact=False):
 # PHASE 2: Gemini로 구조화된 브리프 생성
 # ══════════════════════════════════════════════════════════════
 
-GENERATE_SYSTEM = f"""한국 VC 심사역용 Daily Brief JSON 생성. 오늘: {date_iso} ({day_str}).
-바이오 제외. 팩트 중심. source_html에 실제 URL <a> 태그 필수. 순수 JSON만 반환(코드블록 금지).
+GENERATE_SYSTEM = f"""한국 VC 심사역용 Daily Brief JSON 생성기. 오늘: {date_iso} ({day_str}).
+바이오/헬스케어 완전 제외. 팩트 중심. 수집된 뉴스에 있는 팩트만 사용. 없는 뉴스 만들지 마.
+source_html에 반드시 실제 URL <a href="URL">매체명</a> 태그 포함. 순수 JSON만 반환(코드블록 금지).
 
-섹션:
-1. top3: 투심 전 30초 브리핑 3건. headline+so_what+source_html
-2. deals: 국내(바이오제외), 글로벌($200M+), CVC, 정부자금
-3. signals: 태그(기술|대기업|산업|수요|정책) 6~10개
-4. sector_trends: 뜨거운 2~3섹터. why_hot/tech_trend/key_players/investment_angle
-5. watchlist: PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스. 상태 🔴🟢🟡⚪
-6. special_events: 없으면 []
-7. homework: judge/connect/understand 2~3개
-8. sources: keywords/media_html/limits/reliability
+[선별 기준]
+- top3 우선순위: 워치리스트 기업 직접 영향 > 시장 구조 변화(규제/M&A/대형라운드) > 판단 필요 대형 이벤트
+- so_what: 단순 요약 아니라 VC 투자 판단에 미치는 영향 분석
+- signals: 5종 태그(기술/대기업/산업/수요/정책) 골고루. top3와 겹치지 않는 뉴스 선택
+- sector_trends: investment_angle은 "어디에 투자 기회가 있는가" 관점
+- watchlist 9개 고정: PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스. 뉴스 없으면 ⚪
+- homework: type은 judge(판단)/connect(연결)/understand(이해). top3/signals에서 파생되는 후속 과제
+- deals: 구체적 금액/라운드 나온 것만. 루머/검토중 제외
 
-JSON:
+JSON 스키마:
 {{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","status":"","note":"","last_checked":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}"
 """
 
@@ -213,64 +213,209 @@ def groq_call(system_prompt, user_prompt, max_tokens=2000):
     return response.choices[0].message.content.strip()
 
 
-# ── Groq 섹션별 프롬프트 ──
+# ── Groq 섹션별 프롬프트 (퀄리티 강화) ──
 
-GROQ_BASE = f"한국 VC 심사역용 Daily Brief. 오늘: {date_iso} ({day_str}). 바이오 제외. 순수 JSON만 반환(코드블록 금지)."
+GROQ_BASE = f"한국 VC 심사역용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}). 바이오/헬스케어 뉴스는 전부 제외. 순수 JSON만 반환(코드블록/마크다운 금지). 수집된 뉴스에 있는 팩트만 사용하고, 없는 뉴스를 만들지 마. 출처 URL은 수집된 뉴스의 링크를 그대로 사용해라."
 
 GROQ_SECTIONS = [
     {
         "name": "top3+chips+signals",
         "system": GROQ_BASE + """
-아래 뉴스에서 3가지를 추출해라:
-1. top3: 투심 전 30초 브리핑 3건 (headline, so_what, source_html에 <a>태그 URL)
-2. summary_chips: 건수/금액 통계 칩 2~3개 (color, text)
-3. signals: 기술|대기업|산업|수요|정책 태그로 6~8개 (tag, fact, source_html)
-JSON: {"top3":[...],"summary_chips":[...],"signals":[...]}""",
-        "max_tokens": 2000,
+
+[Call 1] 아래 뉴스에서 3가지를 추출해라:
+
+1. top3: 투심(투자심의) 전 30초 브리핑 3건.
+   - 선별 우선순위: ① 워치리스트 기업(PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스) 직접 영향 > ② 시장 구조 변화(규제, M&A, 대형 라운드) > ③ 판단이 필요한 대형 이벤트
+   - headline: 한 문장으로 팩트 요약 (30자 내외)
+   - so_what: VC 심사역에게 "그래서 뭐?" 에 답하는 임팩트 분석 (50자 내외). 단순 요약이 아니라 투자 판단에 어떤 영향이 있는지 써라.
+   - source_html: 반드시 <a href="실제URL">매체명</a> 형식
+
+2. summary_chips: 오늘 수집된 뉴스의 핵심 통계 칩 2~4개
+   - 예: "국내 딜 N건", "글로벌 $XB+", "AI 관련 N건"
+   - color: hex 색상코드, text: 칩 텍스트
+
+3. signals: 시장 시그널 6~10개. 태그 5종(기술/대기업/산업/수요/정책) 골고루 분배.
+   - tag: "기술"|"대기업"|"산업"|"수요"|"정책" 중 하나
+   - fact: 1~2문장 팩트 (뉴스 원문 기반, 추측 금지)
+   - source_html: <a> 태그로 출처 링크
+   - 주의: top3에 이미 나온 뉴스와 겹치지 않게 다른 뉴스를 선택해라
+
+JSON: {"top3":[{"headline":"","so_what":"","source_html":""}],"summary_chips":[{"color":"","text":""}],"signals":[{"tag":"","fact":"","source_html":""}]}""",
+        "max_tokens": 2500,
     },
     {
         "name": "deals",
         "system": GROQ_BASE + """
-아래 뉴스에서 딜 플로우를 추출해라:
-1. deal_domestic_weeks: 국내 딜 (바이오 제외). label, rows=[{co,round,amount,investor,sector,date}], source_html
-2. deal_global: 글로벌 $200M+ 딜. 같은 구조
-3. deal_cvc: CVC/전략적 투자 텍스트, deal_cvc_source_html
-4. deal_gov: 정부/정책 자금 텍스트, deal_gov_source_html
-JSON: {"deal_domestic_weeks":[...],"deal_global":{...},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":""}""",
-        "max_tokens": 2000,
+
+[Call 2] 아래 뉴스에서 딜 플로우(투자 거래)를 추출해라:
+
+1. deal_domestic_weeks: 국내 딜 (바이오/헬스케어 완전 제외)
+   - label: "이번 주 국내 주요 딜" 등
+   - rows: [{co: 회사명, round: "시리즈A" 등, amount: "50억원" 등, investor: 주요 투자자, sector: 섹터, date: 날짜}]
+   - source_html: <a> 태그 출처
+   - 뉴스에서 구체적 금액/라운드가 나온 것만 포함. 루머나 '투자 검토 중'은 제외.
+
+2. deal_global: 글로벌 대형 딜 ($200M 이상 또는 주목할 만한 딜)
+   - 같은 rows 구조. label: "글로벌 주요 딜"
+
+3. deal_cvc: CVC(대기업 벤처투자) 또는 전략적 투자 관련 뉴스 요약 텍스트 (1~2문장). 없으면 빈 문자열.
+   - deal_cvc_source_html: 출처
+
+4. deal_gov: 정부/정책 자금 관련 뉴스 요약 텍스트. 없으면 빈 문자열.
+   - deal_gov_source_html: 출처
+
+뉴스에 딜 정보가 없으면 rows를 빈 배열로, 텍스트를 "해당 뉴스 없음"으로 해라.
+
+JSON: {"deal_domestic_weeks":[{"label":"","rows":[],"source_html":""}],"deal_global":{"label":"","rows":[],"source_html":""},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":""}""",
+        "max_tokens": 2500,
     },
     {
         "name": "sectors+watchlist+homework",
         "system": GROQ_BASE + """
-아래 뉴스에서 3가지를 추출해라:
-1. sector_trends: 뜨거운 2~3섹터 (sector, emoji, why_hot, tech_trend, key_players, investment_angle, source_html)
-2. watchlist: 고정 9개(PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스). 뉴스 없으면 ⚪. (name, status 🔴🟢🟡⚪, note, last_checked)
-3. homework: judge/connect/understand 2~3개 (type, type_label, title, desc, tags=[{class,label}])
-4. sources: {keywords, media_html, limits, reliability}
-5. special_events: 없으면 []
-JSON: {"sector_trends":[...],"watchlist":[...],"homework":[...],"sources":{...},"special_events":[]}""",
-        "max_tokens": 2500,
+
+[Call 3] 아래 뉴스와 [이전 호출 결과]를 참고하여 5가지를 생성해라:
+
+1. sector_trends: 이번 주 가장 뜨거운 2~3개 섹터 딥다이브
+   - sector: 섹터명 (예: "AI 인프라", "로보틱스", "핀테크")
+   - emoji: 대표 이모지
+   - why_hot: 왜 지금 뜨거운지 2~3문장 (구체적 뉴스/데이터 인용)
+   - tech_trend: 핵심 기술 동향 1~2문장
+   - key_players: 주요 플레이어 (스타트업+대기업 mix)
+   - investment_angle: VC 투자 관점에서의 시사점 1~2문장. "어디에 투자 기회가 있는가"
+   - source_html: <a> 태그 출처
+   - 주의: [이전 호출 결과]의 signals와 겹치는 내용은 피하고 더 깊은 분석을 제공해라.
+
+2. watchlist: 고정 9개 기업 모니터링. 반드시 9개 전부 포함:
+   PortOne(결제), DSRV(블록체인), Spendit(경비관리), GhostPass(생체인증), CrossHub(무역), TokenSquare(STO), DeepX(로봇AI), A ROBOT(로봇), 맥킨리라이스(HR)
+   - name: 기업명
+   - status: 🟢(긍정 뉴스) / 🔴(부정 뉴스/리스크) / 🟡(주목할 변화) / ⚪(뉴스 없음)
+   - note: 관련 뉴스 요약 또는 "최근 뉴스 없음"
+   - last_checked: 오늘 날짜
+
+3. homework: 오늘 브리프에서 아직 답이 안 나온 질문 2~3개.
+   [이전 호출 결과]의 top3, signals를 참고하여, 그 뉴스들에서 파생되는 후속 조사 과제를 만들어라.
+   - type: "judge"(판단 필요) / "connect"(미팅/네트워킹 필요) / "understand"(기술/시장 이해 필요)
+   - type_label: "판단" / "연결" / "이해"
+   - title: 과제 제목 (질문 형태, 15자 내외)
+   - desc: 왜 이걸 조사해야 하는지 2문장
+   - tags: [{class: "industry"|"startup"|"tech", label: 태그명}]
+
+4. sources: 이 브리프의 데이터 소스 메타정보
+   - keywords: 주요 검색 키워드
+   - media_html: 참고 매체 링크 (<a> 태그)
+   - limits: 데이터 한계점
+   - reliability: "공식 발표 · 언론 보도 · 루머/관계자"
+
+5. special_events: 긴급하거나 특별한 이벤트. 없으면 빈 배열 [].
+
+JSON: {"sector_trends":[],"watchlist":[],"homework":[],"sources":{},"special_events":[]}""",
+        "max_tokens": 3000,
     },
 ]
 
 
 def try_groq_split(articles):
-    """Groq: 섹션별 분할 호출 후 병합"""
-    print("  [Groq] 섹션별 분할 호출...")
-    compact_text = articles_to_text(articles[:20], compact=True)
+    """Groq: 섹션별 분할 호출 후 병합 (체이닝으로 섹션 간 맥락 유지)"""
+    print("  [Groq] 섹션별 분할 호출 (체이닝 모드)...")
+
+    # 기사 30개까지, 요약 포함 (퀄리티 유지)
+    news_text = articles_to_text(articles[:30], compact=False)
+    # 입력이 너무 길면 compact로 폴백 (Groq TPM 보호)
+    if len(news_text) > 12000:
+        news_text = articles_to_text(articles[:25], compact=False)
+    if len(news_text) > 12000:
+        news_text = articles_to_text(articles[:30], compact=True)
+        print("    >> 입력이 길어 compact 모드로 전환")
+
     merged = {}
+    call1_summary = ""  # Call 1 결과 요약 (Call 3에 전달용)
 
     for i, sec in enumerate(GROQ_SECTIONS):
         print(f"    [{i+1}/{len(GROQ_SECTIONS)}] {sec['name']}...")
-        user_prompt = f"뉴스 목록:\n{compact_text}\n\n순수 JSON만 반환."
+
+        # 기본 사용자 프롬프트
+        user_prompt = f"━━━ 수집된 뉴스 ━━━\n{news_text}\n━━━ 끝 ━━━\n\n"
+
+        # Call 3(sectors+watchlist+homework)에는 Call 1 결과를 컨텍스트로 전달
+        if i == 2 and call1_summary:
+            user_prompt += f"""━━━ 이전 호출 결과 (참고용) ━━━
+{call1_summary}
+━━━ 끝 ━━━
+
+위 이전 호출 결과의 top3, signals와 겹치지 않는 내용으로 sector_trends를 작성하고,
+homework는 위 top3/signals에서 파생되는 후속 조사 과제로 만들어라.
+
+"""
+
+        user_prompt += "순수 JSON만 반환해라. 코드블록 없이."
+
         raw = groq_call(sec["system"], user_prompt, sec["max_tokens"])
         part = extract_json(raw)
         merged.update(part)
+
+        # Call 1 결과를 요약으로 저장 (Call 3에 전달하기 위해)
+        if i == 0:
+            try:
+                top3_titles = [t.get("headline", "") for t in part.get("top3", [])]
+                signal_facts = [s.get("fact", "") for s in part.get("signals", [])[:5]]
+                call1_summary = "top3 헤드라인:\n" + "\n".join(f"- {t}" for t in top3_titles)
+                call1_summary += "\n\nsignals 주요 팩트:\n" + "\n".join(f"- {f}" for f in signal_facts)
+            except Exception:
+                call1_summary = ""
+
         if i < len(GROQ_SECTIONS) - 1:
             print(f"    >> 62초 대기 (TPM 리셋)...")
-            time.sleep(62)  # 분당 토큰 한도 리셋 대기
+            time.sleep(62)
 
     return merged
+
+
+REQUIRED_KEYS = {
+    "top3": list, "summary_chips": list, "signals": list,
+    "deal_domestic_weeks": list, "deal_global": dict,
+    "deal_cvc": str, "deal_gov": str,
+    "sector_trends": list, "watchlist": list, "homework": list,
+    "sources": dict, "special_events": list,
+}
+
+
+def validate_and_fix(b):
+    """JSON 구조 검증 및 누락 키 보완"""
+    fixed = 0
+    for key, expected_type in REQUIRED_KEYS.items():
+        if key not in b:
+            b[key] = [] if expected_type == list else ({} if expected_type == dict else "")
+            fixed += 1
+            print(f"  [검증] 누락 키 보완: {key}")
+
+    # watchlist가 9개 미만이면 빠진 기업 추가
+    WATCHLIST_COMPANIES = ["PortOne", "DSRV", "Spendit", "GhostPass", "CrossHub",
+                           "TokenSquare", "DeepX", "A ROBOT", "맥킨리라이스"]
+    existing_names = {w.get("name", "") for w in b.get("watchlist", [])}
+    for co in WATCHLIST_COMPANIES:
+        if co not in existing_names:
+            b["watchlist"].append({
+                "name": co, "status": "⚪",
+                "note": "최근 뉴스 없음", "last_checked": date_iso
+            })
+            fixed += 1
+
+    # top3가 3개 미만 경고
+    if len(b.get("top3", [])) < 3:
+        print(f"  [검증] 경고: top3가 {len(b.get('top3',[]))}개밖에 없음")
+
+    # homework 유형 검증
+    valid_types = {"judge", "connect", "understand"}
+    for h in b.get("homework", []):
+        if h.get("type") not in valid_types:
+            h["type"] = "judge"
+            h["type_label"] = "판단"
+
+    if fixed > 0:
+        print(f"  [검증] 총 {fixed}개 항목 보완됨")
+    else:
+        print("  [검증] 모든 키 정상")
+    return b
 
 
 def generate_brief(articles):
@@ -285,6 +430,7 @@ def generate_brief(articles):
             raw = try_gemini(user_msg_full)
             print("  [Gemini] 성공!")
             b = extract_json(raw)
+            b = validate_and_fix(b)
             print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
             return b
         except Exception as e:
@@ -294,6 +440,7 @@ def generate_brief(articles):
     if os.environ.get("GROQ_API_KEY"):
         try:
             b = try_groq_split(articles)
+            b = validate_and_fix(b)
             print(f"  [Groq] 성공! ({len(b)} keys)")
             return b
         except Exception as e:
@@ -319,29 +466,29 @@ def build_html(b):
         <div class="top3-item">
           <span class="top3-num">{i}</span>
           <div class="top3-content">
-            <p class="top3-headline">{esc(item["headline"])}</p>
-            <p class="top3-sowhat">{esc(item["so_what"])}</p>
+            <p class="top3-headline">{esc(item.get("headline",""))}</p>
+            <p class="top3-sowhat">{esc(item.get("so_what",""))}</p>
             <p class="top3-source">{item.get("source_html", "")}</p>
           </div>
         </div>"""
 
     chips_html = "".join(
-        f'<div class="sum-chip"><span class="sum-dot" style="background:{esc(c["color"])}"></span>'
-        f'<span>{esc(c["text"])}</span></div>'
+        f'<div class="sum-chip"><span class="sum-dot" style="background:{esc(c.get("color","#1a56db"))}"></span>'
+        f'<span>{esc(c.get("text",""))}</span></div>'
         for c in b.get("summary_chips", [])
     )
 
     domestic_html = ""
     for week in b.get("deal_domestic_weeks", []):
         rows = "".join(
-            f'<tr><td class="co">{esc(r["co"])}</td><td>{esc(r["round"])}</td>'
-            f'<td>{esc(r["amount"])}</td><td>{esc(r.get("investor",""))}</td>'
-            f'<td>{esc(r["sector"])}</td></tr>'
+            f'<tr><td class="co">{esc(r.get("co",""))}</td><td>{esc(r.get("round",""))}</td>'
+            f'<td>{esc(r.get("amount",""))}</td><td>{esc(r.get("investor",""))}</td>'
+            f'<td>{esc(r.get("sector",""))}</td></tr>'
             for r in week.get("rows", [])
         )
         domestic_html += f"""
         <div class="card">
-          <p class="sub-label">{esc(week["label"])}</p>
+          <p class="sub-label">{esc(week.get("label",""))}</p>
           <table class="deal-table">
             <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
             {rows}
@@ -351,9 +498,9 @@ def build_html(b):
 
     dg = b.get("deal_global", {})
     global_rows = "".join(
-        f'<tr><td class="co">{esc(r["co"])}</td><td>{esc(r["round"])}</td>'
-        f'<td>{esc(r["amount"])}</td><td>{esc(r.get("investor",""))}</td>'
-        f'<td>{esc(r["sector"])}</td></tr>'
+        f'<tr><td class="co">{esc(r.get("co",""))}</td><td>{esc(r.get("round",""))}</td>'
+        f'<td>{esc(r.get("amount",""))}</td><td>{esc(r.get("investor",""))}</td>'
+        f'<td>{esc(r.get("sector",""))}</td></tr>'
         for r in dg.get("rows", [])
     )
     global_html = f"""
@@ -373,7 +520,7 @@ def build_html(b):
         signals_html += f"""
         <div class="sig">
           <span class="sig-tag {tag_class}">{esc(tag)}</span>
-          <p class="sig-fact">{esc(s["fact"])}</p>
+          <p class="sig-fact">{esc(s.get("fact",""))}</p>
           <p class="sig-source">{s.get("source_html","")}</p>
         </div>"""
 
@@ -381,7 +528,7 @@ def build_html(b):
     for sec in b.get("sector_trends", []):
         sector_html += f"""
         <div class="sector-card">
-          <p class="sector-name">{esc(sec.get("emoji",""))} {esc(sec["sector"])}</p>
+          <p class="sector-name">{esc(sec.get("emoji",""))} {esc(sec.get("sector",""))}</p>
           <p class="sector-label">왜 지금 뜨거운가</p>
           <p class="sector-text">{esc(sec.get("why_hot",""))}</p>
           <p class="sector-label">기술 동향</p>
@@ -398,7 +545,7 @@ def build_html(b):
         watchlist_html += f"""
         <div class="watch-row">
           <span class="watch-status">{w.get("status","⚪")}</span>
-          <span class="watch-name">{esc(w["name"])}</span>
+          <span class="watch-name">{esc(w.get("name",""))}</span>
           <span class="watch-note">{esc(w.get("note",""))}</span>
           <span class="watch-date">{esc(w.get("last_checked",""))}</span>
         </div>"""
@@ -587,7 +734,7 @@ def build_html(b):
     <div class="card-muted" style="margin-top:8px;">
       <div class="source-list">
         <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, TechCrunch, VentureBeat, Google News RSS)<br>
-        <strong>분석 엔진:</strong> Google Gemini 2.0 Flash (무료)<br>
+        <strong>분석 엔진:</strong> Gemini 2.0 Flash + Groq Llama 3.3 70B (무료)<br>
         <strong>서치 키워드:</strong> {esc(src.get("keywords",""))}<br>
         <strong>참고 매체:</strong> {src.get("media_html","")}<br>
         <strong>한계:</strong> {esc(src.get("limits",""))}<br>
