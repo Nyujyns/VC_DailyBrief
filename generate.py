@@ -6,8 +6,13 @@ import re
 import traceback
 import time
 from datetime import datetime, timezone, timedelta
-from google import genai
 from openai import OpenAI
+
+try:
+    from google import genai
+    HAS_GEMINI = bool(os.environ.get("GEMINI_API_KEY"))
+except ImportError:
+    HAS_GEMINI = False
 
 # ── 설정 ──
 KST = timezone(timedelta(hours=9))
@@ -17,7 +22,7 @@ date_iso = today.strftime('%Y-%m-%d')
 day_names = ['월', '화', '수', '목', '금', '토', '일']
 day_str = day_names[today.weekday()]
 
-gemini_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY", ""))
+gemini_client = genai.Client(api_key=os.environ["GEMINI_API_KEY"]) if HAS_GEMINI else None
 groq_client = OpenAI(
     api_key=os.environ.get("GROQ_API_KEY", ""),
     base_url="https://api.groq.com/openai/v1"
@@ -262,7 +267,8 @@ def try_groq_split(articles):
         part = extract_json(raw)
         merged.update(part)
         if i < len(GROQ_SECTIONS) - 1:
-            time.sleep(10)  # TPM 리셋 대기
+            print(f"    >> 62초 대기 (TPM 리셋)...")
+            time.sleep(62)  # 분당 토큰 한도 리셋 대기
 
     return merged
 
@@ -272,7 +278,7 @@ def generate_brief(articles):
     print("Phase 2: 브리프 생성 중...")
 
     # 1순위: Gemini (한 번에 전체)
-    if os.environ.get("GEMINI_API_KEY"):
+    if HAS_GEMINI:
         try:
             full_text = articles_to_text(articles, compact=False)
             user_msg_full = make_user_msg(full_text)
