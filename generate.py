@@ -387,6 +387,34 @@ def validate_and_fix(b):
             b[key] = [] if expected_type == list else ({} if expected_type == dict else "")
             fixed += 1
             print(f"  [검증] 누락 키 보완: {key}")
+        elif not isinstance(b[key], expected_type):
+            # 타입이 틀린 경우 (예: dict여야 하는데 str로 옴)
+            old_val = b[key]
+            b[key] = [] if expected_type == list else ({} if expected_type == dict else str(old_val))
+            fixed += 1
+            print(f"  [검증] 타입 교정: {key} ({type(old_val).__name__} → {expected_type.__name__})")
+
+    # list 안의 원소가 dict가 아니라 str인 경우 필터링
+    for key in ["top3", "summary_chips", "signals", "deal_domestic_weeks",
+                "sector_trends", "watchlist", "homework", "special_events"]:
+        if isinstance(b.get(key), list):
+            b[key] = [item for item in b[key] if isinstance(item, dict)]
+
+    # deal_global 내부 rows도 검증
+    dg = b.get("deal_global", {})
+    if isinstance(dg, dict) and "rows" in dg:
+        if not isinstance(dg["rows"], list):
+            dg["rows"] = []
+        else:
+            dg["rows"] = [r for r in dg["rows"] if isinstance(r, dict)]
+
+    # deal_domestic_weeks 내부 rows도 검증
+    for week in b.get("deal_domestic_weeks", []):
+        if isinstance(week, dict) and "rows" in week:
+            if not isinstance(week["rows"], list):
+                week["rows"] = []
+            else:
+                week["rows"] = [r for r in week["rows"] if isinstance(r, dict)]
 
     # watchlist가 9개 미만이면 빠진 기업 추가
     WATCHLIST_COMPANIES = ["PortOne", "DSRV", "Spendit", "GhostPass", "CrossHub",
@@ -453,6 +481,16 @@ def generate_brief(articles):
 # HTML 생성
 # ══════════════════════════════════════════════════════════════
 
+def safe_dict(v, fallback=None):
+    """값이 dict가 아니면 빈 dict 또는 fallback 반환"""
+    return v if isinstance(v, dict) else (fallback or {})
+
+
+def safe_list(v):
+    """값이 list가 아니면 빈 list 반환"""
+    return v if isinstance(v, list) else []
+
+
 def esc(s):
     if not s:
         return ""
@@ -461,7 +499,10 @@ def esc(s):
 
 def build_html(b):
     top3_html = ""
-    for i, item in enumerate(b.get("top3", []), 1):
+    for i, item in enumerate(safe_list(b.get("top3", [])), 1):
+        item = safe_dict(item)
+        if not item:
+            continue
         top3_html += f"""
         <div class="top3-item">
           <span class="top3-num">{i}</span>
@@ -473,18 +514,21 @@ def build_html(b):
         </div>"""
 
     chips_html = "".join(
-        f'<div class="sum-chip"><span class="sum-dot" style="background:{esc(c.get("color","#1a56db"))}"></span>'
-        f'<span>{esc(c.get("text",""))}</span></div>'
-        for c in b.get("summary_chips", [])
+        f'<div class="sum-chip"><span class="sum-dot" style="background:{esc(safe_dict(c).get("color","#1a56db"))}"></span>'
+        f'<span>{esc(safe_dict(c).get("text",""))}</span></div>'
+        for c in safe_list(b.get("summary_chips", []))
     )
 
     domestic_html = ""
-    for week in b.get("deal_domestic_weeks", []):
+    for week in safe_list(b.get("deal_domestic_weeks", [])):
+        week = safe_dict(week)
+        if not week:
+            continue
         rows = "".join(
-            f'<tr><td class="co">{esc(r.get("co",""))}</td><td>{esc(r.get("round",""))}</td>'
-            f'<td>{esc(r.get("amount",""))}</td><td>{esc(r.get("investor",""))}</td>'
-            f'<td>{esc(r.get("sector",""))}</td></tr>'
-            for r in week.get("rows", [])
+            f'<tr><td class="co">{esc(safe_dict(r).get("co",""))}</td><td>{esc(safe_dict(r).get("round",""))}</td>'
+            f'<td>{esc(safe_dict(r).get("amount",""))}</td><td>{esc(safe_dict(r).get("investor",""))}</td>'
+            f'<td>{esc(safe_dict(r).get("sector",""))}</td></tr>'
+            for r in safe_list(week.get("rows", []))
         )
         domestic_html += f"""
         <div class="card">
@@ -496,12 +540,12 @@ def build_html(b):
           <p class="sig-source">{week.get("source_html","")}</p>
         </div>"""
 
-    dg = b.get("deal_global", {})
+    dg = safe_dict(b.get("deal_global", {}))
     global_rows = "".join(
-        f'<tr><td class="co">{esc(r.get("co",""))}</td><td>{esc(r.get("round",""))}</td>'
-        f'<td>{esc(r.get("amount",""))}</td><td>{esc(r.get("investor",""))}</td>'
-        f'<td>{esc(r.get("sector",""))}</td></tr>'
-        for r in dg.get("rows", [])
+        f'<tr><td class="co">{esc(safe_dict(r).get("co",""))}</td><td>{esc(safe_dict(r).get("round",""))}</td>'
+        f'<td>{esc(safe_dict(r).get("amount",""))}</td><td>{esc(safe_dict(r).get("investor",""))}</td>'
+        f'<td>{esc(safe_dict(r).get("sector",""))}</td></tr>'
+        for r in safe_list(dg.get("rows", []))
     )
     global_html = f"""
       <div class="card">
@@ -514,7 +558,10 @@ def build_html(b):
       </div>"""
 
     signals_html = ""
-    for s in b.get("signals", []):
+    for s in safe_list(b.get("signals", [])):
+        s = safe_dict(s)
+        if not s:
+            continue
         tag = s.get("tag", "기술")
         tag_class = {"기술":"tag-tech","대기업":"tag-bigco","산업":"tag-industry","수요":"tag-demand","정책":"tag-policy"}.get(tag, "tag-tech")
         signals_html += f"""
@@ -525,7 +572,10 @@ def build_html(b):
         </div>"""
 
     sector_html = ""
-    for sec in b.get("sector_trends", []):
+    for sec in safe_list(b.get("sector_trends", [])):
+        sec = safe_dict(sec)
+        if not sec:
+            continue
         sector_html += f"""
         <div class="sector-card">
           <p class="sector-name">{esc(sec.get("emoji",""))} {esc(sec.get("sector",""))}</p>
@@ -541,7 +591,10 @@ def build_html(b):
         </div>"""
 
     watchlist_html = ""
-    for w in b.get("watchlist", []):
+    for w in safe_list(b.get("watchlist", [])):
+        w = safe_dict(w)
+        if not w:
+            continue
         watchlist_html += f"""
         <div class="watch-row">
           <span class="watch-status">{w.get("status","⚪")}</span>
@@ -550,23 +603,26 @@ def build_html(b):
           <span class="watch-date">{esc(w.get("last_checked",""))}</span>
         </div>"""
 
-    events = b.get("special_events", [])
+    events = safe_list(b.get("special_events", []))
     events_section = ""
     if events:
         events_html = "".join(
-            f'<div class="event-box"><p class="event-tag">{esc(e.get("tag",""))}</p>'
-            f'<p class="event-title">{esc(e.get("title",""))}</p>'
-            f'<p class="event-body">{e.get("body_html","")}</p>'
-            f'<span class="event-urgency {esc(e.get("urgency_class","urg-watch"))}">{esc(e.get("urgency_label","모니터링"))}</span></div>'
+            f'<div class="event-box"><p class="event-tag">{esc(safe_dict(e).get("tag",""))}</p>'
+            f'<p class="event-title">{esc(safe_dict(e).get("title",""))}</p>'
+            f'<p class="event-body">{safe_dict(e).get("body_html","")}</p>'
+            f'<span class="event-urgency {esc(safe_dict(e).get("urgency_class","urg-watch"))}">{esc(safe_dict(e).get("urgency_label","모니터링"))}</span></div>'
             for e in events
         )
         events_section = f'<p class="sec">특별 이벤트 (ALERTS)</p>{events_html}'
 
     hw_html = ""
-    for i, h in enumerate(b.get("homework", []), 1):
+    for i, h in enumerate(safe_list(b.get("homework", [])), 1):
+        h = safe_dict(h)
+        if not h:
+            continue
         hw_type = h.get("type", "judge")
         type_class = {"judge":"hwt-judge","connect":"hwt-connect","understand":"hwt-understand"}.get(hw_type, "hwt-judge")
-        tags = "".join(f'<span class="hw-tag {esc(t.get("class",""))}">{esc(t.get("label",""))}</span>' for t in h.get("tags", []))
+        tags = "".join(f'<span class="hw-tag {esc(safe_dict(t).get("class",""))}">{esc(safe_dict(t).get("label",""))}</span>' for t in safe_list(h.get("tags", [])))
         hw_html += f"""
         <div class="hw-item">
           <div class="hw-title-row">
@@ -578,7 +634,7 @@ def build_html(b):
           <div class="hw-tags">{tags}</div>
         </div>"""
 
-    src = b.get("sources", {})
+    src = safe_dict(b.get("sources", {}))
     yesterday = today - timedelta(days=1)
     yesterday_str = yesterday.strftime('%m/%d')
     yesterday_day = day_names[yesterday.weekday()]
