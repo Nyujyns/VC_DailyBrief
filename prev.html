@@ -8,22 +8,16 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f7f5;color:#1a1a1a;font-size:14px}
   .wrap{max-width:960px;margin:0 auto;padding:24px 16px 48px}
-
-  /* 헤더 */
   .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   .header h1{font-size:18px;font-weight:600}
   .updated{font-size:12px;color:#888}
   .subtitle{font-size:11px;color:#bbb;margin-bottom:24px;font-style:italic}
-
-  /* 공통 */
   .sec{font-size:11px;color:#999;letter-spacing:.08em;text-transform:uppercase;margin:28px 0 10px;display:flex;align-items:center;gap:6px}
   .card{background:#fff;border-radius:8px;border:.5px solid #e0e0db;padding:16px;margin-bottom:10px}
   .card-muted{background:#fafaf8;border-radius:8px;border:.5px solid #e8e8e5;padding:14px;margin-bottom:10px}
   .sub-label{font-size:11px;color:#888;margin-bottom:8px;font-weight:500}
   .section-note{font-size:11px;color:#bbb;margin-bottom:12px;font-style:italic}
   .divider{height:1px;background:#e8e8e5;margin:32px 0}
-
-  /* ── 오늘의 핵심 3줄 ── */
   .top3-card{background:#fff;border-radius:8px;border:.5px solid #e0e0db;border-left:3px solid #1a56db;padding:16px;margin-bottom:10px}
   .top3-item{display:flex;gap:12px;padding:12px 0;border-bottom:.5px solid #f0f0ec}
   .top3-item:last-child{border-bottom:none;padding-bottom:0}
@@ -34,22 +28,17 @@
   .top3-sowhat{font-size:12px;color:#1a56db;line-height:1.5;margin-top:3px;font-weight:500}
   .top3-source{font-size:10px;color:#aaa;margin-top:4px}
   .top3-source a{color:#1a56db;text-decoration:none}
-  .top3-source a:hover{text-decoration:underline}
-
-  /* ── 딜 플로우 ── */
   .summary-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
   .sum-chip{display:flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:99px;border:.5px solid #e0e0db;background:#fff}
   .sum-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
   .deal-table{width:100%;border-collapse:collapse;font-size:12px}
-  .deal-table th{text-align:left;font-size:10px;color:#aaa;font-weight:500;padding:6px 8px;border-bottom:1px solid #f0f0ec;text-transform:uppercase;letter-spacing:.05em}
+  .deal-table th{text-align:left;font-size:10px;color:#aaa;font-weight:500;padding:6px 8px;border-bottom:1px solid #f0f0ec}
   .deal-table td{padding:8px;border-bottom:.5px solid #f0f0ec;color:#444;vertical-align:top}
   .deal-table tr:last-child td{border-bottom:none}
   .deal-table .co{font-weight:600;color:#1a1a1a}
-
-  /* ── 시그널 ── */
   .sig{padding:12px 0;border-bottom:.5px solid #f0f0ec}
-  .sig:last-child{border-bottom:none;padding-bottom:0}
-  .sig-tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;margin-bottom:6px;letter-spacing:.03em}
+  .sig:last-child{border-bottom:none}
+  .sig-tag{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;margin-bottom:6px}
   .tag-tech{background:#e6f4ea;color:#276749}
   .tag-bigco{background:#e8f0fe;color:#1a56db}
   .tag-industry{background:#f3e8ff;color:#7c3aed}
@@ -58,17 +47,12 @@
   .sig-fact{font-size:13px;color:#1a1a1a;line-height:1.65}
   .sig-source{font-size:10px;color:#aaa;margin-top:4px;display:inline-block}
   .sig-source a{color:#1a56db;text-decoration:none}
-  .sig-source a:hover{text-decoration:underline}
-
-  /* ── 섹터 Deep Dive ── */
   .sector-card{background:#fff;border-radius:8px;border:.5px solid #e0e0db;padding:16px;margin-bottom:10px}
   .sector-name{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f0f0ec}
-  .sector-label{font-size:10px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:10px;margin-bottom:4px}
+  .sector-label{font-size:10px;color:#999;font-weight:600;text-transform:uppercase;margin-top:10px;margin-bottom:4px}
   .sector-label:first-of-type{margin-top:0}
   .sector-text{font-size:12px;color:#444;line-height:1.65}
   .sector-angle{color:#1a56db;font-weight:500}
-
-  /* ── 워치리스트 ── */
   .watch-card{background:#fff;border-radius:8px;border:.5px solid #e0e0db;padding:8px 16px}
   .watch-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid #f0f0ec;font-size:12px}
   .watch-row:last-child{border-bottom:none}
@@ -76,22 +60,17 @@
   .watch-name{font-weight:600;color:#1a1a1a;min-width:100px}
   .watch-note{flex:1;color:#666}
   .watch-date{font-size:10px;color:#bbb;flex-shrink:0}
-
-  /* ── 특별 이벤트 ── */
   .event-box{background:#fff;border-radius:8px;border-left:3px solid #e24b4a;padding:14px 16px;margin-bottom:10px}
-  .event-tag{font-size:10px;font-weight:600;color:#e24b4a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .event-tag{font-size:10px;font-weight:600;color:#e24b4a}
   .event-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
   .event-body{font-size:12px;color:#666;line-height:1.6}
-  .event-body strong{color:#444;font-weight:500}
   .event-urgency{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;margin-top:6px}
   .urg-now{background:#fde8e8;color:#c0392b}
   .urg-watch{background:#fef3cd;color:#b7791f}
   .urg-long{background:#e8f0fe;color:#1a56db}
-
-  /* ── 숙제 ── */
   .hw-card{background:#fff;border-radius:8px;border:.5px solid #e0e0db;border-top:2px solid #1a56db;padding:16px;margin-bottom:10px}
   .hw-item{padding:12px 0;border-bottom:.5px solid #f0f0ec}
-  .hw-item:last-child{border-bottom:none;padding-bottom:0}
+  .hw-item:last-child{border-bottom:none}
   .hw-title-row{display:flex;align-items:center;gap:8px}
   .hw-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#1a56db;color:#fff;font-size:10px;font-weight:700;flex-shrink:0}
   .hw-type{font-size:9px;font-weight:600;padding:2px 8px;border-radius:4px;flex-shrink:0}
@@ -105,20 +84,12 @@
   .hw-tag.industry{background:#e8f0fe;color:#1a56db}
   .hw-tag.startup{background:#f3e8ff;color:#7c3aed}
   .hw-tag.tech{background:#e6f4ea;color:#276749}
-
-  /* ── 소스 접이식 ── */
   .source-list{font-size:11px;color:#aaa;line-height:1.8}
   .source-list strong{color:#888;font-weight:500}
   .source-list a{color:#1a56db;text-decoration:none}
-  .source-list a:hover{text-decoration:underline}
   details summary{cursor:pointer;font-size:11px;color:#999;letter-spacing:.08em;text-transform:uppercase;padding:4px 0}
-  details summary:hover{color:#666}
-
-  /* ── 어제 브리프 링크 ── */
   .prev-link{text-align:center;padding:16px 0;font-size:12px}
   .prev-link a{color:#1a56db;text-decoration:none}
-  .prev-link a:hover{text-decoration:underline}
-
   @media(max-width:560px){
     .deal-table{font-size:11px}
     .deal-table th,.deal-table td{padding:6px 4px}
@@ -129,354 +100,241 @@
 </head>
 <body>
 <div class="wrap">
-
   <div class="header">
-    <h1>📡 VC Daily Brief</h1>
-    <span class="updated">업데이트: 2026.03.27 (금)</span>
+    <h1>VC Daily Brief</h1>
+    <span class="updated">업데이트: 2026.04.03 (금)</span>
   </div>
   <p class="subtitle">Raw Feed — 팩트만. 판단은 네가 직접.</p>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 1. 오늘의 핵심 3줄 -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">🎯 오늘의 핵심 (TODAY'S TOP 3)</p>
+  <p class="sec">오늘의 핵심 (TODAY'S TOP 3)</p>
   <p class="section-note">투심 전 30초 브리핑 — 팩트 + So What</p>
   <div class="top3-card">
-    <div class="top3-item">
-      <span class="top3-num">1</span>
-      <div class="top3-content">
-        <p class="top3-headline">AMI Labs (Yann LeCun) — JEPA 월드모델에 $1.03B 시드. 유럽 역대 최대. Bezos·Nvidia·Samsung 참여.</p>
-        <p class="top3-sowhat">→ LLM 자기회귀 패러다임에 대한 최대 규모 대안 베팅. 우리 AI 포트폴리오 thesis 재점검 필요. 성공 시 LLM 기반 밸류체인 전체가 흔들림.</p>
-        <p class="top3-source">🟢 <a href="https://news.crunchbase.com/venture/biggest-funding-rounds-ai-robotics-ecommerce-quince/" target="_blank">Crunchbase</a> · 2026.03.13</p>
+        <div class="top3-item">
+          <span class="top3-num">1</span>
+          <div class="top3-content">
+            <p class="top3-headline">메가존클라우드, AI 캐즘 해법 공개</p>
+            <p class="top3-sowhat">AI 비즈니스 가치 창출을 위한 거버넌스·보안·컴플라이언스 통합 전략</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1073712/">벤처스퀘어</a></p>
+          </div>
+        </div>
+        <div class="top3-item">
+          <span class="top3-num">2</span>
+          <div class="top3-content">
+            <p class="top3-headline">테라뷰, AMD와 공동 연구로 첨단 패키징 반도체 비파괴 검사 유효성 입증</p>
+            <p class="top3-sowhat">AI 반도체 시장이 다극 경쟁 체제로 재편되면서 비파괴 검사 수요 급증</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
+          </div>
+        </div>
+        <div class="top3-item">
+          <span class="top3-num">3</span>
+          <div class="top3-content">
+            <p class="top3-headline">미리디, 매출 6년 만에 6.4배…AI 엔진 앞세워 글로벌 승부수</p>
+            <p class="top3-sowhat">자체 AI 엔진과 글로벌 마케팅에 선제 투자하는 공격적 성장 전략</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1073652/">벤처스퀘어</a></p>
+          </div>
+        </div></div>
+
+  <p class="sec">딜 플로우 (DEAL FLOW)</p>
+  <div class="summary-bar"><div class="sum-chip"><span class="sum-dot" style="background:#3498db"></span><span>국내 AI 뉴스 10건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#f1c40f"></span><span>글로벌 AI 뉴스 15건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#2ecc71"></span><span>AI 관련 투자 뉴스 5건</span></div></div>
+  
+  
+      <div class="card">
+        <p class="sub-label">글로벌 주요 딜</p>
+        <table class="deal-table">
+          <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
+          <tr><td class="co">Gateway Capital</td><td></td><td>$25M</td><td></td><td></td></tr>
+        </table>
+        <p class="sig-source">https://techcrunch.com/2026/04/02/gateway-capital-dana-guthrie-milwaukee-first-close-fund-ii/</p>
       </div>
-    </div>
-    <div class="top3-item">
-      <span class="top3-num">2</span>
-      <div class="top3-content">
-        <p class="top3-headline">로보틱스 메가라운드 — 3월 한 주간 Mind($500M), Rhoda($450M), Sunday($165M) 등 $1.2B+ 유입.</p>
-        <p class="top3-sowhat">→ 2021 크립토급 과열인지 진짜 인플렉션인지 판단이 필요한 시점. 국내 트위니·엑스와이지·A ROBOT 밸류에이션 기준 변동 가능.</p>
-        <p class="top3-source">🟡 <a href="https://aifundingtracker.com/ai-startup-funding-news-today/" target="_blank">aifundingtracker</a> · 2026.03.17</p>
-      </div>
-    </div>
-    <div class="top3-item">
-      <span class="top3-num">3</span>
-      <div class="top3-content">
-        <p class="top3-headline">국내 시리즈C +100% YoY, 건수는 -17% — 돈은 몰리는데 좁은 데만 간다.</p>
-        <p class="top3-sowhat">→ 초기 딜소싱 전략 점검 필요. 시드/프리A에서 검증된 팀 선점 경쟁 더 치열해질 것. 반대로 중간 라운드(B~C) 갭이 벌어지는 구간에서 기회 가능.</p>
-        <p class="top3-source">🟢 <a href="https://thevc.kr/" target="_blank">THE VC</a> · 2026.03.22</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 2. 딜 플로우 -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">💰 딜 플로우 (DEAL FLOW)</p>
-  <div class="summary-bar">
-    <div class="sum-chip"><span class="sum-dot" style="background:#1a56db"></span><span>국내 3주차 <strong>15</strong>건 / 862억</span></div>
-    <div class="sum-chip"><span class="sum-dot" style="background:#7c3aed"></span><span>글로벌 2월 <strong>$189B</strong> 역대 최대</span></div>
-    <div class="sum-chip"><span class="sum-dot" style="background:#b7791f"></span><span>3월 YTD 212건 / 1조+</span></div>
-  </div>
-
-  <div class="card">
-    <p class="sub-label">국내 (3월 4주차, 3/23~27) — 바이오/헬스케어 제외</p>
-    <table class="deal-table">
-      <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
-      <tr><td class="co">텔레픽스</td><td>프리IPO</td><td>150억</td><td>인터베스트</td><td>우주 AI</td></tr>
-      <tr><td class="co">랩인큐브</td><td>시리즈B</td><td>147억</td><td>비공개</td><td>신소재</td></tr>
-      <tr><td class="co">덴트로닉</td><td>프리시드</td><td>비공개</td><td>비공개</td><td>로보틱스</td></tr>
-      <tr><td class="co">캠프(CAMP)</td><td>시드</td><td>비공개</td><td>시리즈벤처스</td><td>우주항공 제조</td></tr>
-    </table>
-    <p class="sig-source">🟢 <a href="https://startuprecipe.co.kr/archives/5810499" target="_blank">스타트업레시피</a> · <a href="https://www.mt.co.kr/amp/future/2026/03/22/2026032214201389436" target="_blank">머니투데이</a></p>
-  </div>
-
-  <div class="card">
-    <p class="sub-label">국내 (3월 3주차, 3/16~20) — 바이오/헬스케어 제외</p>
-    <table class="deal-table">
-      <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
-      <tr><td class="co">오토노머스에이투지</td><td>프리IPO</td><td>405억</td><td>비공개</td><td>자율주행</td></tr>
-      <tr><td class="co">트위니</td><td>시리즈C</td><td>204억</td><td>비공개</td><td>자율주행로봇</td></tr>
-      <tr><td class="co">엑스와이지</td><td>시리즈B</td><td>130억</td><td>비공개</td><td>서비스 로봇</td></tr>
-      <tr><td class="co">바이셀스탠다드</td><td>비공개</td><td>30억</td><td>비공개</td><td>토큰화 증권 블록체인</td></tr>
-      <tr><td class="co">데키스트</td><td>프리시리즈A</td><td>14억</td><td>비공개</td><td>IoT 센서</td></tr>
-      <tr><td class="co">카멜레온</td><td>프리시드</td><td>비공개</td><td>비공개</td><td>호텔 청소 휴머노이드</td></tr>
-      <tr><td class="co">데브올컴퍼니</td><td>시드</td><td>비공개</td><td>비공개</td><td>행정 자동화 SaaS</td></tr>
-    </table>
-    <p class="sig-source">🟢 <a href="https://www.threads.com/@startuprecipe/post/DV7S9fuEzBB/" target="_blank">스타트업레시피 Threads</a></p>
-  </div>
-
-  <div class="card">
-    <p class="sub-label">글로벌 (3월 주요 딜) — 바이오/헬스케어 제외</p>
-    <table class="deal-table">
-      <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
-      <tr><td class="co">Nscale (UK)</td><td>시리즈C</td><td>$2B</td><td>Aker, 8090 Industries</td><td>AI 인프라</td></tr>
-      <tr><td class="co">Nebius (NL)</td><td>전략적</td><td>$2B</td><td>Nvidia</td><td>AI 클라우드</td></tr>
-      <tr><td class="co">AMI (프랑스)</td><td>시드</td><td>$1.03B</td><td>Bezos, Nvidia, Samsung, Temasek</td><td>AI 월드모델</td></tr>
-      <tr><td class="co">Legora (UK)</td><td>시리즈D</td><td>$550M</td><td>Accel, Benchmark, Salesforce</td><td>리걸테크 AI</td></tr>
-      <tr><td class="co">Mind Robotics</td><td>비공개</td><td>$500M</td><td>비공개</td><td>산업용 로봇</td></tr>
-      <tr><td class="co">Quince</td><td>시리즈E</td><td>$500M</td><td>Iconiq Capital</td><td>이커머스</td></tr>
-      <tr><td class="co">Nexthop AI</td><td>시리즈B</td><td>$500M</td><td>Lightspeed, a16z</td><td>AI 네트워킹</td></tr>
-      <tr><td class="co">Rhoda AI</td><td>비공개</td><td>$450M</td><td>비공개</td><td>로보틱스</td></tr>
-      <tr><td class="co">Perplexity</td><td>시리즈E</td><td>$400M</td><td>DST Global</td><td>AI 서치</td></tr>
-      <tr><td class="co">Sunday</td><td>시리즈B</td><td>$165M</td><td>Coatue, Tiger, Benchmark</td><td>가정용 휴머노이드</td></tr>
-      <tr><td class="co">Wonderful</td><td>시리즈B</td><td>$150M</td><td>비공개</td><td>엔터프라이즈 AI</td></tr>
-    </table>
-    <p class="sig-source">🟢 <a href="https://news.crunchbase.com/venture/record-setting-global-funding-february-2026-openai-anthropic/" target="_blank">Crunchbase</a> · <a href="https://news.crunchbase.com/venture/biggest-funding-rounds-ai-robotics-ecommerce-quince/" target="_blank">Crunchbase Top 10</a></p>
-  </div>
-
   <div class="card-muted">
     <p class="sub-label">CVC / 전략적 투자</p>
-    <p style="font-size:12px;color:#444;line-height:1.6;">Nvidia → Nebius $2B (AI 클라우드). Samsung → AMI Labs 시드 참여 (LeCun 월드모델). SK네트웍스 → 업스테이지 470억 (2월).</p>
-    <p class="sig-source"><a href="https://techstartups.com/2026/03/12/top-startup-and-tech-funding-news-march-12-2025/" target="_blank">TechStartups</a> · <a href="https://www.itinsight.kr/news/434900" target="_blank">아이티인사이트</a></p>
+    <p style="font-size:12px;color:#444;line-height:1.6;"></p>
+    <p class="sig-source"></p>
   </div>
-
   <div class="card-muted">
     <p class="sub-label">정부 / 정책 자금</p>
-    <p style="font-size:12px;color:#444;line-height:1.6;">AX 스프린트 본격 가동 — 2년간 7,540억, 246개 AI 제품 지원 (제조·국방). 글로벌 창업사업화 8,000만원 상향. 서울시 캠퍼스타운 → 2030년까지 3,496개 창업기업 목표.</p>
-    <p class="sig-source"><a href="https://startuprecipe.co.kr/archives/5810496" target="_blank">스타트업레시피</a></p>
+    <p style="font-size:12px;color:#444;line-height:1.6;"></p>
+    <p class="sig-source"></p>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 3. 시그널 (통합) -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">📡 시그널 (SIGNALS)</p>
+  <p class="sec">시그널 (SIGNALS)</p>
   <p class="section-note">기술 · 대기업 · 산업 · 수요 · 정책 — 태그로 구분, 중복 없이, 시간순</p>
   <div class="card">
-    <div class="sig">
-      <span class="sig-tag tag-industry">산업</span>
-      <p class="sig-fact">AI 스타트업이 벤처 산업 자체를 잠식 — 상위 10%가 펀딩 50% 차지. 2023~24 빈티지 VC 펀드 IRR 역대 최고. AI 집중 전략이 수익률로 입증.</p>
-      <p class="sig-source">🟡 <a href="https://techcrunch.com/2026/03/20/ai-startups-are-eating-the-venture-industry-and-the-returns-so-far-are-good/" target="_blank">TechCrunch</a> · 2026.03.20</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-bigco">대기업</span>
-      <p class="sig-fact">AMD Lisa Su, 삼성전자 평택 방문 — HBM4 우선 공급 MOU (Instinct MI455용). 네이버와도 AI 칩 협력 MOU. SK하이닉스·Micron 대비 선점.</p>
-      <p class="sig-source">🟢 <a href="https://en.sedaily.com/finance/2026/03/19/amd-ceo-lisa-su-signs-mou-with-samsung-naver-for-hbm4" target="_blank">서울경제</a> · <a href="https://www.koreaherald.com/article/10697284" target="_blank">코리아헤럴드</a> · 2026.03.19</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-tech">기술</span>
-      <p class="sig-fact">Nvidia GTC 2026 — Jensen Huang, 2027년 $1T 매출 전망. Rubin 차세대 칩 공개. OpenEvidence CEO: "100명 이하 직원으로 세계 최고 가치 기업 가능".</p>
-      <p class="sig-source">🟢 <a href="https://fortune.com/2026/03/17/12-billion-ai-startup-founder-future-tech-giants-operate-fewer-than-100-employees/" target="_blank">Fortune</a> · 2026.03.17</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-demand">수요</span>
-      <p class="sig-fact">McKinsey — AI 가치 실현에 "이중 전환" 필요. 개별 도입이 아닌 기능·워크플로우 전체 재설계 수준의 조직 변화 요구.</p>
-      <p class="sig-source">🟢 <a href="https://fortune.com/2026/03/17/12-billion-ai-startup-founder-future-tech-giants-operate-fewer-than-100-employees/" target="_blank">Fortune / McKinsey</a> · 2026.03.17</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-demand">수요</span>
-      <p class="sig-fact">Perplexity — Chrome 인수 협상 $38B. 월간 쿼리 10억, 모바일 68%. 엔터프라이즈 3,000+사, ARR $300M 접근. AI 서치 대중 행동 정착.</p>
-      <p class="sig-source">🟡 <a href="https://aifundingtracker.com/top-50-ai-startups/" target="_blank">aifundingtracker</a> · 2026.03</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-industry">산업</span>
-      <p class="sig-fact">글로벌 VC 자본 집중 — 2월 $189B 중 83%가 OpenAI·Anthropic·Waymo. 시드 -11% YoY. 건당 평균은 증가 → 선별적 대형 베팅 시대.</p>
-      <p class="sig-source">🟢 <a href="https://news.crunchbase.com/venture/record-setting-global-funding-february-2026-openai-anthropic/" target="_blank">Crunchbase</a> · 2026.03.02</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-industry">산업</span>
-      <p class="sig-fact">투자 패러다임 전환 — 기초 모델 → AI 인프라, 로보틱스, 수직 AI(리걸·금융), AI 에이전트 보안으로 자본 이동.</p>
-      <p class="sig-source">🟡 <a href="https://www.kjob.news/news/474294" target="_blank">전국인력신문</a> · 2026.03.16</p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-industry">산업</span>
-      <p class="sig-fact">IPO 파이프라인 — Databricks 비밀 신청 ($105~110B). 텔레픽스 하반기 코스닥. OpenAI·xAI·Anthropic 2026년 IPO 가능성.</p>
-      <p class="sig-source">🟡 <a href="https://aifundingtracker.com/top-50-ai-startups/" target="_blank">aifundingtracker</a> · <a href="https://www.mt.co.kr/amp/future/2026/03/22/2026032214201389436" target="_blank">머니투데이</a></p>
-    </div>
-    <div class="sig">
-      <span class="sig-tag tag-policy">정책</span>
-      <p class="sig-fact">AX 스프린트 본격 가동 — 2년간 7,540억, 246개 AI 제품 지원. 제조·국방 등. 역대 최대 단일 AI 프로젝트.</p>
-      <p class="sig-source">🟢 <a href="https://startuprecipe.co.kr/archives/5810496" target="_blank">스타트업레시피</a></p>
-    </div>
-  </div>
+        <div class="sig">
+          <span class="sig-tag tag-tech">기술</span>
+          <p class="sig-fact">ElevenLabs, AI 음악 생성 앱 출시</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/02/elevenlabs-releases-a-new-ai-powered-music-generation-app/">TechCrunch</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-bigco">대기업</span>
+          <p class="sig-fact">Microsoft, 3개 새로운 AI 모델 출시</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/02/microsoft-takes-on-ai-rivals-with-three-new-foundational-models/">TechCrunch</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-industry">산업</span>
+          <p class="sig-fact">테라뷰, AMD와 공동 연구로 첨단 패키징 반도체 비파괴 검사 유효성 입증</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-demand">수요</span>
+          <p class="sig-fact">AI 반도체 시장이 다극 경쟁 체제로 재편되면서 비파괴 검사 수요 급증</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-policy">정책</span>
+          <p class="sig-fact">광주시, 규제프리 AI 실증도시 첫발</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073461/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-tech">기술</span>
+          <p class="sig-fact">Google, Vids 앱에서 아바타를 프롬프트로 제어하는 기능 추가</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/02/google-now-lets-you-direct-avatars-through-prompts-in-its-vids-app/">TechCrunch</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-bigco">대기업</span>
+          <p class="sig-fact">Amazon, 판매자에 연료 추가 수수료 부과</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/02/amazon-hits-sellers-with-fuel-surcharge-as-iran-war-roils-global-energy-markets/">TechCrunch</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-industry">산업</span>
+          <p class="sig-fact">리솔, K-슬립테크로 미국·일본 시장 동시 공략</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073637/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-demand">수요</span>
+          <p class="sig-fact">글로벌 수면 시장에서 AI와 IoT 기반의 비침습적 수면 분석 기술이 요구됨</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073637/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-policy">정책</span>
+          <p class="sig-fact">코리아스타트업포럼, 스타트업 정책 간담회 개최</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073418/">벤처스퀘어</a></p>
+        </div></div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 4. 섹터 Deep Dive -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">🔬 섹터 DEEP DIVE (SECTOR TRENDS)</p>
+  <p class="sec">섹터 DEEP DIVE (SECTOR TRENDS)</p>
   <p class="section-note">이번 주 가장 뜨거운 섹터의 기술 동향 — 매일 구성이 달라짐</p>
+  
+        <div class="sector-card">
+          <p class="sector-name">💸 핀테크</p>
+          <p class="sector-label">왜 지금 뜨거운가</p>
+          <p class="sector-text">테크타카의 물류 플랫폼 '아르고'가 G마켓 스타배송 공식 협력사로 선정됨에 따라, 핀테크와 물류의 결합이 뜨거운 이슈로 부상하고 있다. 또한, 와디즈의 AI 에이전트 'WAi'를 중심으로 메이커 서비스를 전면 개편한 것도 핀테크의 발전을 보여주는 대표적인 사례이다.</p>
+          <p class="sector-label">기술 동향</p>
+          <p class="sector-text">핀테크와 AI의 결합이 가속화되고 있다. 와디즈의 'WAi'와 같은 AI 에이전트가 메이커 서비스를 개편하는 데 중요한 역할을 하고 있다.</p>
+          <p class="sector-label">주요 플레이어</p>
+          <p class="sector-text">['테크타카', '와디즈', '메가존클라우드']</p>
+          <p class="sector-label">투자 관점</p>
+          <p class="sector-text sector-angle">핀테크와 AI의 결합에 대한 투자 기회가 크다. 와디즈와 같은 메이커 서비스 플랫폼과 테크타카의 물류 플랫폼에 대한 투자가 필요하다.</p>
+          <p class="sig-source"><a href='https://www.venturesquare.net/1073686/'>테크타카 '아르고', G마켓 스타배송 공식 협력사 선정</a></p>
+        </div>
 
-  <div class="sector-card">
-    <p class="sector-name">🤖 로보틱스 / 휴머노이드</p>
-    <p class="sector-label">왜 지금 뜨거운가</p>
-    <p class="sector-text">3월 한 주간 Mind($500M), Rhoda($450M), Sunday($165M), Oxa($103M) 등 $1.2B+ 유입. 국내도 트위니(204억), 엑스와이지(130억), 카멜레온(프리시드) 등 로보틱스 딜 집중. 2026년 로보틱스 총 펀딩 $20B+ 전망.</p>
-    <p class="sector-label">기술 동향</p>
-    <p class="sector-text">산업용 → 서비스/가정용으로 전환 가속. 매니퓰레이션 정밀도 향상으로 호텔·물류·제조 현장 투입 시작. Figure 01이 BMW 라인 실증, Sunday는 가정용 타겟. 핵심 병목은 범용 AI 제어 + 배터리 밀도. 비전-언어-액션(VLA) 모델이 차세대 제어 아키텍처로 부상.</p>
-    <p class="sector-label">주요 플레이어</p>
-    <p class="sector-text">글로벌: Figure AI($48B), Boston Dynamics, 1X, Agility / 국내: 트위니, 엑스와이지, 카멜레온, 덴트로닉, A ROBOT</p>
-    <p class="sector-label">투자 관점</p>
-    <p class="sector-angle">완성체보다 밸류체인 구간 — 로봇 전용 AI 칩, 정밀 액추에이터, 센서 모듈, VLA 모델 학습 데이터. 한국은 제조 인프라 강점으로 부품·모듈 영역에서 글로벌 공급망 진입 가능.</p>
-    <p class="sig-source"><a href="https://aifundingtracker.com/ai-startup-funding-news-today/" target="_blank">aifundingtracker</a> · <a href="https://news.crunchbase.com/venture/biggest-funding-rounds-ai-robotics-ecommerce-quince/" target="_blank">Crunchbase</a></p>
-  </div>
-
-  <div class="sector-card">
-    <p class="sector-name">🧠 AI 인프라 / 차세대 아키텍처</p>
-    <p class="sector-label">왜 지금 뜨거운가</p>
-    <p class="sector-text">Nscale $2B, Nebius $2B, AMI Labs $1.03B — AI 인프라 레이어에 초대형 자본 집중. LLM 자기회귀 vs JEPA 월드모델 아키텍처 분기점. AMD-삼성 HBM4 MOU로 칩 공급망 재편.</p>
-    <p class="sector-label">기술 동향</p>
-    <p class="sector-text">LeCun의 JEPA(Joint Embedding Predictive Architecture)가 자기회귀 방식의 대안으로 부상. 텍스트 토큰 예측이 아닌 멀티모달 임베딩 공간에서의 예측 학습 — 로보틱스·자율주행의 물리세계 이해에 유리. HBM4는 2025 말 양산 시작, AI 학습 속도 3배+ 향상 전망. 추론 비용 하락 곡선 가속.</p>
-    <p class="sector-label">주요 플레이어</p>
-    <p class="sector-text">글로벌: Nvidia, AMD, Nscale, Nebius, AMI Labs / 국내: 삼성전자(HBM4), SK하이닉스, 네이버(자체 인프라), DeepX(엣지 AI 칩)</p>
-    <p class="sector-label">투자 관점</p>
-    <p class="sector-angle">JEPA 성공 시 현재 LLM 중심 밸류체인 대폭 재편. 한국은 HBM 양대 공급자(삼성+SK) 보유로 AI 인프라 수혜 직접적. 엣지 AI 칩(DeepX 등)은 추론 비용 하락 트렌드와 맞물려 성장 여력.</p>
-    <p class="sig-source"><a href="https://news.crunchbase.com/venture/biggest-funding-rounds-ai-robotics-ecommerce-quince/" target="_blank">Crunchbase</a> · <a href="https://en.sedaily.com/finance/2026/03/19/amd-ceo-lisa-su-signs-mou-with-samsung-naver-for-hbm4" target="_blank">서울경제</a></p>
-  </div>
-
-  <div class="sector-card">
-    <p class="sector-name">🚀 우주테크</p>
-    <p class="sector-label">왜 지금 뜨거운가</p>
-    <p class="sector-text">텔레픽스 150억 프리IPO(하반기 코스닥), 캠프 시드(우주항공 제조) — 국내 우주 스타트업 동시 다발. SpaceX 상장 추진($350B 밸류에이션 루머)과 맞물려 글로벌 우주 투자 관심 확대.</p>
-    <p class="sector-label">기술 동향</p>
-    <p class="sector-text">소형위성(100kg 이하) 제조 비용 급감 → 위성 군집(constellation) 기반 서비스 확대. 텔레픽스는 위성 AI 탑재형 솔루션으로 유럽 수출. 위성 데이터 분석, 궤도 서비스, 발사체 부품 등 밸류체인 세분화 진행.</p>
-    <p class="sector-label">주요 플레이어</p>
-    <p class="sector-text">글로벌: SpaceX, Rocket Lab, Planet Labs / 국내: 텔레픽스, 캠프(CAMP), 이노스페이스, 한화에어로스페이스</p>
-    <p class="sector-label">투자 관점</p>
-    <p class="sector-angle">발사체보다는 위성 서비스·데이터 레이어에 투자 기회. 한국은 위성 AI 솔루션(텔레픽스)과 부품 제조(캠프)에서 글로벌 틈새 확보 가능. 다만 정부 의존도 높은 섹터라 정책 리스크 모니터링 필수.</p>
-    <p class="sig-source"><a href="https://www.mt.co.kr/amp/future/2026/03/22/2026032214201389436" target="_blank">머니투데이</a></p>
-  </div>
-
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 5. 워치리스트 -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">👁️ 워치리스트 (WATCHLIST)</p>
+  <p class="sec">워치리스트 (WATCHLIST)</p>
   <div class="watch-card">
-    <div class="watch-row">
-      <span class="watch-status">🟡</span>
-      <span class="watch-name">PortOne</span>
-      <span class="watch-note">핀테크 섹터 전반 강세. 결제 인프라 수요 증가 트렌드 지속</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">⚪</span>
-      <span class="watch-name">DSRV</span>
-      <span class="watch-note">블록체인 인프라. 직접 뉴스 없음</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">⚪</span>
-      <span class="watch-name">Spendit</span>
-      <span class="watch-note">경비 관리 SaaS. 직접 뉴스 없음</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">⚪</span>
-      <span class="watch-name">GhostPass</span>
-      <span class="watch-note">생체인증. 직접 뉴스 없음</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">⚪</span>
-      <span class="watch-name">CrossHub</span>
-      <span class="watch-note">직접 뉴스 없음</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">🟡</span>
-      <span class="watch-name">TokenSquare</span>
-      <span class="watch-note">경쟁사 바이셀스탠다드 30억 유치. 토큰화 증권 시장 관심 증가</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">🟡</span>
-      <span class="watch-name">DeepX</span>
-      <span class="watch-note">글로벌 AI 칩 투자 급증. AMD-삼성 MOU → 엣지 AI 칩 생태계 영향 가능</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">🟡</span>
-      <span class="watch-name">A ROBOT</span>
-      <span class="watch-note">로보틱스 메가라운드 → 국내 로봇 밸류에이션 상향 압력. 간접 수혜 가능</span>
-      <span class="watch-date">3/27</span>
-    </div>
-    <div class="watch-row">
-      <span class="watch-status">⚪</span>
-      <span class="watch-name">맥킨리라이스</span>
-      <span class="watch-note">HR테크. 직접 뉴스 없음</span>
-      <span class="watch-date">3/27</span>
-    </div>
-  </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">PortOne</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">DSRV</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">Spendit</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">GhostPass</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">CrossHub</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">TokenSquare</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">DeepX</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">A ROBOT</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">⚪</span>
+          <span class="watch-name">맥킨리라이스</span>
+          <span class="watch-note">최근 뉴스 없음</span>
+          <span class="watch-date">2026-04-03</span>
+        </div></div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 6. 특별 이벤트 (조건부) -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">⚡ 특별 이벤트 (ALERTS)</p>
-  <div class="event-box">
-    <p class="event-tag">시장 구조</p>
-    <p class="event-title">글로벌 벤처 자본 집중 — 3사가 83%</p>
-    <p class="event-body">
-      <strong>팩트:</strong> 2월 $189B 중 $156B → OpenAI·Anthropic·Waymo. 시드 -11% YoY.<br>
-      <strong>영향:</strong> 초기 스타트업 자금 접근성 악화 우려. LP 자금이 메가딜 위주 펀드로 집중되면 초기 VC 펀드레이징에도 영향.<br>
-      <strong>출처:</strong> <a href="https://news.crunchbase.com/venture/record-setting-global-funding-february-2026-openai-anthropic/" target="_blank">Crunchbase</a>
-    </p>
-    <span class="event-urgency urg-long">장기 영향</span>
-  </div>
-
+  
   <div class="divider"></div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 7. 오늘의 숙제 -->
-  <!-- ═══════════════════════════════════════════ -->
-  <p class="sec">📚 오늘의 숙제 (TODAY'S HOMEWORK)</p>
+  <p class="sec">오늘의 숙제 (TODAY'S HOMEWORK)</p>
   <p class="section-note">오늘 브리프에서 아직 답이 안 나온 질문. 안 파보면 투자 판단에 빈 구멍이 생기는 것.</p>
   <div class="hw-card">
-    <div class="hw-item">
-      <div class="hw-title-row">
-        <span class="hw-num">1</span>
-        <span class="hw-type hwt-judge">판단</span>
-        <span class="hw-title-text">로보틱스 $1.2B — 버블인가 인플렉션인가</span>
-      </div>
-      <p class="hw-desc">3월 한 주 $1.2B+. 근거: Figure AI $48B 밸류에이션, Sunday 가정용 진출. 반론: 매출 있는 로봇 기업이 거의 없음, 2021년 크립토 패턴과 유사. 국내 트위니·엑스와이지 후속 라운드 밸류에이션 기준을 어떻게 잡을지에 직결.</p>
-      <div class="hw-tags"><span class="hw-tag industry">산업</span><span class="hw-tag startup">스타트업</span></div>
-    </div>
-    <div class="hw-item">
-      <div class="hw-title-row">
-        <span class="hw-num">2</span>
-        <span class="hw-type hwt-understand">이해</span>
-        <span class="hw-title-text">JEPA 월드 모델 — LLM 대안인가 보완인가</span>
-      </div>
-      <p class="hw-desc">AMI Labs $1.03B 시드. JEPA 아키텍처가 뭔지, 기존 LLM과 뭐가 다른지, 성공하면 어떤 밸류체인이 바뀌는지. 이걸 모르면 AI 반도체(DeepX 등)와 AI 인프라 투자 판단에 빈 구멍.</p>
-      <div class="hw-tags"><span class="hw-tag tech">기술</span></div>
-    </div>
-    <div class="hw-item">
-      <div class="hw-title-row">
-        <span class="hw-num">3</span>
-        <span class="hw-type hwt-connect">연결</span>
-        <span class="hw-title-text">한국 우주테크 — 섹터로 형성되고 있는가</span>
-      </div>
-      <p class="hw-desc">텔레픽스 150억 프리IPO + 캠프 시드. 개별 딜이지만, 위성 AI + 우주항공 제조가 동시에 나왔다. SpaceX 상장 추진과 맞물려 한국 우주 스타트업 밸류체인을 그려보면 투자 가능 구간이 보이는지.</p>
-      <div class="hw-tags"><span class="hw-tag startup">스타트업</span><span class="hw-tag industry">산업</span></div>
-    </div>
-  </div>
+        <div class="hw-item">
+          <div class="hw-title-row">
+            <span class="hw-num">1</span>
+            <span class="hw-type hwt-understand">이해</span>
+            <span class="hw-title-text">AI 음악 생성 기술</span>
+          </div>
+          <p class="hw-desc">ElevenLabs의 AI 음악 생성 앱이 출시됨에 따라, AI 음악 생성 기술의 시장 가능성과 기술적 동향을 조사해야 한다. 또한, 이 기술이 음악 산업에 미치는 영향도 분석해야 한다.</p>
+          <div class="hw-tags"><span class="hw-tag tech">AI 음악 생성</span></div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-title-row">
+            <span class="hw-num">2</span>
+            <span class="hw-type hwt-connect">연결</span>
+            <span class="hw-title-text">테라뷰와 AMD의 공동 연구</span>
+          </div>
+          <p class="hw-desc">테라뷰와 AMD의 공동 연구가 첨단 패키징 반도체 비파괴 검사 유효성을 입증한 바, 이 두 회사의 협력관계와 공동 연구의 결과를 더深く 조사해야 한다. 또한, 이 기술이 반도체 산업에 미치는 영향도 분석해야 한다.</p>
+          <div class="hw-tags"><span class="hw-tag startup">테라뷰</span><span class="hw-tag industry">반도체</span></div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-title-row">
+            <span class="hw-num">3</span>
+            <span class="hw-type hwt-judge">판단</span>
+            <span class="hw-title-text">광주시의 규제프리 AI 실증도시</span>
+          </div>
+          <p class="hw-desc">광주시의 규제프리 AI 실증도시 첫발이 어떻게 진행되고 있는지 조사해야 한다. 또한, 이 도시의 발전이 지역 경제와 산업에 미치는 영향도 분석해야 한다.</p>
+          <div class="hw-tags"><span class="hw-tag industry">AI</span></div>
+        </div></div>
 
   <div class="divider"></div>
-
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- 8. 소스 (접이식) -->
-  <!-- ═══════════════════════════════════════════ -->
   <details>
-    <summary>📎 소스 &amp; 방법론</summary>
+    <summary>소스 &amp; 방법론</summary>
     <div class="card-muted" style="margin-top:8px;">
       <div class="source-list">
-        <strong>서치 키워드:</strong> 한국 스타트업 투자 3월 2026, AI startup funding March 2026, Samsung SK Naver AI 2026, robotics funding<br>
-        <strong>참고 매체:</strong>
-        <a href="https://news.crunchbase.com/venture/record-setting-global-funding-february-2026-openai-anthropic/" target="_blank">Crunchbase</a> ·
-        <a href="https://techcrunch.com/2026/03/20/ai-startups-are-eating-the-venture-industry-and-the-returns-so-far-are-good/" target="_blank">TechCrunch</a> ·
-        <a href="https://thevc.kr/" target="_blank">THE VC</a> ·
-        <a href="https://startuprecipe.co.kr/archives/5810499" target="_blank">스타트업레시피</a> ·
-        <a href="https://aifundingtracker.com/top-50-ai-startups/" target="_blank">aifundingtracker</a> ·
-        <a href="https://fortune.com/2026/03/17/12-billion-ai-startup-founder-future-tech-giants-operate-fewer-than-100-employees/" target="_blank">Fortune</a> ·
-        <a href="https://en.sedaily.com/finance/2026/03/19/amd-ceo-lisa-su-signs-mou-with-samsung-naver-for-hbm4" target="_blank">서울경제</a> ·
-        <a href="https://www.koreaherald.com/article/10697284" target="_blank">코리아헤럴드</a><br>
-        <strong>한계:</strong> 3/4주차(3/21~) 일부 딜 미반영. 국내 비공개 딜 다수. 워치리스트 개별 심층 뉴스 미확인.<br>
-        <strong>신뢰도:</strong> 🟢 공식 발표 · 🟡 언론 보도 · 🔴 루머/관계자
+        <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, TechCrunch, VentureBeat, Google News RSS)<br>
+        <strong>분석 엔진:</strong> Gemini 2.0 Flash + Groq Llama 3.3 70B (무료)<br>
+        <strong>서치 키워드:</strong> ['AI', '핀테크', '물류']<br>
+        <strong>참고 매체:</strong> <a href='https://www.venturesquare.net/'>벤처스퀘어</a><br>
+        <strong>한계:</strong> 수집된 뉴스의 한계점은 최근 뉴스만을 반영한다는 점이다.<br>
+        <strong>신뢰도:</strong> 공식 발표 · 언론 보도 · 루머/관계자
       </div>
     </div>
   </details>
-
-  <!-- 어제 브리프 -->
   <div class="prev-link">
-    <a href="prev.html">← 어제 브리프 (3/26 목)</a>
+    <a href="prev.html">이전 브리프 (04/02 목)</a>
   </div>
-
 </div>
 </body>
 </html>
