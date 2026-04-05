@@ -3,14 +3,14 @@
   "global": [
     {
       "co": "Halter",
-      "round": "",
-      "amount": "$220 million",
+      "round": "시리즈",
+      "amount": "220만달러",
       "investor": "Founders Fund",
-      "sector": "cattle management",
-      "date": "",
-      "added_date": "2026-04-05",
-      "source_html": "<a href=\"https://techcrunch.com/2026/04/04/unpacking-peter-thiels-big-bet-on-solar-powered-cow-collars/\">TechCrunch</a>"
+      "sector": "AI",
+      "date": "2026-04-04",
+      "added_date": "2026-04-06",
+      "source_html": "<a href=\"https://techcrunch.com/\">TechCrunch</a>"
     }
   ],
-  "week_start": "2026-04-05"
+  "week_start": "2026-04-06"
 }
