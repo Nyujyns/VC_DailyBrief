@@ -33,38 +33,67 @@ groq_client = OpenAI(
 # ══════════════════════════════════════════════════════════════
 
 RSS_FEEDS = {
-    # 국내 스타트업/VC
+    # ── 국내 스타트업/VC ──
     "플래텀": "https://platum.kr/feed",
     "벤처스퀘어": "https://www.venturesquare.net/feed",
-    # 글로벌
+    # ── 글로벌 테크/VC 매체 (미국 트렌드 중심) ──
     "TechCrunch": "https://techcrunch.com/feed/",
     "VentureBeat": "https://venturebeat.com/feed/",
-    # Google News 키워드 검색 (한국어)
+    "TheVerge": "https://www.theverge.com/rss/index.xml",
+    "ArsTechnica": "https://feeds.arstechnica.com/arstechnica/index",
+    "Crunchbase": "https://news.crunchbase.com/feed/",
+    # ── 한국 VC/스타트업 ──
     "GN_스타트업투자": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%ED%88%AC%EC%9E%90+%EC%9C%A0%EC%B9%98&hl=ko&gl=KR&ceid=KR:ko",
     "GN_VC투자": "https://news.google.com/rss/search?q=VC+%ED%88%AC%EC%9E%90+2026&hl=ko&gl=KR&ceid=KR:ko",
     "GN_시리즈투자": "https://news.google.com/rss/search?q=%EC%8B%9C%EB%A6%AC%EC%A6%88+%ED%88%AC%EC%9E%90+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
+    # ── AI / 소프트웨어 ──
     "GN_AI스타트업": "https://news.google.com/rss/search?q=AI+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
-    "GN_대기업동향": "https://news.google.com/rss/search?q=%EB%8C%80%EA%B8%B0%EC%97%85+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%ED%88%AC%EC%9E%90&hl=ko&gl=KR&ceid=KR:ko",
-    # Google News 키워드 검색 (영어)
-    "GN_startup_funding": "https://news.google.com/rss/search?q=startup+funding+round+2026&hl=en&gl=US&ceid=US:en",
     "GN_AI_funding": "https://news.google.com/rss/search?q=AI+startup+funding&hl=en&gl=US&ceid=US:en",
-    "GN_robotics": "https://news.google.com/rss/search?q=robotics+startup+funding&hl=en&gl=US&ceid=US:en",
-    "GN_fintech": "https://news.google.com/rss/search?q=fintech+startup+funding&hl=en&gl=US&ceid=US:en",
-    "GN_cybersecurity": "https://news.google.com/rss/search?q=cybersecurity+startup+funding&hl=en&gl=US&ceid=US:en",
-    # 추가 트렌드 검색
-    "GN_스타트업인수합병": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%EC%9D%B8%EC%88%98+%ED%95%A9%EB%B3%91&hl=ko&gl=KR&ceid=KR:ko",
     "GN_SaaS": "https://news.google.com/rss/search?q=SaaS+startup+funding&hl=en&gl=US&ceid=US:en",
+    "GN_cybersecurity": "https://news.google.com/rss/search?q=cybersecurity+startup+funding&hl=en&gl=US&ceid=US:en",
+    # ── 대기업 동향 (신규) ──
+    "GN_대기업동향": "https://news.google.com/rss/search?q=%EB%8C%80%EA%B8%B0%EC%97%85+%ED%88%AC%EC%9E%90+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_삼성전자": "https://news.google.com/rss/search?q=%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90+%ED%88%AC%EC%9E%90+%EC%82%AC%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_SK하이닉스": "https://news.google.com/rss/search?q=SK%ED%95%98%EC%9D%B4%EB%8B%89%EC%8A%A4+%EB%B0%98%EB%8F%84%EC%B2%B4&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_현대차그룹": "https://news.google.com/rss/search?q=%ED%98%84%EB%8C%80%EC%B0%A8+%EB%A1%9C%EB%B4%87+%EB%AA%A8%EB%B9%8C%EB%A6%AC%ED%8B%B0&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_bigtech": "https://news.google.com/rss/search?q=Google+Microsoft+Apple+Nvidia+investment+acquisition&hl=en&gl=US&ceid=US:en",
+    "GN_대기업CVC": "https://news.google.com/rss/search?q=%EB%8C%80%EA%B8%B0%EC%97%85+CVC+%EB%B2%A4%EC%B2%98%ED%88%AC%EC%9E%90&hl=ko&gl=KR&ceid=KR:ko",
+    # ── 제조 / 하드웨어 / 로봇 (신규) ──
+    "GN_robotics": "https://news.google.com/rss/search?q=robotics+startup+funding&hl=en&gl=US&ceid=US:en",
+    "GN_제조스타트업": "https://news.google.com/rss/search?q=%EC%A0%9C%EC%A1%B0+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%ED%88%AC%EC%9E%90&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_스마트팩토리": "https://news.google.com/rss/search?q=%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8C%A9%ED%86%A0%EB%A6%AC+%EC%9E%90%EB%8F%99%ED%99%94&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_hardware": "https://news.google.com/rss/search?q=hardware+startup+funding+2026&hl=en&gl=US&ceid=US:en",
+    # ── 반도체 (신규) ──
+    "GN_반도체": "https://news.google.com/rss/search?q=%EB%B0%98%EB%8F%84%EC%B2%B4+%ED%88%AC%EC%9E%90+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_semiconductor": "https://news.google.com/rss/search?q=semiconductor+chip+startup+funding&hl=en&gl=US&ceid=US:en",
+    # ── 에너지 / 기후테크 (신규) ──
     "GN_climate_tech": "https://news.google.com/rss/search?q=climate+tech+startup+funding&hl=en&gl=US&ceid=US:en",
+    "GN_에너지": "https://news.google.com/rss/search?q=%EC%97%90%EB%84%88%EC%A7%80+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%ED%88%AC%EC%9E%90&hl=ko&gl=KR&ceid=KR:ko",
+    # ── 모빌리티 / 자율주행 (신규) ──
+    "GN_모빌리티": "https://news.google.com/rss/search?q=%EB%AA%A8%EB%B9%8C%EB%A6%AC%ED%8B%B0+%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89+%ED%88%AC%EC%9E%90&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_autonomous": "https://news.google.com/rss/search?q=autonomous+vehicle+startup+funding&hl=en&gl=US&ceid=US:en",
+    # ── 우주 / 방산 (신규) ──
+    "GN_우주방산": "https://news.google.com/rss/search?q=%EC%9A%B0%EC%A3%BC+%EB%B0%A9%EC%82%B0+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_space_defense": "https://news.google.com/rss/search?q=space+defense+startup+funding&hl=en&gl=US&ceid=US:en",
+    # ── 핀테크 ──
+    "GN_fintech": "https://news.google.com/rss/search?q=fintech+startup+funding&hl=en&gl=US&ceid=US:en",
+    # ── M&A / IPO ──
+    "GN_스타트업인수합병": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%EC%9D%B8%EC%88%98+%ED%95%A9%EB%B3%91&hl=ko&gl=KR&ceid=KR:ko",
     "GN_스타트업IPO": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+IPO+%EC%83%81%EC%9E%A5&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_startup_funding": "https://news.google.com/rss/search?q=startup+funding+round+2026&hl=en&gl=US&ceid=US:en",
 }
 
-# 바이오/헬스케어/디지털헬스케어 필터 (강화)
-BIO_KEYWORDS = re.compile(
+# 바이오/헬스케어/디지털헬스케어/소재 필터
+EXCLUDE_KEYWORDS = re.compile(
+    # 바이오/헬스케어/디지털헬스케어
     r'바이오|헬스케어|디지털\s*헬스|제약|의료기기|의료\s*AI|임상|신약|치료제|'
     r'디지털\s*치료|진단키트|진단\s*기기|의약품|셀트리온|삼성바이오|에이비엘|'
     r'유전자|게놈|줄기세포|항체|백신|의료|병원|환자|질환|FDA\s*승인|'
     r'healthcare|biotech|pharma|clinical\s*trial|drug|medtech|health\s*tech|'
-    r'therapeutics|diagnostic|genomic|vaccine|medical\s*device|digital\s*health',
+    r'therapeutics|diagnostic|genomic|vaccine|medical\s*device|digital\s*health|'
+    # 소재
+    r'소재\s*기업|화학\s*소재|2차전지\s*소재|양극재|음극재|전해질|분리막|'
+    r'materials\s*science|chemical\s*materials',
     re.IGNORECASE
 )
 
@@ -92,7 +121,7 @@ def fetch_rss_feeds():
                 seen_titles.add(title_key)
 
                 # 바이오/헬스케어 필터
-                if BIO_KEYWORDS.search(title) or BIO_KEYWORDS.search(summary):
+                if EXCLUDE_KEYWORDS.search(title) or EXCLUDE_KEYWORDS.search(summary):
                     continue
 
                 articles.append({
@@ -110,10 +139,10 @@ def fetch_rss_feeds():
         except Exception as e:
             print(f"  [ERR] {name}: {e}")
 
-    # 최대 40건으로 제한
-    if len(articles) > 40:
-        articles = articles[:40]
-        print(f"  >> 40건으로 제한됨")
+    # 최대 60건으로 제한 (피드 확장 반영)
+    if len(articles) > 60:
+        articles = articles[:60]
+        print(f"  >> 60건으로 제한됨")
 
     print(f"Phase 1 완료: 총 {len(articles)}건 수집")
     return articles
@@ -140,19 +169,24 @@ def articles_to_text(articles, compact=False):
 # ══════════════════════════════════════════════════════════════
 
 GENERATE_SYSTEM = f"""한국 VC 심사역용 Daily Brief JSON 생성기. 오늘: {date_iso} ({day_str}).
-바이오/헬스케어 완전 제외. 팩트 중심. 수집된 뉴스에 있는 팩트만 사용. 없는 뉴스 만들지 마.
-source_html에 반드시 실제 URL <a href="URL">매체명</a> 태그 포함. 순수 JSON만 반환(코드블록 금지).
+
+[절대 규칙]
+1. 바이오/헬스케어/디지털헬스케어/제약/의료/소재 관련은 전부 제외.
+2. 같은 기업을 여러 섹션에 중복 배치 금지. 한 기업은 가장 관련 높은 섹션 1곳에만.
+3. 모든 항목에 source_html(<a href="실제URL">매체명</a>) 필수. 출처 없는 항목은 만들지 마.
+4. 수집된 뉴스에 있는 팩트만 사용. 없는 뉴스 만들지 마.
+5. 대기업(삼성/SK/현대/Google/Microsoft/Nvidia 등) 동향, 제조/하드웨어/반도체 뉴스도 적극 반영.
 
 [선별 기준]
 - top3 우선순위: 시장 구조 변화(규제/M&A/대형라운드) > 판단 필요 대형 이벤트 > 주목할 스타트업 뉴스
 - so_what: 단순 요약 아니라 VC 투자 판단에 미치는 영향 분석
 - signals: 5종 태그(기술/대기업/산업/수요/정책) 골고루. top3와 겹치지 않는 뉴스 선택
-- sector_trends: investment_angle은 "어디에 투자 기회가 있는가" 관점
-- watchlist: 오늘 뉴스에서 VC가 주목해야 할 스타트업 6~10개를 직접 선정. 선정 기준:
-  ① 투자 유치 발표한 스타트업 ② 제품/서비스 주요 업데이트 ③ 시장 확장/피벗 ④ 경쟁 구도 변화에 영향받는 기업
+- sector_trends: AI/SaaS에 편중되지 않게 다양한 섹터(제조/하드웨어/반도체 등도 뉴스 있으면 포함). investment_angle은 "어디에 투자 기회가 있는가" 관점
+- watchlist: 오늘 뉴스에서 VC가 주목해야 할 기업(스타트업+대기업) 6~10개를 직접 선정. 선정 기준:
+  ① 투자 유치 발표 ② 제품/서비스 주요 업데이트 ③ 시장 확장/피벗 ④ 경쟁 구도 변화
   뉴스에 등장한 실제 기업만. 상태: 🟢(긍정/성장) 🔴(리스크/위기) 🟡(주목할 변화)
 - homework: type은 judge(판단)/connect(연결)/understand(이해). top3/signals에서 파생되는 후속 과제
-- deals: 구체적 금액/라운드 나온 것만. 루머/검토중 제외
+- deals: 구체적 금액/라운드 나온 것만. 루머/검토중 제외. 국내+글로벌 합쳐 10~15건 목표.
 
 JSON 스키마:
 {{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","sector":"","status":"","note":"","source_html":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}"
@@ -221,7 +255,16 @@ def groq_call(system_prompt, user_prompt, max_tokens=2000):
 
 # ── Groq 섹션별 프롬프트 (퀄리티 강화) ──
 
-GROQ_BASE = f"한국 VC 심사역용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}). 절대 규칙: 바이오/헬스케어/디지털헬스케어/제약/의료 관련 뉴스는 전부 제외 — 딜, 시그널, 섹터, 워치리스트 어디에도 포함하지 마. 순수 JSON만 반환(코드블록/마크다운 금지). 수집된 뉴스에 있는 팩트만 사용하고, 없는 뉴스를 만들지 마. 출처 URL은 수집된 뉴스의 링크를 그대로 사용해라."
+GROQ_BASE = f"""한국 VC 심사역용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}).
+
+절대 규칙:
+1. 바이오/헬스케어/디지털헬스케어/제약/의료/소재 관련 뉴스는 전부 제외 — 딜, 시그널, 섹터, 워치리스트 어디에도 포함하지 마.
+2. 같은 기업을 여러 섹션에 중복해서 넣지 마. 한 기업은 가장 관련 높은 섹션 1곳에만 배치.
+3. 모든 항목에 반드시 source_html(<a href="실제URL">매체명</a>)을 포함. 출처 없는 항목은 만들지 마.
+4. 수집된 뉴스에 있는 팩트만 사용. 없는 뉴스를 만들지 마.
+5. 대기업 동향, 제조/하드웨어/반도체 뉴스도 빠지지 않게 균형 있게 포함해라. AI/SaaS에 편중되지 않도록.
+
+순수 JSON만 반환(코드블록/마크다운 금지)."""
 
 GROQ_SECTIONS = [
     {
@@ -445,11 +488,104 @@ def validate_and_fix(b):
             h["type"] = "judge"
             h["type_label"] = "판단"
 
+    # source_html이 없는 signals/sector_trends 항목 필터링
+    for key in ["signals", "sector_trends"]:
+        original_len = len(b.get(key, []))
+        b[key] = [item for item in b.get(key, [])
+                  if isinstance(item, dict) and item.get("source_html", "").strip()]
+        removed = original_len - len(b[key])
+        if removed > 0:
+            print(f"  [검증] {key}에서 출처 없는 항목 {removed}개 제거")
+
     if fixed > 0:
         print(f"  [검증] 총 {fixed}개 항목 보완됨")
     else:
         print("  [검증] 모든 키 정상")
     return b
+
+
+# ── 딜 플로우 주간 누적 ──
+DEALS_FILE = "deals.json"
+
+
+def load_weekly_deals():
+    """이번 주 누적 딜 로드. 월요일이면 리셋."""
+    if today.weekday() == 0:  # 월요일
+        print("  [딜 누적] 월요일 — 이번 주 딜 리셋")
+        return {"domestic": [], "global": [], "week_start": date_iso}
+
+    if os.path.exists(DEALS_FILE):
+        try:
+            with open(DEALS_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            print(f"  [딜 누적] 기존 딜 로드: 국내 {len(data.get('domestic',[]))}건, 글로벌 {len(data.get('global',[]))}건")
+            return data
+        except Exception as e:
+            print(f"  [딜 누적] 로드 실패: {e}")
+
+    return {"domestic": [], "global": [], "week_start": date_iso}
+
+
+def merge_deals(existing, new_brief):
+    """기존 주간 딜에 오늘 새 딜을 중복 없이 추가"""
+    # 기존 기업명 셋
+    existing_domestic_cos = {r.get("co", "") for r in existing.get("domestic", [])}
+    existing_global_cos = {r.get("co", "") for r in existing.get("global", [])}
+
+    # 오늘 새 국내 딜 추가
+    new_domestic = 0
+    for week in safe_list(new_brief.get("deal_domestic_weeks", [])):
+        week = safe_dict(week)
+        for row in safe_list(week.get("rows", [])):
+            row = safe_dict(row)
+            co = row.get("co", "")
+            if co and co not in existing_domestic_cos:
+                row["added_date"] = date_iso
+                row["source_html"] = week.get("source_html", "")
+                existing["domestic"].append(row)
+                existing_domestic_cos.add(co)
+                new_domestic += 1
+
+    # 오늘 새 글로벌 딜 추가
+    new_global = 0
+    dg = safe_dict(new_brief.get("deal_global", {}))
+    for row in safe_list(dg.get("rows", [])):
+        row = safe_dict(row)
+        co = row.get("co", "")
+        if co and co not in existing_global_cos:
+            row["added_date"] = date_iso
+            row["source_html"] = dg.get("source_html", "")
+            existing["global"].append(row)
+            existing_global_cos.add(co)
+            new_global += 1
+
+    print(f"  [딜 누적] 오늘 추가: 국내 {new_domestic}건, 글로벌 {new_global}건")
+    print(f"  [딜 누적] 주간 합계: 국내 {len(existing['domestic'])}건, 글로벌 {len(existing['global'])}건")
+    return existing
+
+
+def save_weekly_deals(deals_data):
+    """주간 딜 데이터 저장"""
+    with open(DEALS_FILE, "w", encoding="utf-8") as f:
+        json.dump(deals_data, f, ensure_ascii=False, indent=2)
+    print(f"  [딜 누적] {DEALS_FILE} 저장 완료")
+
+
+def apply_weekly_deals(brief, deals_data):
+    """브리프의 딜 섹션을 주간 누적 데이터로 교체"""
+    if deals_data.get("domestic"):
+        brief["deal_domestic_weeks"] = [{
+            "label": f"이번 주 국내 주요 딜 ({deals_data.get('week_start', date_iso)} ~)",
+            "rows": deals_data["domestic"],
+            "source_html": ""
+        }]
+    if deals_data.get("global"):
+        brief["deal_global"] = {
+            "label": "이번 주 글로벌 주요 딜",
+            "rows": deals_data["global"],
+            "source_html": ""
+        }
+    return brief
 
 
 def generate_brief(articles):
@@ -838,6 +974,13 @@ if __name__ == "__main__":
         print("=== Phase 2 시작 ===")
         brief_data = generate_brief(articles)
         print(f"=== Phase 2 완료: {len(brief_data)} keys ===")
+
+        # 딜 플로우 주간 누적
+        print("=== 딜 누적 처리 ===")
+        weekly_deals = load_weekly_deals()
+        weekly_deals = merge_deals(weekly_deals, brief_data)
+        save_weekly_deals(weekly_deals)
+        brief_data = apply_weekly_deals(brief_data, weekly_deals)
 
         html = build_html(brief_data)
         with open("index.html", "w", encoding="utf-8") as f:
