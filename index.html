@@ -57,9 +57,11 @@
   .watch-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid #f0f0ec;font-size:12px}
   .watch-row:last-child{border-bottom:none}
   .watch-status{font-size:14px;flex-shrink:0;width:20px;text-align:center}
-  .watch-name{font-weight:600;color:#1a1a1a;min-width:100px}
+  .watch-name{font-weight:600;color:#1a1a1a;min-width:80px}
+  .watch-sector{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;background:#e8f0fe;color:#1a56db;flex-shrink:0}
   .watch-note{flex:1;color:#666}
-  .watch-date{font-size:10px;color:#bbb;flex-shrink:0}
+  .watch-source{font-size:10px;color:#aaa;flex-shrink:0}
+  .watch-source a{color:#1a56db;text-decoration:none}
   .event-box{background:#fff;border-radius:8px;border-left:3px solid #e24b4a;padding:14px 16px;margin-bottom:10px}
   .event-tag{font-size:10px;font-weight:600;color:#e24b4a}
   .event-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px}
@@ -112,37 +114,37 @@
         <div class="top3-item">
           <span class="top3-num">1</span>
           <div class="top3-content">
-            <p class="top3-headline">테라뷰, AMD와 공동 연구로 첨단 패키징 반도체 비파괴 검사 유효성 입증</p>
-            <p class="top3-sowhat">테라뷰의 비파괴 검사 기술이 첨단 패키징 반도체에 효과적임을 입증, 관련 산업의 발전에 기여할 수 있을 것</p>
-            <p class="top3-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
+            <p class="top3-headline">지쓰리소프트, 차세대 통합 보안 솔루션으로 보안 시장의 새 기준 제시</p>
+            <p class="top3-sowhat">보안 시장의 새로운 기준을 제시함으로써 보안 솔루션 시장의 경쟁이 심화할 수 있다.</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1073432/">벤처스퀘어</a></p>
           </div>
         </div>
         <div class="top3-item">
           <span class="top3-num">2</span>
           <div class="top3-content">
-            <p class="top3-headline">미리디, 매출 6년 만에 6.4배…AI 엔진 앞세워 글로벌 승부수</p>
-            <p class="top3-sowhat">미리디의 AI 엔진을 기반으로 한 디자인 플랫폼이 글로벌 시장에서 경쟁력을 보임</p>
-            <p class="top3-source"><a href="https://www.venturesquare.net/1073652/">벤처스퀘어</a></p>
+            <p class="top3-headline">메가존클라우드, AI로 비즈니스 가치를 창출하는 기업이 7%에 불과하다.</p>
+            <p class="top3-sowhat">AI를 활용하여 비즈니스 가치를 창출하는 기업이 적어, AI 도입의 필요성이 커질 수 있다.</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1073712/">벤처스퀘어</a></p>
           </div>
         </div>
         <div class="top3-item">
           <span class="top3-num">3</span>
           <div class="top3-content">
-            <p class="top3-headline">와디즈, AI 에이전트 ‘WAi’ 앞세워 메이커 서비스 전면 개편</p>
-            <p class="top3-sowhat">와디즈의 AI 에이전트를 활용한 메이커 서비스 개편이 창업자们의 효율성을 높일 수 있을 것</p>
-            <p class="top3-source"><a href="https://www.venturesquare.net/1073557/">벤처스퀘어</a></p>
+            <p class="top3-headline">테라뷰, AMD와 공동 연구로 첨단 패키징 반도체 비파괴 검사 유효성 입증</p>
+            <p class="top3-sowhat">테라뷰의 비파괴 검사 기술이 AMD와의 공동 연구를 통해 유효성이 입증됨으로써, 반도체 산업에서 경쟁력이增할 수 있다.</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
           </div>
         </div></div>
 
   <p class="sec">딜 플로우 (DEAL FLOW)</p>
-  <div class="summary-bar"><div class="sum-chip"><span class="sum-dot" style="background:#008000"></span><span>국내 AI 관련 뉴스 10건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#0000FF"></span><span>글로벌 AI 관련 뉴스 10건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#FF0000"></span><span>스타트업 관련 뉴스 15건</span></div></div>
+  <div class="summary-bar"><div class="sum-chip"><span class="sum-dot" style="background:#ff0000"></span><span>국내 스타트업 N건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#00ff00"></span><span>AI 관련 기술 개발</span></div><div class="sum-chip"><span class="sum-dot" style="background:#0000ff"></span><span>글로벌 시장 진출</span></div></div>
   
   
       <div class="card">
         <p class="sub-label">글로벌 주요 딜</p>
         <table class="deal-table">
           <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
-          <tr><td class="co">Halter</td><td></td><td>$220M</td><td>Founders Fund</td><td></td></tr>
+          <tr><td class="co">Halter</td><td></td><td>$220 million</td><td>Founders Fund</td><td></td></tr>
         </table>
         <p class="sig-source">https://techcrunch.com/2026/04/04/unpacking-peter-thiels-big-bet-on-solar-powered-cow-collars/</p>
       </div>
@@ -162,145 +164,139 @@
   <div class="card">
         <div class="sig">
           <span class="sig-tag tag-tech">기술</span>
-          <p class="sig-fact">테라뷰의 비파괴 검사 기술이 첨단 패키징 반도체에 효과적임을 입증</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
+          <p class="sig-fact">지쓰리소프트가 차세대 통합 보안 솔루션을 개발하여 보안 시장의 새 기준을 제시했다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073432/">벤처스퀘어</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-bigco">대기업</span>
-          <p class="sig-fact">미리디의 AI 엔진을 기반으로 한 디자인 플랫폼이 글로벌 시장에서 경쟁력을 보임</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073652/">벤처스퀘어</a></p>
+          <p class="sig-fact">메가존클라우드가 AI로 비즈니스 가치를 창출하는 기업이 7%에 불과하다고 발표했다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073712/">벤처스퀘어</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-industry">산업</span>
-          <p class="sig-fact">와디즈의 AI 에이전트를 활용한 메이커 서비스 개편이 창업자们의 효율성을 높일 수 있을 것</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073557/">벤처스퀘어</a></p>
+          <p class="sig-fact">테라뷰가 AMD와 공동 연구를 통해 첨단 패키징 반도체 비파괴 검사 유효성을 입증했다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073670/">벤처스퀘어</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-demand">수요</span>
-          <p class="sig-fact">테크타카의 물류 플랫폼 '아르고'가 G마켓 스타배송 공식 협력사로 선정</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073686/">벤처스퀘어</a></p>
+          <p class="sig-fact">리솔이 자체 개발한 K-슬립테크 솔루션을 앞세워 미국과 일본 시장 동시 공략에 나선다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073637/">벤처스퀘어</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-policy">정책</span>
-          <p class="sig-fact">코리아스타트업포럼이 지방선거를 앞두고 스타트업 정책 간담회를 열어 지자체의 혁신 조달 확대 등이 논의</p>
+          <p class="sig-fact">코리아스타트업포럼이 지방선거를 앞두고 스타트업 정책 간담회를 열었다.</p>
           <p class="sig-source"><a href="https://www.venturesquare.net/1073418/">벤처스퀘어</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-tech">기술</span>
-          <p class="sig-fact">리솔이 자체 개발한 'K-슬립테크' 솔루션을 앞세워 미국과 일본 시장 동시 공략에 나선다</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073637/">벤처스퀘어</a></p>
+          <p class="sig-fact">Anthropic이 Claude Code subscribers에게 OpenClaw 사용료를 추가로 부과한다.</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/04/anthropic-says-claude-code-subscribers-will-need-to-pay-extra-for-openclaw-support/">TechCrunch</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-bigco">대기업</span>
-          <p class="sig-fact">더밀크와 법무법인 디엘지가 K-스타트업의 미국 진출을 위한 MOU를 체결하고 전략·투자·법률 통합 지원 체계를 구축</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073560/">벤처스퀘어</a></p>
+          <p class="sig-fact">Lucid가 Q1 매출 감소의 원인을 시트 공급사 문제로 밝혔다.</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/03/lucid-blames-dip-in-q1-sales-on-seat-supplier-issue/">TechCrunch</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-industry">산업</span>
-          <p class="sig-fact">케어젠의 근육 강화 펩타이드 건강기능식품 '마이오키'가 멕시코 보건당국 등록을 완료</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073697/">벤처스퀘어</a></p>
+          <p class="sig-fact">테크타카의 물류 플랫폼 아르고가 G마켓 스타배송 공식 협력사로 선정되었다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073686/">벤처스퀘어</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-demand">수요</span>
-          <p class="sig-fact">메가존클라우드가 파트너 컨퍼런스 'ICON 2026'에서 AI로 비즈니스 가치를 창출하는 기업이 7%에 불과하다는 'AI 캐즘' 현실을 짚고, 거버넌스·보안·컴플라이언스를 통합한 TRUST 레이어 전략을 공개</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073712/">벤처스퀘어</a></p>
+          <p class="sig-fact">미리디가 2025년 매출 942억 원을 달성하며 6년 연속 최대 매출을 경신했다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073652/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-policy">정책</span>
+          <p class="sig-fact">Anthropic이 정치 활동을 강화하기 위해 새로운 PAC를 설립했다.</p>
+          <p class="sig-source"><a href="https://techcrunch.com/2026/04/03/anthropic-ramps-up-its-political-activities-with-a-new-pac/">TechCrunch</a></p>
         </div></div>
 
   <p class="sec">섹터 DEEP DIVE (SECTOR TRENDS)</p>
   <p class="section-note">이번 주 가장 뜨거운 섹터의 기술 동향 — 매일 구성이 달라짐</p>
   
         <div class="sector-card">
-          <p class="sector-name">🏠 프롭테크</p>
+          <p class="sector-name">🛍️ AI 커머스</p>
           <p class="sector-label">왜 지금 뜨거운가</p>
-          <p class="sector-text">Probate.Auction의 상속 부동산 전문 경매 플랫폼이 평균 20주 이상 걸리던 매각 기간을 7~9주로 단축했다. 또한 Move With Us의 매매·이사·부가 서비스를 하나의 흐름으로 통합해 분절된 거래를 연결된 경험으로 바꿨다.</p>
+          <p class="sector-text">런모아의 AI 커머스 플랫폼이 시장 확장에 성공하고, 테크타카의 물류 플랫폼이 G마켓 스타배송 공식 협력사로 선정됨에 따라 AI 커머스 시장의 성장이 가속화되고 있다.</p>
           <p class="sector-label">기술 동향</p>
-          <p class="sector-text">AI와 데이터 분석을 활용한 부동산 거래의 효율화</p>
+          <p class="sector-text">AI 기반의 개인화 추천 시스템과 자동화된 주문 처리 시스템이 핵심 기술 동향이다.</p>
           <p class="sector-label">주요 플레이어</p>
-          <p class="sector-text">Probate.Auction, Move With Us</p>
+          <p class="sector-text">런모아, 테크타카, 미리디</p>
           <p class="sector-label">투자 관점</p>
-          <p class="sector-text sector-angle">프롭테크 분야에서 AI와 데이터 분석을 활용한 부동산 거래의 효율화를 위한 투자 기회가 있다.</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1033632/">https://www.venturesquare.net/1033632/</a></p>
+          <p class="sector-text sector-angle">AI 커머스 플랫폼과 관련 기술 개발에 대한 투자 기회가 있다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1056465/">https://www.venturesquare.net/1056465/</a></p>
+        </div>
+        <div class="sector-card">
+          <p class="sector-name">🛋️ 슬립테크</p>
+          <p class="sector-label">왜 지금 뜨거운가</p>
+          <p class="sector-text">리솔이 자체 개발한 K-슬립테크 솔루션을 앞세워 미국과 일본 시장 동시 공략에 나서면서 슬립테크 시장의 관심이 집중되고 있다.</p>
+          <p class="sector-label">기술 동향</p>
+          <p class="sector-text">AI와 IoT 기반의 비침습적 수면 분석 기술이 핵심 기술 동향이다.</p>
+          <p class="sector-label">주요 플레이어</p>
+          <p class="sector-text">리솔, 케어젠</p>
+          <p class="sector-label">투자 관점</p>
+          <p class="sector-text sector-angle">슬립테크 관련 기술 개발과 시장 확장에 대한 투자 기회가 있다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1073637/">https://www.venturesquare.net/1073637/</a></p>
         </div>
         <div class="sector-card">
           <p class="sector-name">🌟 소셜벤처</p>
           <p class="sector-label">왜 지금 뜨거운가</p>
-          <p class="sector-text">비전웍스와 성북구 1인창조기업지원센터가 공동 기획·운영한 소셜벤처 프렙스쿨 13기 교육 과정이 성공적으로 마무리됐다.</p>
+          <p class="sector-text">비전웍스와 성북구 1인창조기업지원센터가 공동 기획·운영한 소셜벤처 프렙스쿨 13기 교육 과정이 성공적으로 마무리됨에 따라 소셜벤처의 중요성이 부각되고 있다.</p>
           <p class="sector-label">기술 동향</p>
-          <p class="sector-text">소셜벤처의 성장과 지역 기반 창업 인재 양성</p>
+          <p class="sector-text">사회적 가치 창출을 위한 기술 개발이 핵심 기술 동향이다.</p>
           <p class="sector-label">주요 플레이어</p>
           <p class="sector-text">비전웍스, 성북구 1인창조기업지원센터</p>
           <p class="sector-label">투자 관점</p>
-          <p class="sector-text sector-angle">소셜벤처 분야에서 지역 기반 창업 인재 양성과 성장을 위한 투자 기회가 있다.</p>
+          <p class="sector-text sector-angle">소셜벤처 관련 기술 개발과 사회적 가치 창출에 대한 투자 기회가 있다.</p>
           <p class="sig-source"><a href="https://www.venturesquare.net/1073642/">https://www.venturesquare.net/1073642/</a></p>
         </div>
-        <div class="sector-card">
-          <p class="sector-name">😴 K-슬립테크</p>
-          <p class="sector-label">왜 지금 뜨거운가</p>
-          <p class="sector-text">리솔이 자체 개발한 K-슬립테크 솔루션을 앞세워 미국과 일본 시장 동시 공략에 나선다.</p>
-          <p class="sector-label">기술 동향</p>
-          <p class="sector-text">AI와 IoT 기반의 비침습적 수면 분석 기술</p>
-          <p class="sector-label">주요 플레이어</p>
-          <p class="sector-text">리솔</p>
-          <p class="sector-label">투자 관점</p>
-          <p class="sector-text sector-angle">K-슬립테크 분야에서 글로벌 수면 시장을 선도할 수 있는 투자 기회가 있다.</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1073637/">https://www.venturesquare.net/1073637/</a></p>
-        </div>
 
-  <p class="sec">워치리스트 (WATCHLIST)</p>
+  <p class="sec">오늘의 주목 기업 (TODAY'S WATCHLIST)</p>
+  <p class="section-note">오늘 뉴스에서 VC가 눈여겨볼 스타트업 — 매일 트렌드에 따라 자동 선정</p>
   <div class="watch-card">
         <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">PortOne</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">지쓰리소프트</span>
+          <span class="watch-sector">보안</span>
+          <span class="watch-note">차세대 통합 보안 솔루션을 개발하여 보안 시장의 새 기준을 제시했다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1073432/">https://www.venturesquare.net/1073432/</a></span>
         </div>
         <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">DSRV</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">테라뷰</span>
+          <span class="watch-sector">반도체</span>
+          <span class="watch-note">AMD와 공동 연구를 통해 첨단 패키징 반도체 비파괴 검사 유효성을 입증했다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1073670/">https://www.venturesquare.net/1073670/</a></span>
         </div>
         <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">Spendit</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">미리디</span>
+          <span class="watch-sector">디자인 플랫폼</span>
+          <span class="watch-note">2025년 매출 942억 원을 달성하며 6년 연속 최대 매출을 경신했다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1073652/">https://www.venturesquare.net/1073652/</a></span>
         </div>
         <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">GhostPass</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">테크타카</span>
+          <span class="watch-sector">물류 플랫폼</span>
+          <span class="watch-note">물류 플랫폼 '아르고'가 G마켓 스타배송 공식 협력사로 선정됨에 따라 시장 확장에 성공했다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1073686/">https://www.venturesquare.net/1073686/</a></span>
         </div>
         <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">CrossHub</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">케어젠</span>
+          <span class="watch-sector">헬스케어</span>
+          <span class="watch-note">근육 강화 펩타이드 건강기능식품 '마이오키'가 멕시코 보건당국 등록을 완료하고 4월 본격 판매에 들어간다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1073697/">https://www.venturesquare.net/1073697/</a></span>
         </div>
         <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">TokenSquare</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
-        </div>
-        <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">DeepX</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
-        </div>
-        <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">A ROBOT</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
-        </div>
-        <div class="watch-row">
-          <span class="watch-status">⚪</span>
-          <span class="watch-name">맥킨리라이스</span>
-          <span class="watch-note">최근 뉴스 없음</span>
-          <span class="watch-date">2026-04-05</span>
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">리솔</span>
+          <span class="watch-sector">슬립테크</span>
+          <span class="watch-note">자체 개발한 K-슬립테크 솔루션을 앞세워 미국과 일본 시장 동시 공략에 나선다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1073637/">https://www.venturesquare.net/1073637/</a></span>
         </div></div>
 
   
@@ -313,28 +309,28 @@
           <div class="hw-title-row">
             <span class="hw-num">1</span>
             <span class="hw-type hwt-understand">이해</span>
-            <span class="hw-title-text">테라뷰의 비파괴 검사 기술</span>
+            <span class="hw-title-text">AI 커머스 시장 동향</span>
           </div>
-          <p class="hw-desc">테라뷰의 비파괴 검사 기술이 첨단 패키징 반도체에 효과적임을 입증했지만, 이 기술의 세부적인 원리와 적용 가능성을 더 깊이 이해해야 한다.</p>
-          <div class="hw-tags"><span class="hw-tag tech">비파괴 검사</span></div>
+          <p class="hw-desc">AI 커머스 시장의 성장과 관련 기술 개발에 대한 이해가 필요하다. 런모아와 테크타카의 성공 사례를 분석하여 시장 동향을 파악해야 한다.</p>
+          <div class="hw-tags"><span class="hw-tag industry">AI 커머스</span></div>
         </div>
         <div class="hw-item">
           <div class="hw-title-row">
             <span class="hw-num">2</span>
             <span class="hw-type hwt-connect">연결</span>
-            <span class="hw-title-text">미리디의 글로벌 시장 진출</span>
+            <span class="hw-title-text">소셜벤처 프렙스쿨 네트워킹</span>
           </div>
-          <p class="hw-desc">미리디의 AI 엔진을 기반으로 한 디자인 플랫폼이 글로벌 시장에서 경쟁력을 보임을 알게 되었지만, 이에 대한 더 자세한 정보를 얻기 위해 미리디의 대표와 연결해야 한다.</p>
-          <div class="hw-tags"><span class="hw-tag startup">미리디</span></div>
+          <p class="hw-desc">소셜벤처 프렙스쿨 13기 교육 과정을 통해 사회적 가치 창출을 위한 기술 개발에 대한 이해가 필요하다. 관련 전문가와의 네트워킹을 통해 더 많은 정보를 얻어야 한다.</p>
+          <div class="hw-tags"><span class="hw-tag startup">소셜벤처</span></div>
         </div>
         <div class="hw-item">
           <div class="hw-title-row">
             <span class="hw-num">3</span>
             <span class="hw-type hwt-judge">판단</span>
-            <span class="hw-title-text">와디즈의 AI 에이전트의 효율성</span>
+            <span class="hw-title-text">슬립테크 시장의 성장 가능성</span>
           </div>
-          <p class="hw-desc">와디즈의 AI 에이전트를 활용한 메이커 서비스 개편이 창업자们의 효율성을 높일 수 있을지 판단해야 한다.</p>
-          <div class="hw-tags"><span class="hw-tag startup">와디즈</span></div>
+          <p class="hw-desc">리솔의 K-슬립테크 솔루션을 통해 슬립테크 시장의 성장 가능성을 판단해야 한다. 시장 동향과 관련 기술 개발에 대한 분석이 필요하다.</p>
+          <div class="hw-tags"><span class="hw-tag tech">슬립테크</span></div>
         </div></div>
 
   <div class="divider"></div>
@@ -344,9 +340,9 @@
       <div class="source-list">
         <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, TechCrunch, VentureBeat, Google News RSS)<br>
         <strong>분석 엔진:</strong> Gemini 2.0 Flash + Groq Llama 3.3 70B (무료)<br>
-        <strong>서치 키워드:</strong> 프롭테크, 소셜벤처, K-슬립테크<br>
-        <strong>참고 매체:</strong> <a href="https://www.venturesquare.net">https://www.venturesquare.net</a><br>
-        <strong>한계:</strong> 수집된 뉴스의 한계점은 주로 국내 스타트업과 기술 분야에 집중되어 있다는 점이다.<br>
+        <strong>서치 키워드:</strong> AI, 보안, 반도체, 디자인 플랫폼, 물류 플랫폼, 헬스케어, 슬립테크<br>
+        <strong>참고 매체:</strong> <a href="https://www.venturesquare.net/">https://www.venturesquare.net/</a><br>
+        <strong>한계:</strong> 수집된 뉴스에 대한 분석으로 한정된다.<br>
         <strong>신뢰도:</strong> 공식 발표 · 언론 보도 · 루머/관계자
       </div>
     </div>
