@@ -58,9 +58,13 @@ RSS_FEEDS = {
     "GN_스타트업IPO": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+IPO+%EC%83%81%EC%9E%A5&hl=ko&gl=KR&ceid=KR:ko",
 }
 
-# 바이오/헬스케어 필터
+# 바이오/헬스케어/디지털헬스케어 필터 (강화)
 BIO_KEYWORDS = re.compile(
-    r'바이오|헬스케어|제약|의료기기|임상|신약|healthcare|biotech|pharma|clinical trial|drug',
+    r'바이오|헬스케어|디지털\s*헬스|제약|의료기기|의료\s*AI|임상|신약|치료제|'
+    r'디지털\s*치료|진단키트|진단\s*기기|의약품|셀트리온|삼성바이오|에이비엘|'
+    r'유전자|게놈|줄기세포|항체|백신|의료|병원|환자|질환|FDA\s*승인|'
+    r'healthcare|biotech|pharma|clinical\s*trial|drug|medtech|health\s*tech|'
+    r'therapeutics|diagnostic|genomic|vaccine|medical\s*device|digital\s*health',
     re.IGNORECASE
 )
 
@@ -217,7 +221,7 @@ def groq_call(system_prompt, user_prompt, max_tokens=2000):
 
 # ── Groq 섹션별 프롬프트 (퀄리티 강화) ──
 
-GROQ_BASE = f"한국 VC 심사역용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}). 바이오/헬스케어 뉴스는 전부 제외. 순수 JSON만 반환(코드블록/마크다운 금지). 수집된 뉴스에 있는 팩트만 사용하고, 없는 뉴스를 만들지 마. 출처 URL은 수집된 뉴스의 링크를 그대로 사용해라."
+GROQ_BASE = f"한국 VC 심사역용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}). 절대 규칙: 바이오/헬스케어/디지털헬스케어/제약/의료 관련 뉴스는 전부 제외 — 딜, 시그널, 섹터, 워치리스트 어디에도 포함하지 마. 순수 JSON만 반환(코드블록/마크다운 금지). 수집된 뉴스에 있는 팩트만 사용하고, 없는 뉴스를 만들지 마. 출처 URL은 수집된 뉴스의 링크를 그대로 사용해라."
 
 GROQ_SECTIONS = [
     {
@@ -236,11 +240,11 @@ GROQ_SECTIONS = [
    - 예: "국내 딜 N건", "글로벌 $XB+", "AI 관련 N건"
    - color: hex 색상코드, text: 칩 텍스트
 
-3. signals: 시장 시그널 6~10개. 태그 5종(기술/대기업/산업/수요/정책) 골고루 분배.
+3. signals: 시장 시그널 6~10개. 태그 5종(기술/대기업/산업/수요/정책) 골고루 분배. 시간순 정렬.
    - tag: "기술"|"대기업"|"산업"|"수요"|"정책" 중 하나
    - fact: 1~2문장 팩트 (뉴스 원문 기반, 추측 금지)
    - source_html: <a> 태그로 출처 링크
-   - 주의: top3에 이미 나온 뉴스와 겹치지 않게 다른 뉴스를 선택해라
+   - 절대 규칙: top3에 이미 나온 뉴스는 여기서 다시 쓰지 마. 같은 뉴스가 여러 섹션에 중복되면 안 됨.
 
 JSON: {"top3":[{"headline":"","so_what":"","source_html":""}],"summary_chips":[{"color":"","text":""}],"signals":[{"tag":"","fact":"","source_html":""}]}""",
         "max_tokens": 2500,
@@ -251,14 +255,16 @@ JSON: {"top3":[{"headline":"","so_what":"","source_html":""}],"summary_chips":[{
 
 [Call 2] 아래 뉴스에서 딜 플로우(투자 거래)를 추출해라:
 
-1. deal_domestic_weeks: 국내 딜 (바이오/헬스케어 완전 제외)
+1. deal_domestic_weeks: 국내 딜 (바이오/헬스케어/의료/제약 완전 제외)
    - label: "이번 주 국내 주요 딜" 등
    - rows: [{co: 회사명, round: "시리즈A" 등, amount: "50억원" 등, investor: 주요 투자자, sector: 섹터, date: 날짜}]
    - source_html: <a> 태그 출처
    - 뉴스에서 구체적 금액/라운드가 나온 것만 포함. 루머나 '투자 검토 중'은 제외.
+   - 가능한 한 많이 추출 (목표: 국내+글로벌 합쳐서 10~15건). 시야를 넓히고 글로벌 트렌드를 반영해라.
 
-2. deal_global: 글로벌 대형 딜 ($200M 이상 또는 주목할 만한 딜)
+2. deal_global: 글로벌 대형 딜 ($200M 이상 또는 주목할 만한 트렌드 섹터 딜)
    - 같은 rows 구조. label: "글로벌 주요 딜"
+   - 바이오/헬스케어/의료 관련 딜은 절대 포함하지 마.
 
 3. deal_cvc: CVC(대기업 벤처투자) 또는 전략적 투자 관련 뉴스 요약 텍스트 (1~2문장). 없으면 빈 문자열.
    - deal_cvc_source_html: 출처
@@ -804,9 +810,7 @@ def build_html(b):
       </div>
     </div>
   </details>
-  <div class="prev-link">
-    <a href="prev.html">이전 브리프 ({yesterday_str} {yesterday_day})</a>
-  </div>
+  {"" if not os.path.exists("prev.html") else f'<div class="prev-link"><a href="prev.html">이전 브리프 ({yesterday_str} {yesterday_day})</a></div>'}
 </div>
 </body>
 </html>"""
