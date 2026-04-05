@@ -33,19 +33,22 @@ groq_client = OpenAI(
 # ══════════════════════════════════════════════════════════════
 
 RSS_FEEDS = {
-    # ── 국내 스타트업/VC ──
+    # ── 국내 스타트업/VC/테크 ──
     "플래텀": "https://platum.kr/feed",
     "벤처스퀘어": "https://www.venturesquare.net/feed",
+    "GeekNews": "https://news.hada.io/rss",
     # ── 글로벌 테크/VC 매체 (미국 트렌드 중심) ──
     "TechCrunch": "https://techcrunch.com/feed/",
     "VentureBeat": "https://venturebeat.com/feed/",
     "TheVerge": "https://www.theverge.com/rss/index.xml",
     "ArsTechnica": "https://feeds.arstechnica.com/arstechnica/index",
     "Crunchbase": "https://news.crunchbase.com/feed/",
-    # ── 한국 VC/스타트업 ──
+    # ── 한국 VC/스타트업/딜 ──
     "GN_스타트업투자": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%ED%88%AC%EC%9E%90+%EC%9C%A0%EC%B9%98&hl=ko&gl=KR&ceid=KR:ko",
     "GN_VC투자": "https://news.google.com/rss/search?q=VC+%ED%88%AC%EC%9E%90+2026&hl=ko&gl=KR&ceid=KR:ko",
     "GN_시리즈투자": "https://news.google.com/rss/search?q=%EC%8B%9C%EB%A6%AC%EC%A6%88+%ED%88%AC%EC%9E%90+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_투자유치": "https://news.google.com/rss/search?q=%ED%88%AC%EC%9E%90%EC%9C%A0%EC%B9%98+%EC%96%B5%EC%9B%90&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_시드투자": "https://news.google.com/rss/search?q=%EC%8B%9C%EB%93%9C+%ED%88%AC%EC%9E%90+%ED%94%84%EB%A6%AC%EC%8B%9C%EB%A6%AC%EC%A6%88&hl=ko&gl=KR&ceid=KR:ko",
     # ── AI / 소프트웨어 ──
     "GN_AI스타트업": "https://news.google.com/rss/search?q=AI+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
     "GN_AI_funding": "https://news.google.com/rss/search?q=AI+startup+funding&hl=en&gl=US&ceid=US:en",
@@ -279,9 +282,9 @@ GROQ_SECTIONS = [
    - so_what: VC 심사역에게 "그래서 뭐?" 에 답하는 임팩트 분석 (50자 내외). 단순 요약이 아니라 투자 판단에 어떤 영향이 있는지 써라.
    - source_html: 반드시 <a href="실제URL">매체명</a> 형식
 
-2. summary_chips: 오늘 수집된 뉴스의 핵심 통계 칩 2~4개
-   - 예: "국내 딜 N건", "글로벌 $XB+", "AI 관련 N건"
-   - color: hex 색상코드, text: 칩 텍스트
+2. summary_chips: 오늘 수집된 뉴스를 실제로 세어서 통계 칩 2~4개 생성.
+   - 뉴스에서 실제 건수/금액을 세서 구체적 숫자를 넣어라. "N건"이나 "$XB+" 같은 플레이스홀더 금지.
+   - color: hex 색상코드, text: 실제 숫자가 포함된 텍스트 (예시: "국내 딜 3건", "글로벌 $1.2B")
 
 3. signals: 시장 시그널 6~10개. 태그 5종(기술/대기업/산업/수요/정책) 골고루 분배. 시간순 정렬.
    - tag: "기술"|"대기업"|"산업"|"수요"|"정책" 중 하나
@@ -298,24 +301,24 @@ JSON: {"top3":[{"headline":"","so_what":"","source_html":""}],"summary_chips":[{
 
 [Call 2] 아래 뉴스에서 딜 플로우(투자 거래)를 추출해라:
 
-1. deal_domestic_weeks: 국내 딜 (바이오/헬스케어/의료/제약 완전 제외)
-   - label: "이번 주 국내 주요 딜" 등
-   - rows: [{co: 회사명, round: "시리즈A" 등, amount: "50억원" 등, investor: 주요 투자자, sector: 섹터, date: 날짜}]
+1. deal_domestic_weeks: 국내 딜 (바이오/헬스케어/의료/제약/소재 완전 제외)
+   - label: "이번 주 국내 주요 딜"
+   - rows: [{co: 회사명, round: "시리즈A" 등, amount: "50억원" 등 (금액 미공개면 "미공개"), investor: 주요 투자자, sector: 섹터, date: 날짜}]
    - source_html: <a> 태그 출처
-   - 뉴스에서 구체적 금액/라운드가 나온 것만 포함. 루머나 '투자 검토 중'은 제외.
-   - 가능한 한 많이 추출 (목표: 국내+글로벌 합쳐서 10~15건). 시야를 넓히고 글로벌 트렌드를 반영해라.
+   - "투자 유치", "시리즈", "억원", "만달러", "funding", "raised", "round" 등이 포함된 뉴스를 빠짐없이 찾아라.
+   - 금액이 명시되지 않아도 투자 유치 사실이 확인되면 amount를 "미공개"로 넣고 포함해라.
 
-2. deal_global: 글로벌 대형 딜 ($200M 이상 또는 주목할 만한 트렌드 섹터 딜)
+2. deal_global: 글로벌 딜 (금액 무관, 주목할 만한 딜이면 포함. 바이오/헬스케어/소재 제외)
    - 같은 rows 구조. label: "글로벌 주요 딜"
-   - 바이오/헬스케어/의료 관련 딜은 절대 포함하지 마.
+   - $200M 이상 대형 딜 우선, 그 외 트렌드 섹터 딜도 포함.
 
-3. deal_cvc: CVC(대기업 벤처투자) 또는 전략적 투자 관련 뉴스 요약 텍스트 (1~2문장). 없으면 빈 문자열.
+3. deal_cvc: CVC(대기업 벤처투자) 또는 전략적 투자 관련 뉴스 요약 텍스트 (1~2문장). 없으면 "해당 뉴스 없음".
    - deal_cvc_source_html: 출처
 
-4. deal_gov: 정부/정책 자금 관련 뉴스 요약 텍스트. 없으면 빈 문자열.
+4. deal_gov: 정부/정책 자금 관련 뉴스 요약 텍스트. 없으면 "해당 뉴스 없음".
    - deal_gov_source_html: 출처
 
-뉴스에 딜 정보가 없으면 rows를 빈 배열로, 텍스트를 "해당 뉴스 없음"으로 해라.
+딜 정보를 적극적으로 찾아라. 뉴스 제목에 "투자", "유치", "funding", "raised" 등이 있으면 딜이다.
 
 JSON: {"deal_domestic_weeks":[{"label":"","rows":[],"source_html":""}],"deal_global":{"label":"","rows":[],"source_html":""},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":""}""",
         "max_tokens": 2500,
