@@ -51,11 +51,11 @@ RSS_FEEDS = {
     "GN_robotics": "https://news.google.com/rss/search?q=robotics+startup+funding&hl=en&gl=US&ceid=US:en",
     "GN_fintech": "https://news.google.com/rss/search?q=fintech+startup+funding&hl=en&gl=US&ceid=US:en",
     "GN_cybersecurity": "https://news.google.com/rss/search?q=cybersecurity+startup+funding&hl=en&gl=US&ceid=US:en",
-    # 워치리스트 기업 검색
-    "GN_PortOne": "https://news.google.com/rss/search?q=PortOne+%ED%8F%AC%ED%8A%B8%EC%9B%90&hl=ko&gl=KR&ceid=KR:ko",
-    "GN_DSRV": "https://news.google.com/rss/search?q=DSRV+%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8&hl=ko&gl=KR&ceid=KR:ko",
-    "GN_Spendit": "https://news.google.com/rss/search?q=Spendit+%EC%8A%A4%ED%8E%9C%EB%94%A7&hl=ko&gl=KR&ceid=KR:ko",
-    "GN_DeepX": "https://news.google.com/rss/search?q=DeepX+%EB%A1%9C%EB%B4%87&hl=ko&gl=KR&ceid=KR:ko",
+    # 추가 트렌드 검색
+    "GN_스타트업인수합병": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%EC%9D%B8%EC%88%98+%ED%95%A9%EB%B3%91&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_SaaS": "https://news.google.com/rss/search?q=SaaS+startup+funding&hl=en&gl=US&ceid=US:en",
+    "GN_climate_tech": "https://news.google.com/rss/search?q=climate+tech+startup+funding&hl=en&gl=US&ceid=US:en",
+    "GN_스타트업IPO": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+IPO+%EC%83%81%EC%9E%A5&hl=ko&gl=KR&ceid=KR:ko",
 }
 
 # 바이오/헬스케어 필터
@@ -140,16 +140,18 @@ GENERATE_SYSTEM = f"""한국 VC 심사역용 Daily Brief JSON 생성기. 오늘:
 source_html에 반드시 실제 URL <a href="URL">매체명</a> 태그 포함. 순수 JSON만 반환(코드블록 금지).
 
 [선별 기준]
-- top3 우선순위: 워치리스트 기업 직접 영향 > 시장 구조 변화(규제/M&A/대형라운드) > 판단 필요 대형 이벤트
+- top3 우선순위: 시장 구조 변화(규제/M&A/대형라운드) > 판단 필요 대형 이벤트 > 주목할 스타트업 뉴스
 - so_what: 단순 요약 아니라 VC 투자 판단에 미치는 영향 분석
 - signals: 5종 태그(기술/대기업/산업/수요/정책) 골고루. top3와 겹치지 않는 뉴스 선택
 - sector_trends: investment_angle은 "어디에 투자 기회가 있는가" 관점
-- watchlist 9개 고정: PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스. 뉴스 없으면 ⚪
+- watchlist: 오늘 뉴스에서 VC가 주목해야 할 스타트업 6~10개를 직접 선정. 선정 기준:
+  ① 투자 유치 발표한 스타트업 ② 제품/서비스 주요 업데이트 ③ 시장 확장/피벗 ④ 경쟁 구도 변화에 영향받는 기업
+  뉴스에 등장한 실제 기업만. 상태: 🟢(긍정/성장) 🔴(리스크/위기) 🟡(주목할 변화)
 - homework: type은 judge(판단)/connect(연결)/understand(이해). top3/signals에서 파생되는 후속 과제
 - deals: 구체적 금액/라운드 나온 것만. 루머/검토중 제외
 
 JSON 스키마:
-{{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","status":"","note":"","last_checked":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}"
+{{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","sector":"","status":"","note":"","source_html":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}"
 """
 
 
@@ -225,7 +227,7 @@ GROQ_SECTIONS = [
 [Call 1] 아래 뉴스에서 3가지를 추출해라:
 
 1. top3: 투심(투자심의) 전 30초 브리핑 3건.
-   - 선별 우선순위: ① 워치리스트 기업(PortOne,DSRV,Spendit,GhostPass,CrossHub,TokenSquare,DeepX,A ROBOT,맥킨리라이스) 직접 영향 > ② 시장 구조 변화(규제, M&A, 대형 라운드) > ③ 판단이 필요한 대형 이벤트
+   - 선별 우선순위: ① 시장 구조 변화(규제, M&A, 대형 라운드) > ② 판단이 필요한 대형 이벤트 > ③ 주목할 스타트업 관련 뉴스
    - headline: 한 문장으로 팩트 요약 (30자 내외)
    - so_what: VC 심사역에게 "그래서 뭐?" 에 답하는 임팩트 분석 (50자 내외). 단순 요약이 아니라 투자 판단에 어떤 영향이 있는지 써라.
    - source_html: 반드시 <a href="실제URL">매체명</a> 형식
@@ -285,12 +287,18 @@ JSON: {"deal_domestic_weeks":[{"label":"","rows":[],"source_html":""}],"deal_glo
    - source_html: <a> 태그 출처
    - 주의: [이전 호출 결과]의 signals와 겹치는 내용은 피하고 더 깊은 분석을 제공해라.
 
-2. watchlist: 고정 9개 기업 모니터링. 반드시 9개 전부 포함:
-   PortOne(결제), DSRV(블록체인), Spendit(경비관리), GhostPass(생체인증), CrossHub(무역), TokenSquare(STO), DeepX(로봇AI), A ROBOT(로봇), 맥킨리라이스(HR)
+2. watchlist: 오늘 뉴스에서 VC가 주목해야 할 스타트업 6~10개를 직접 선정해라. 고정 리스트 없음.
+   선정 기준 (우선순위순):
+   ① 투자 유치를 발표한 스타트업 (딜 뉴스에 나온 기업)
+   ② 제품/서비스 주요 업데이트가 있는 기업
+   ③ 시장 확장, 피벗, 인수 등 전략적 변화가 있는 기업
+   ④ 경쟁 구도 변화에 영향받는 기업
+   - 뉴스에 실제로 등장한 기업만 포함. 만들어내지 마.
    - name: 기업명
-   - status: 🟢(긍정 뉴스) / 🔴(부정 뉴스/리스크) / 🟡(주목할 변화) / ⚪(뉴스 없음)
-   - note: 관련 뉴스 요약 또는 "최근 뉴스 없음"
-   - last_checked: 오늘 날짜
+   - sector: 섹터 (예: "AI", "핀테크", "로보틱스")
+   - status: 🟢(긍정/성장) / 🔴(리스크/위기) / 🟡(주목할 변화)
+   - note: 왜 주목해야 하는지 1문장
+   - source_html: <a> 태그 출처
 
 3. homework: 오늘 브리프에서 아직 답이 안 나온 질문 2~3개.
    [이전 호출 결과]의 top3, signals를 참고하여, 그 뉴스들에서 파생되는 후속 조사 과제를 만들어라.
@@ -416,17 +424,9 @@ def validate_and_fix(b):
             else:
                 week["rows"] = [r for r in week["rows"] if isinstance(r, dict)]
 
-    # watchlist가 9개 미만이면 빠진 기업 추가
-    WATCHLIST_COMPANIES = ["PortOne", "DSRV", "Spendit", "GhostPass", "CrossHub",
-                           "TokenSquare", "DeepX", "A ROBOT", "맥킨리라이스"]
-    existing_names = {w.get("name", "") for w in b.get("watchlist", [])}
-    for co in WATCHLIST_COMPANIES:
-        if co not in existing_names:
-            b["watchlist"].append({
-                "name": co, "status": "⚪",
-                "note": "최근 뉴스 없음", "last_checked": date_iso
-            })
-            fixed += 1
+    # watchlist가 비어있으면 경고
+    if len(b.get("watchlist", [])) == 0:
+        print("  [검증] 경고: watchlist가 비어있음 — LLM이 주목 기업을 선정하지 못함")
 
     # top3가 3개 미만 경고
     if len(b.get("top3", [])) < 3:
@@ -595,12 +595,15 @@ def build_html(b):
         w = safe_dict(w)
         if not w:
             continue
+        sector_tag = f'<span class="watch-sector">{esc(w.get("sector",""))}</span>' if w.get("sector") else ""
+        source = w.get("source_html", "")
         watchlist_html += f"""
         <div class="watch-row">
-          <span class="watch-status">{w.get("status","⚪")}</span>
+          <span class="watch-status">{w.get("status","🟡")}</span>
           <span class="watch-name">{esc(w.get("name",""))}</span>
+          {sector_tag}
           <span class="watch-note">{esc(w.get("note",""))}</span>
-          <span class="watch-date">{esc(w.get("last_checked",""))}</span>
+          <span class="watch-source">{source}</span>
         </div>"""
 
     events = safe_list(b.get("special_events", []))
@@ -698,9 +701,11 @@ def build_html(b):
   .watch-row{{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:.5px solid #f0f0ec;font-size:12px}}
   .watch-row:last-child{{border-bottom:none}}
   .watch-status{{font-size:14px;flex-shrink:0;width:20px;text-align:center}}
-  .watch-name{{font-weight:600;color:#1a1a1a;min-width:100px}}
+  .watch-name{{font-weight:600;color:#1a1a1a;min-width:80px}}
+  .watch-sector{{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;background:#e8f0fe;color:#1a56db;flex-shrink:0}}
   .watch-note{{flex:1;color:#666}}
-  .watch-date{{font-size:10px;color:#bbb;flex-shrink:0}}
+  .watch-source{{font-size:10px;color:#aaa;flex-shrink:0}}
+  .watch-source a{{color:#1a56db;text-decoration:none}}
   .event-box{{background:#fff;border-radius:8px;border-left:3px solid #e24b4a;padding:14px 16px;margin-bottom:10px}}
   .event-tag{{font-size:10px;font-weight:600;color:#e24b4a}}
   .event-title{{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px}}
@@ -774,7 +779,8 @@ def build_html(b):
   <p class="section-note">이번 주 가장 뜨거운 섹터의 기술 동향 — 매일 구성이 달라짐</p>
   {sector_html}
 
-  <p class="sec">워치리스트 (WATCHLIST)</p>
+  <p class="sec">오늘의 주목 기업 (TODAY'S WATCHLIST)</p>
+  <p class="section-note">오늘 뉴스에서 VC가 눈여겨볼 스타트업 — 매일 트렌드에 따라 자동 선정</p>
   <div class="watch-card">{watchlist_html}</div>
 
   {events_section}
