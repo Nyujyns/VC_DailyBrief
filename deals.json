@@ -10,6 +10,26 @@
       "date": "2026-04-04",
       "added_date": "2026-04-06",
       "source_html": "<a href=\"https://techcrunch.com/\">TechCrunch</a>"
+    },
+    {
+      "co": "Zero Shot",
+      "round": "신규 펀드",
+      "amount": "$100M",
+      "investor": "미공개",
+      "sector": "AI",
+      "date": "2026-04-06",
+      "added_date": "2026-04-07",
+      "source_html": "<a href=\"https://techcrunch.com/\">TechCrunch</a>"
+    },
+    {
+      "co": "Xoople",
+      "round": "시리즈B",
+      "amount": "$130M",
+      "investor": "미공개",
+      "sector": "AI",
+      "date": "2026-04-06",
+      "added_date": "2026-04-07",
+      "source_html": "<a href=\"https://techcrunch.com/\">TechCrunch</a>"
     }
   ],
   "week_start": "2026-04-06"
