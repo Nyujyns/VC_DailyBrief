@@ -37,6 +37,14 @@ RSS_FEEDS = {
     "플래텀": "https://platum.kr/feed",
     "벤처스퀘어": "https://www.venturesquare.net/feed",
     "GeekNews": "https://news.hada.io/rss",
+    "블로터": "https://www.bloter.net/feed",
+    "바이라인네트워크": "https://byline.network/feed/",
+    "전자신문": "https://rss.etnews.com/Section901.xml",
+    "ZDNetKorea": "https://zdnet.co.kr/rss/newsall.xml",
+    "디지털데일리": "https://www.ddaily.co.kr/rss/rss.php",
+    "IT조선": "http://it.chosun.com/svc/rss/rss.xml",
+    "디일렉": "https://www.thelec.kr/rss/allArticle.xml",
+    "스타트업엔": "https://www.startupn.kr/rss/allArticle.xml",
     # ── 글로벌 테크/VC 매체 (미국 트렌드 중심) ──
     "TechCrunch": "https://techcrunch.com/feed/",
     "VentureBeat": "https://venturebeat.com/feed/",
@@ -49,6 +57,10 @@ RSS_FEEDS = {
     "GN_시리즈투자": "https://news.google.com/rss/search?q=%EC%8B%9C%EB%A6%AC%EC%A6%88+%ED%88%AC%EC%9E%90+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
     "GN_투자유치": "https://news.google.com/rss/search?q=%ED%88%AC%EC%9E%90%EC%9C%A0%EC%B9%98+%EC%96%B5%EC%9B%90&hl=ko&gl=KR&ceid=KR:ko",
     "GN_시드투자": "https://news.google.com/rss/search?q=%EC%8B%9C%EB%93%9C+%ED%88%AC%EC%9E%90+%ED%94%84%EB%A6%AC%EC%8B%9C%EB%A6%AC%EC%A6%88&hl=ko&gl=KR&ceid=KR:ko",
+    # ── 한국 산업/경제 일반 ──
+    "GN_한국경제스타트업": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+site:hankyung.com&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_매경스타트업": "https://news.google.com/rss/search?q=%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85+%ED%88%AC%EC%9E%90+site:mk.co.kr&hl=ko&gl=KR&ceid=KR:ko",
+    "GN_조선비즈테크": "https://news.google.com/rss/search?q=%ED%85%8C%ED%81%AC+%ED%88%AC%EC%9E%90+site:biz.chosun.com&hl=ko&gl=KR&ceid=KR:ko",
     # ── AI / 소프트웨어 ──
     "GN_AI스타트업": "https://news.google.com/rss/search?q=AI+%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85&hl=ko&gl=KR&ceid=KR:ko",
     "GN_AI_funding": "https://news.google.com/rss/search?q=AI+startup+funding&hl=en&gl=US&ceid=US:en",
@@ -178,18 +190,35 @@ GENERATE_SYSTEM = f"""한국 VC 심사역용 Daily Brief JSON 생성기. 오늘:
 2. 같은 기업을 여러 섹션에 중복 배치 금지. 한 기업은 가장 관련 높은 섹션 1곳에만.
 3. 모든 항목에 source_html(<a href="실제URL">매체명</a>) 필수. 출처 없는 항목은 만들지 마.
 4. 수집된 뉴스에 있는 팩트만 사용. 없는 뉴스 만들지 마.
-5. 대기업(삼성/SK/현대/Google/Microsoft/Nvidia 등) 동향, 제조/하드웨어/반도체 뉴스도 적극 반영.
+5. 대기업 동향, 제조/하드웨어/반도체 뉴스도 빠지지 않게 균형 있게 포함해라.
+
+[분석 깊이 가이드 — 이것이 핵심이다]
+너는 뉴스를 복붙하는 기계가 아니라, 시니어 VC가 신뢰할 수 있는 분석가다.
+모든 분석에서 아래 사고 프레임을 적용해라:
+
+◆ "So What" 사고법:
+  BAD: "OpenAI가 $10B 투자 유치" → "AI 시장이 성장하고 있다" (누구나 아는 말)
+  GOOD: "OpenAI $10B 유치로 인프라 투자 가속 → GPU 수급 병목 심화 예상. 국내 AI 스타트업은 클라우드 비용 상승 리스크. 대안으로 on-device AI, 경량화 모델 스타트업에 기회."
+
+◆ 2차·3차 효과를 찾아라:
+  - 이 뉴스 때문에 어떤 산업/기업이 수혜? 피해?
+  - 기존 포트폴리오에 어떤 영향?
+  - 경쟁 구도가 어떻게 바뀌나?
+  - 국내 시장에 6~12개월 후 어떤 파급 효과?
+
+◆ 투자 판단 연결:
+  - "지금 이 섹터에 들어가야 하나, 기다려야 하나?"
+  - "밸류에이션이 올라갈 섹터 vs 눌릴 섹터"
+  - "LP에게 이 섹터를 어떻게 설명할 것인가?"
 
 [선별 기준]
 - top3 우선순위: 시장 구조 변화(규제/M&A/대형라운드) > 판단 필요 대형 이벤트 > 주목할 스타트업 뉴스
-- so_what: 단순 요약 아니라 VC 투자 판단에 미치는 영향 분석
-- signals: 5종 태그(기술/대기업/산업/수요/정책) 골고루. top3와 겹치지 않는 뉴스 선택
-- sector_trends: AI/SaaS에 편중되지 않게 다양한 섹터(제조/하드웨어/반도체 등도 뉴스 있으면 포함). investment_angle은 "어디에 투자 기회가 있는가" 관점
-- watchlist: 오늘 뉴스에서 VC가 주목해야 할 기업(스타트업+대기업) 6~10개를 직접 선정. 선정 기준:
-  ① 투자 유치 발표 ② 제품/서비스 주요 업데이트 ③ 시장 확장/피벗 ④ 경쟁 구도 변화
-  뉴스에 등장한 실제 기업만. 상태: 🟢(긍정/성장) 🔴(리스크/위기) 🟡(주목할 변화)
-- homework: type은 judge(판단)/connect(연결)/understand(이해). top3/signals에서 파생되는 후속 과제
-- deals: 구체적 금액/라운드 나온 것만. 루머/검토중 제외. 국내+글로벌 합쳐 10~15건 목표.
+- so_what: 2차·3차 효과까지 분석. "그래서 뭘 해야 하는데?"에 답하는 수준.
+- signals: 단순 사실 나열 아니라, 그 팩트가 시장에 어떤 의미인지 한 문장 덧붙여라.
+- sector_trends: investment_angle은 "어떤 단계(시드/시리즈A/레이터), 어떤 유형의 기업에 기회가 있는가" 수준으로 구체적으로.
+- watchlist: note에 "왜 지금 이 기업인가", "어떤 포인트를 봐야 하는가"를 명확히.
+- homework: 시니어 파트너가 주니어에게 시킬 법한 날카로운 질문. "xx 시장 조사해봐" 같은 뻔한 것 금지. 구체적이고 답을 찾으면 투자 의사결정이 바뀔 수 있는 질문만.
+- deals: 금액/라운드 나온 것 + 미공개도 포함. 국내+글로벌 합쳐 10~15건 목표.
 
 JSON 스키마:
 {{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","sector":"","status":"","note":"","source_html":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}"
@@ -213,6 +242,67 @@ def extract_json(text):
     return json.loads(text)
 
 
+ANALYSIS_SYSTEM = f"""너는 한국 Top VC 펀드의 시니어 심사역(10년차)이다. 오늘: {date_iso} ({day_str}).
+
+아래 뉴스 목록을 읽고, 투자 판단에 쓸 수 있는 수준의 분석을 자유 형식으로 작성해라.
+
+[분석 프레임워크]
+1. 오늘의 핵심 3가지 (가장 중요한 뉴스 + 2차·3차 파급 효과)
+   - 각각에 대해: "이 뉴스 때문에 → 어떤 산업/기업이 수혜? 피해? → 포트폴리오에 어떤 영향? → 지금 뭘 해야 하나?"
+
+2. 시장 시그널 분석 (기술/대기업/산업/수요/정책 각 카테고리에서 의미 있는 움직임)
+   - 단순 팩트가 아니라 "왜 이것이 VC에게 중요한가"를 같이 써라
+
+3. 딜 플로우 정리 (투자 유치, 라운드, M&A 관련 뉴스)
+
+4. 섹터 딥다이브 (오늘 가장 움직임이 큰 2~3개 섹터)
+   - 뻔한 말("시장이 커지고 있다") 금지. 구체적으로: 밸류에이션 변화, 진입 타이밍, 어떤 단계(시드/A/B)의 어떤 유형 회사에 기회가 있는가?
+
+5. 오늘 주목 기업 워치리스트 (뉴스에 등장한 실제 기업 6~10개)
+   - 각 기업에 대해 "왜 지금 이 기업인가" + "어떤 포인트를 확인해야 하는가"
+
+6. 시니어 파트너가 줄 법한 숙제 2~3개
+   - "xx 시장 조사해봐" 같은 뻔한 것 금지. "답을 찾으면 투자 의사결정이 바뀔 수 있는" 날카로운 질문만.
+   - 예: "A사 CTO 레퍼런스 체크해서 기술 moat 검증해라", "B사 시리즈C 시그널 포착, 이번 주 내로 CFO 콜드콜"
+
+[절대 규칙]
+- 바이오/헬스케어/디지털헬스케어/제약/의료/소재 관련은 완전 제외
+- 뉴스에 있는 팩트만 사용. 만들어내지 마.
+- 대기업/제조/하드웨어/반도체 뉴스도 균형 있게 포함
+- 기업 중복 금지: 한 기업은 가장 관련 높은 섹션 1곳에만
+- 각 항목의 원본 뉴스 출처(URL + 매체명)를 반드시 표기해라"""
+
+
+def make_analysis_msg(raw_news_text):
+    return f"""아래 뉴스를 읽고, VC 시니어 심사역 관점에서 깊이 있는 분석을 자유 형식으로 작성해라.
+포맷이나 구조는 신경쓰지 말고, 분석의 깊이에만 집중해라.
+
+━━━ 수집된 뉴스 ━━━
+{raw_news_text}
+━━━ 끝 ━━━
+
+위 뉴스를 분석 프레임워크에 따라 자유 형식으로 분석해라."""
+
+
+CONVERT_SYSTEM = f"""너는 VC 브리프 분석 결과를 JSON으로 변환하는 변환기다.
+
+아래 자유 형식 분석을 주어진 JSON 스키마로 정확히 변환해라.
+분석의 내용과 깊이를 그대로 유지하면서, 구조만 JSON으로 바꿔라.
+내용을 요약하거나 얕게 만들지 마. 분석 원문의 깊이를 100% 보존해라.
+
+[변환 규칙]
+- source_html은 반드시 <a href="실제URL">매체명</a> 형식
+- status: 🟢(긍정/성장) 🔴(리스크/위기) 🟡(주목할 변화)
+- homework type: "judge"(판단) / "connect"(연결) / "understand"(이해)
+- 바이오/헬스케어/소재 관련은 전부 제외
+- summary_chips: 실제 수치 사용, 플레이스홀더 금지
+
+JSON 스키마:
+{{"top3":[{{"headline":"","so_what":"","source_html":""}}],"summary_chips":[{{"color":"#1a56db","text":""}}],"deal_domestic_weeks":[{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":"","date":""}}],"source_html":""}}],"deal_global":{{"label":"","rows":[{{"co":"","round":"","amount":"","investor":"","sector":""}}],"source_html":""}},"deal_cvc":"","deal_cvc_source_html":"","deal_gov":"","deal_gov_source_html":"","signals":[{{"tag":"","fact":"","source_html":""}}],"sector_trends":[{{"sector":"","emoji":"","why_hot":"","tech_trend":"","key_players":"","investment_angle":"","source_html":""}}],"watchlist":[{{"name":"","sector":"","status":"","note":"","source_html":""}}],"special_events":[],"homework":[{{"type":"","type_label":"","title":"","desc":"","tags":[{{"class":"","label":""}}]}}],"sources":{{"keywords":"","media_html":"","limits":"","reliability":""}}}}
+
+순수 JSON만 반환. 마크다운 코드블록 없이."""
+
+
 def make_user_msg(raw_news_text):
     return f"""아래는 RSS 피드로 수집된 최신 뉴스 목록이다.
 이 내용을 기반으로 VC Daily Brief JSON을 생성해라.
@@ -227,19 +317,52 @@ def make_user_msg(raw_news_text):
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
 
-def try_gemini(user_msg):
-    """1순위: Gemini 2.0 Flash"""
-    print("  [Gemini] 시도 중...")
-    response = gemini_client.models.generate_content(
+def try_gemini(articles):
+    """1순위: Gemini 2.0 Flash — 2단계 분석 (Think → Convert)"""
+    print("  [Gemini] 2단계 분석 시도...")
+
+    full_text = articles_to_text(articles, compact=False)
+
+    # Step 1: 자유 형식 분석 (깊이 있는 사고)
+    print("    Step 1: 자유 형식 분석...")
+    analysis_msg = make_analysis_msg(full_text)
+    analysis_response = gemini_client.models.generate_content(
         model="gemini-2.0-flash",
-        contents=user_msg,
+        contents=analysis_msg,
         config={
-            "system_instruction": GENERATE_SYSTEM,
-            "max_output_tokens": 16000,
-            "temperature": 0.3,
+            "system_instruction": ANALYSIS_SYSTEM,
+            "max_output_tokens": 8000,
+            "temperature": 0.4,
         }
     )
-    return response.text.strip()
+    analysis_text = analysis_response.text.strip()
+    print(f"    Step 1 완료: {len(analysis_text)}자 분석")
+
+    # Step 2: JSON 변환 (구조화)
+    print("    Step 2: JSON 변환...")
+    convert_msg = f"""아래는 VC 시니어 심사역이 작성한 오늘의 분석이다. 이것을 JSON으로 변환해라.
+분석의 깊이를 그대로 유지하면서 구조만 바꿔라. 얕게 요약하지 마.
+
+━━━ 분석 원문 ━━━
+{analysis_text}
+━━━ 끝 ━━━
+
+━━━ 원본 뉴스 (출처 URL 참조용) ━━━
+{articles_to_text(articles[:20], compact=True)}
+━━━ 끝 ━━━
+
+순수 JSON만 반환해라. 마크다운 코드블록 없이."""
+
+    convert_response = gemini_client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=convert_msg,
+        config={
+            "system_instruction": CONVERT_SYSTEM,
+            "max_output_tokens": 12000,
+            "temperature": 0.2,
+        }
+    )
+    return convert_response.text.strip()
 
 
 def groq_call(system_prompt, user_prompt, max_tokens=2000):
@@ -258,14 +381,21 @@ def groq_call(system_prompt, user_prompt, max_tokens=2000):
 
 # ── Groq 섹션별 프롬프트 (퀄리티 강화) ──
 
-GROQ_BASE = f"""한국 VC 심사역용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}).
+GROQ_BASE = f"""한국 VC 심사역(5년차+)용 Daily Brief 생성기. 오늘: {date_iso} ({day_str}).
 
-절대 규칙:
-1. 바이오/헬스케어/디지털헬스케어/제약/의료/소재 관련 뉴스는 전부 제외 — 딜, 시그널, 섹터, 워치리스트 어디에도 포함하지 마.
-2. 같은 기업을 여러 섹션에 중복해서 넣지 마. 한 기업은 가장 관련 높은 섹션 1곳에만 배치.
-3. 모든 항목에 반드시 source_html(<a href="실제URL">매체명</a>)을 포함. 출처 없는 항목은 만들지 마.
-4. 수집된 뉴스에 있는 팩트만 사용. 없는 뉴스를 만들지 마.
-5. 대기업 동향, 제조/하드웨어/반도체 뉴스도 빠지지 않게 균형 있게 포함해라. AI/SaaS에 편중되지 않도록.
+너의 역할: 뉴스를 복붙하는 것이 아니라, 시니어 VC가 아침에 읽고 바로 투자 판단에 활용할 수 있는 수준의 분석을 제공하는 것이다.
+
+[분석 원칙]
+- 모든 분석에서 "2차 효과"를 찾아라: 이 뉴스 → 어떤 산업/기업이 수혜? 피해? → 지금 뭘 해야 하나?
+- "xx 시장이 성장하고 있다" 같은 뻔한 말은 쓰지 마. 누구나 아는 사실은 인사이트가 아니다.
+- 수치와 고유명사를 사용해라. 모호한 표현("많은 기업이", "상당한 투자") 대신 구체적으로.
+
+[절대 규칙]
+1. 바이오/헬스케어/디지털헬스케어/제약/의료/소재 관련 뉴스는 전부 제외.
+2. 같은 기업을 여러 섹션에 중복 배치 금지. 한 기업은 1곳에만.
+3. 모든 항목에 source_html(<a href="실제URL">매체명</a>) 필수.
+4. 수집된 뉴스의 팩트만 사용. 없는 뉴스 만들지 마.
+5. 대기업/제조/하드웨어/반도체 뉴스도 균형 있게 포함. AI/SaaS 편중 금지.
 
 순수 JSON만 반환(코드블록/마크다운 금지)."""
 
@@ -277,23 +407,28 @@ GROQ_SECTIONS = [
 [Call 1] 아래 뉴스에서 3가지를 추출해라:
 
 1. top3: 투심(투자심의) 전 30초 브리핑 3건.
-   - 선별 우선순위: ① 시장 구조 변화(규제, M&A, 대형 라운드) > ② 판단이 필요한 대형 이벤트 > ③ 주목할 스타트업 관련 뉴스
+   - 선별 우선순위: ① 시장 구조 변화(규제, M&A, 대형 라운드) > ② VC 포트폴리오에 직접 영향 줄 이벤트 > ③ 경쟁 구도를 바꿀 스타트업 뉴스
    - headline: 한 문장으로 팩트 요약 (30자 내외)
-   - so_what: VC 심사역에게 "그래서 뭐?" 에 답하는 임팩트 분석 (50자 내외). 단순 요약이 아니라 투자 판단에 어떤 영향이 있는지 써라.
+   - so_what: 핵심은 "2차 효과"다. 단순히 "시장이 커지고 있다"는 누구나 안다.
+     VC 심사역이 알아야 하는 건: 이 뉴스로 인해 ① 어떤 섹터/기업이 수혜 또는 피해를 보는지 ② 밸류에이션이나 경쟁에 어떤 변화가 오는지 ③ 지금 뭘 해야 하는지(투자, 관망, 회수 등).
+     BAD 예: "AI 시장 성장세 지속" → 뻔한 말
+     GOOD 예: "인프라 투자 가속으로 GPU 단가 상승 예상 → 국내 AI 스타트업 번레이트 증가, 경량화·온디바이스 모델 스타트업에 반사이익"
    - source_html: 반드시 <a href="실제URL">매체명</a> 형식
 
 2. summary_chips: 오늘 수집된 뉴스를 실제로 세어서 통계 칩 2~4개 생성.
    - 뉴스에서 실제 건수/금액을 세서 구체적 숫자를 넣어라. "N건"이나 "$XB+" 같은 플레이스홀더 금지.
    - color: hex 색상코드, text: 실제 숫자가 포함된 텍스트 (예시: "국내 딜 3건", "글로벌 $1.2B")
 
-3. signals: 시장 시그널 6~10개. 태그 5종(기술/대기업/산업/수요/정책) 골고루 분배. 시간순 정렬.
+3. signals: 시장 시그널 6~10개. 태그 5종(기술/대기업/산업/수요/정책) 골고루 분배.
    - tag: "기술"|"대기업"|"산업"|"수요"|"정책" 중 하나
-   - fact: 1~2문장 팩트 (뉴스 원문 기반, 추측 금지)
+   - fact: 팩트 1문장 + 시사점 1문장. 단순 뉴스 요약이 아니라 "이 팩트가 VC에게 왜 중요한지"를 덧붙여라.
+     BAD: "삼성전자가 AI 반도체에 10조 투자한다." (뉴스 복붙)
+     GOOD: "삼성전자 AI 반도체 10조 투자 발표 — 팹리스 스타트업 수탁 기회 확대되나, 자체 설계 강화로 IP 경쟁은 더 치열해질 전망."
    - source_html: <a> 태그로 출처 링크
-   - 절대 규칙: top3에 이미 나온 뉴스는 여기서 다시 쓰지 마. 같은 뉴스가 여러 섹션에 중복되면 안 됨.
+   - top3에 이미 나온 뉴스는 여기서 쓰지 마.
 
 JSON: {"top3":[{"headline":"","so_what":"","source_html":""}],"summary_chips":[{"color":"","text":""}],"signals":[{"tag":"","fact":"","source_html":""}]}""",
-        "max_tokens": 2500,
+        "max_tokens": 3000,
     },
     {
         "name": "deals",
@@ -327,37 +462,47 @@ JSON: {"deal_domestic_weeks":[{"label":"","rows":[],"source_html":""}],"deal_glo
         "name": "sectors+watchlist+homework",
         "system": GROQ_BASE + """
 
-[Call 3] 아래 뉴스와 [이전 호출 결과]를 참고하여 5가지를 생성해라:
+[Call 3] 아래 뉴스와 [이전 호출 결과]를 참고하여 5가지를 생성해라.
+이 Call이 브리프에서 가장 중요하다 — 여기서 분석의 깊이가 결정된다.
 
-1. sector_trends: 이번 주 가장 뜨거운 2~3개 섹터 딥다이브
-   - sector: 섹터명 (예: "AI 인프라", "로보틱스", "핀테크")
+1. sector_trends: 오늘 뉴스 기반으로 가장 움직임이 큰 2~3개 섹터 딥다이브
+   - sector: 섹터명 (예: "AI 인프라", "로보틱스", "산업용 소프트웨어")
    - emoji: 대표 이모지
-   - why_hot: 왜 지금 뜨거운지 2~3문장 (구체적 뉴스/데이터 인용)
-   - tech_trend: 핵심 기술 동향 1~2문장
-   - key_players: 주요 플레이어 (스타트업+대기업 mix)
-   - investment_angle: VC 투자 관점에서의 시사점 1~2문장. "어디에 투자 기회가 있는가"
+   - why_hot: 왜 "지금" 뜨거운지 2~3문장. 핵심은 타이밍이다 — "원래 좋은 섹터"가 아니라 "오늘 뉴스 때문에 지금 주목해야 하는 이유"를 써라. 구체적 뉴스/숫자 인용 필수.
+   - tech_trend: 기술 자체가 아니라 "기술 발전이 시장에 미치는 영향"을 써라. 예: "LLM 추론 비용 6개월간 90% 하락 → B2B SaaS에 AI 기능 탑재 비용이 사실상 제로화, 차별화 포인트가 AI 자체에서 도메인 데이터로 이동"
+   - key_players: 주요 플레이어 (스타트업+대기업 mix) + 각각의 포지션/전략 한마디
+   - investment_angle: 구체적 투자 기회. 뻔한 "성장 가능성이 높다" 금지.
+     GOOD: "시리즈A 단계의 vertical AI SaaS 중 도메인 데이터 확보력이 검증된 팀. 특히 제조/물류 도메인은 아직 경쟁이 덜해 entry 타이밍."
+     BAD: "AI 관련 스타트업에 투자 기회가 있다."
    - source_html: <a> 태그 출처
-   - 주의: [이전 호출 결과]의 signals와 겹치는 내용은 피하고 더 깊은 분석을 제공해라.
 
-2. watchlist: 오늘 뉴스에서 VC가 주목해야 할 스타트업 6~10개를 직접 선정해라. 고정 리스트 없음.
-   선정 기준 (우선순위순):
-   ① 투자 유치를 발표한 스타트업 (딜 뉴스에 나온 기업)
-   ② 제품/서비스 주요 업데이트가 있는 기업
-   ③ 시장 확장, 피벗, 인수 등 전략적 변화가 있는 기업
-   ④ 경쟁 구도 변화에 영향받는 기업
-   - 뉴스에 실제로 등장한 기업만 포함. 만들어내지 마.
+2. watchlist: 오늘 뉴스에서 VC가 주목해야 할 기업 6~10개. 고정 리스트 없음.
+   - 뉴스에 실제 등장한 기업만. 만들어내지 마.
    - name: 기업명
-   - sector: 섹터 (예: "AI", "핀테크", "로보틱스")
+   - sector: 섹터
    - status: 🟢(긍정/성장) / 🔴(리스크/위기) / 🟡(주목할 변화)
-   - note: 왜 주목해야 하는지 1문장
+   - note: "왜 지금 이 기업인가"를 구체적으로. "투자 유치 발표"만으로는 부족.
+     GOOD: "시리즈B $50M 클로즈, 경쟁사 대비 ARR 3배 성장률. 한국 진출 시그널도 포착."
+     BAD: "최근 투자를 유치한 AI 기업."
    - source_html: <a> 태그 출처
 
-3. homework: 오늘 브리프에서 아직 답이 안 나온 질문 2~3개.
-   [이전 호출 결과]의 top3, signals를 참고하여, 그 뉴스들에서 파생되는 후속 조사 과제를 만들어라.
-   - type: "judge"(판단 필요) / "connect"(미팅/네트워킹 필요) / "understand"(기술/시장 이해 필요)
+3. homework: 오늘 브리프에서 답이 안 나온 "날카로운" 질문 2~3개.
+   이것은 시니어 파트너가 주니어 심사역에게 시키는 숙제다. "xx 시장 조사해봐" 같은 뻔한 것은 의미 없다.
+   좋은 숙제의 기준: "답을 찾으면 투자 의사결정이 바뀔 수 있는 질문"
+
+   BAD 예시:
+   - "AI 시장 규모를 조사하라" (구글 검색이면 끝나는 뻔한 질문)
+   - "로보틱스 트렌드를 파악하라" (범위가 너무 넓고 액션이 불명확)
+
+   GOOD 예시:
+   - type: "judge" / "국내 LLM 스타트업의 실제 매출 구조는?" / "GPT wrapper 논란이 있는데, 실제로 오늘 투자 유치한 A사의 기술 moat가 wrapper 이상인지 확인 필요. CTO 레퍼런스 체크하고 기술 백서 요청할 것."
+   - type: "connect" / "B사 CFO와 미팅 잡아라" / "시리즈C 준비 중이라는 시그널이 여러 건 포착됨. 리드 투자자 포지션 가능한지 선제적으로 접촉해야. 이번 주 내로 콜드콜."
+   - type: "understand" / "반도체 후공정 병목의 실체는?" / "삼성-TSMC 파운드리 경쟁에서 후공정(패키징)이 병목으로 부상. 이 영역의 국내 스타트업이 있는지, 기술 성숙도가 VC 투자 가능 단계인지 파악 필요."
+
+   - type: "judge"|"connect"|"understand"
    - type_label: "판단" / "연결" / "이해"
-   - title: 과제 제목 (질문 형태, 15자 내외)
-   - desc: 왜 이걸 조사해야 하는지 2문장
+   - title: 과제 제목 (질문 형태)
+   - desc: 왜 이 숙제가 중요한지 + 구체적 액션 (누구한테 물어볼지, 뭘 찾아볼지)
    - tags: [{class: "industry"|"startup"|"tech", label: 태그명}]
 
 4. sources: 이 브리프의 데이터 소스 메타정보
@@ -369,7 +514,7 @@ JSON: {"deal_domestic_weeks":[{"label":"","rows":[],"source_html":""}],"deal_glo
 5. special_events: 긴급하거나 특별한 이벤트. 없으면 빈 배열 [].
 
 JSON: {"sector_trends":[],"watchlist":[],"homework":[],"sources":{},"special_events":[]}""",
-        "max_tokens": 3000,
+        "max_tokens": 3500,
     },
 ]
 
@@ -393,7 +538,7 @@ def try_groq_split(articles):
     for i, sec in enumerate(GROQ_SECTIONS):
         print(f"    [{i+1}/{len(GROQ_SECTIONS)}] {sec['name']}...")
 
-        # 기본 사용자 프롬프트
+        # 기본 사용자 프롬프트 — "먼저 생각하고 JSON 출력" 유도
         user_prompt = f"━━━ 수집된 뉴스 ━━━\n{news_text}\n━━━ 끝 ━━━\n\n"
 
         # Call 3(sectors+watchlist+homework)에는 Call 1 결과를 컨텍스트로 전달
@@ -402,12 +547,16 @@ def try_groq_split(articles):
 {call1_summary}
 ━━━ 끝 ━━━
 
-위 이전 호출 결과의 top3, signals와 겹치지 않는 내용으로 sector_trends를 작성하고,
-homework는 위 top3/signals에서 파생되는 후속 조사 과제로 만들어라.
-
+이전 호출의 top3, signals와 겹치지 않는 내용으로 작성하고,
+homework는 top3/signals에서 파생되는 날카로운 후속 과제로 만들어라.
 """
 
-        user_prompt += "순수 JSON만 반환해라. 코드블록 없이."
+        # 핵심: "뻔한 말 금지" 리마인더
+        user_prompt += """
+중요: "시장이 커지고 있다", "투자 기회가 있다" 같은 뻔한 분석은 가치가 없다.
+구체적 기업명, 수치, 2차 효과, 실행 가능한 액션을 포함해라.
+
+순수 JSON만 반환해라. 코드블록 없이."""
 
         raw = groq_call(sec["system"], user_prompt, sec["max_tokens"])
         part = extract_json(raw)
@@ -592,16 +741,14 @@ def apply_weekly_deals(brief, deals_data):
 
 
 def generate_brief(articles):
-    """Phase 2: Gemini 먼저 시도, 실패 시 Groq 섹션별 분할"""
+    """Phase 2: Gemini 2단계 분석 먼저 시도, 실패 시 Groq 섹션별 분할"""
     print("Phase 2: 브리프 생성 중...")
 
-    # 1순위: Gemini (한 번에 전체)
+    # 1순위: Gemini 2단계 (Think → Convert)
     if HAS_GEMINI:
         try:
-            full_text = articles_to_text(articles, compact=False)
-            user_msg_full = make_user_msg(full_text)
-            raw = try_gemini(user_msg_full)
-            print("  [Gemini] 성공!")
+            raw = try_gemini(articles)
+            print("  [Gemini] 2단계 분석 성공!")
             b = extract_json(raw)
             b = validate_and_fix(b)
             print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
@@ -881,6 +1028,25 @@ def build_html(b):
   details summary{{cursor:pointer;font-size:11px;color:#999;letter-spacing:.08em;text-transform:uppercase;padding:4px 0}}
   .prev-link{{text-align:center;padding:16px 0;font-size:12px}}
   .prev-link a{{color:#1a56db;text-decoration:none}}
+  .refresh-btn{{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:6px;border:1px solid #d0d0cc;background:#fff;color:#555;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s}}
+  .refresh-btn:hover{{background:#f0f0ed;border-color:#bbb;color:#333}}
+  .refresh-btn:active{{background:#e8e8e5}}
+  .refresh-btn.running{{color:#1a56db;border-color:#1a56db;background:#e8f0fe;pointer-events:none}}
+  .refresh-btn.done{{color:#276749;border-color:#276749;background:#e6f4ea}}
+  .refresh-btn.fail{{color:#c0392b;border-color:#c0392b;background:#fde8e8}}
+  .refresh-icon{{display:inline-block;width:14px;height:14px;transition:transform .3s}}
+  .refresh-btn.running .refresh-icon{{animation:spin 1s linear infinite}}
+  @keyframes spin{{from{{transform:rotate(0deg)}}to{{transform:rotate(360deg)}}}}
+  .pat-modal{{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:999;align-items:center;justify-content:center}}
+  .pat-modal.show{{display:flex}}
+  .pat-box{{background:#fff;border-radius:12px;padding:24px;max-width:400px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,.15)}}
+  .pat-box h3{{font-size:14px;font-weight:600;margin-bottom:8px}}
+  .pat-box p{{font-size:12px;color:#666;line-height:1.5;margin-bottom:14px}}
+  .pat-box input{{width:100%;padding:8px 12px;border:1px solid #d0d0cc;border-radius:6px;font-size:12px;margin-bottom:12px}}
+  .pat-box .pat-actions{{display:flex;gap:8px;justify-content:flex-end}}
+  .pat-box button{{padding:6px 16px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #d0d0cc}}
+  .pat-box .pat-go{{background:#1a56db;color:#fff;border-color:#1a56db}}
+  .pat-box .pat-cancel{{background:#fff;color:#555}}
   @media(max-width:560px){{
     .deal-table{{font-size:11px}}
     .deal-table th,.deal-table td{{padding:6px 4px}}
@@ -893,7 +1059,13 @@ def build_html(b):
 <div class="wrap">
   <div class="header">
     <h1>VC Daily Brief</h1>
-    <span class="updated">업데이트: {date_str} ({day_str})</span>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="updated">업데이트: {date_str} ({day_str})</span>
+      <button class="refresh-btn" id="refreshBtn" onclick="handleRefresh()">
+        <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        <span id="refreshLabel">수동 업데이트</span>
+      </button>
+    </div>
   </div>
   <p class="subtitle">Raw Feed — 팩트만. 판단은 네가 직접.</p>
 
@@ -940,7 +1112,7 @@ def build_html(b):
     <summary>소스 &amp; 방법론</summary>
     <div class="card-muted" style="margin-top:8px;">
       <div class="source-list">
-        <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, TechCrunch, VentureBeat, Google News RSS)<br>
+        <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, 블로터, 바이라인네트워크, 전자신문, ZDNet Korea, 디지털데일리, IT조선, 디일렉, 스타트업엔, TechCrunch, VentureBeat, Crunchbase, Google News RSS 등 40+개 소스)<br>
         <strong>분석 엔진:</strong> Gemini 2.0 Flash + Groq Llama 3.3 70B (무료)<br>
         <strong>서치 키워드:</strong> {esc(src.get("keywords",""))}<br>
         <strong>참고 매체:</strong> {src.get("media_html","")}<br>
@@ -951,6 +1123,92 @@ def build_html(b):
   </details>
   {"" if not os.path.exists("prev.html") else f'<div class="prev-link"><a href="prev.html">이전 브리프 ({yesterday_str} {yesterday_day})</a></div>'}
 </div>
+
+<div class="pat-modal" id="patModal">
+  <div class="pat-box">
+    <h3>GitHub Personal Access Token</h3>
+    <p>수동 업데이트를 실행하려면 GitHub PAT가 필요합니다.<br>
+    <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:#1a56db;font-size:11px;">토큰 생성하기</a> → 권한: <strong>Actions (Read & Write)</strong> 만 선택</p>
+    <input type="password" id="patInput" placeholder="github_pat_xxxxx..." />
+    <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:#888;margin-bottom:12px;cursor:pointer;">
+      <input type="checkbox" id="patSave" checked /> 이 브라우저에 저장 (다음에 다시 입력 불필요)
+    </label>
+    <div class="pat-actions">
+      <button class="pat-cancel" onclick="closeModal()">취소</button>
+      <button class="pat-go" onclick="triggerWorkflow()">실행</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){{
+  var REPO='nyujyns/VC_DailyBrief', WF='daily.yml';
+  var btn=document.getElementById('refreshBtn'),
+      label=document.getElementById('refreshLabel'),
+      modal=document.getElementById('patModal'),
+      inp=document.getElementById('patInput');
+
+  var storedPat='';
+  try{{ storedPat=localStorage.getItem('vc_pat')||''; }}catch(e){{}}
+
+  window.handleRefresh=function(){{
+    if(storedPat){{ doTrigger(storedPat); return; }}
+    inp.value='';
+    modal.classList.add('show');
+    inp.focus();
+  }};
+
+  window.closeModal=function(){{ modal.classList.remove('show'); }};
+
+  window.triggerWorkflow=function(){{
+    var pat=inp.value.trim();
+    if(!pat){{ inp.style.borderColor='#c0392b'; return; }}
+    if(document.getElementById('patSave').checked){{
+      try{{ localStorage.setItem('vc_pat',pat); }}catch(e){{}}
+    }}
+    storedPat=pat;
+    modal.classList.remove('show');
+    doTrigger(pat);
+  }};
+
+  function doTrigger(pat){{
+    btn.className='refresh-btn running';
+    label.textContent='실행 중...';
+
+    fetch('https://api.github.com/repos/'+REPO+'/actions/workflows/'+WF+'/dispatches',{{
+      method:'POST',
+      headers:{{
+        'Authorization':'Bearer '+pat,
+        'Accept':'application/vnd.github+json',
+        'X-GitHub-Api-Version':'2022-11-28'
+      }},
+      body:JSON.stringify({{ref:'main'}})
+    }}).then(function(r){{
+      if(r.status===204){{
+        btn.className='refresh-btn done';
+        label.textContent='실행 완료! (2-3분 후 새로고침)';
+        setTimeout(function(){{
+          btn.className='refresh-btn';
+          label.textContent='수동 업데이트';
+        }},8000);
+      }} else {{
+        return r.json().then(function(d){{
+          throw new Error(d.message||'API error '+r.status);
+        }});
+      }}
+    }}).catch(function(e){{
+      btn.className='refresh-btn fail';
+      label.textContent='실패: '+e.message;
+      storedPat='';
+      try{{ localStorage.removeItem('vc_pat'); }}catch(ex){{}}
+      setTimeout(function(){{
+        btn.className='refresh-btn';
+        label.textContent='수동 업데이트';
+      }},5000);
+    }});
+  }}
+}})();
+</script>
 </body>
 </html>"""
     return HTML
