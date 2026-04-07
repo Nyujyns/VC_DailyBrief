@@ -92,6 +92,25 @@
   details summary{cursor:pointer;font-size:11px;color:#999;letter-spacing:.08em;text-transform:uppercase;padding:4px 0}
   .prev-link{text-align:center;padding:16px 0;font-size:12px}
   .prev-link a{color:#1a56db;text-decoration:none}
+  .refresh-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:6px;border:1px solid #d0d0cc;background:#fff;color:#555;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s}
+  .refresh-btn:hover{background:#f0f0ed;border-color:#bbb;color:#333}
+  .refresh-btn:active{background:#e8e8e5}
+  .refresh-btn.running{color:#1a56db;border-color:#1a56db;background:#e8f0fe;pointer-events:none}
+  .refresh-btn.done{color:#276749;border-color:#276749;background:#e6f4ea}
+  .refresh-btn.fail{color:#c0392b;border-color:#c0392b;background:#fde8e8}
+  .refresh-icon{display:inline-block;width:14px;height:14px;transition:transform .3s}
+  .refresh-btn.running .refresh-icon{animation:spin 1s linear infinite}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .pat-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:999;align-items:center;justify-content:center}
+  .pat-modal.show{display:flex}
+  .pat-box{background:#fff;border-radius:12px;padding:24px;max-width:400px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+  .pat-box h3{font-size:14px;font-weight:600;margin-bottom:8px}
+  .pat-box p{font-size:12px;color:#666;line-height:1.5;margin-bottom:14px}
+  .pat-box input{width:100%;padding:8px 12px;border:1px solid #d0d0cc;border-radius:6px;font-size:12px;margin-bottom:12px}
+  .pat-box .pat-actions{display:flex;gap:8px;justify-content:flex-end}
+  .pat-box button{padding:6px 16px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #d0d0cc}
+  .pat-box .pat-go{background:#1a56db;color:#fff;border-color:#1a56db}
+  .pat-box .pat-cancel{background:#fff;color:#555}
   @media(max-width:560px){
     .deal-table{font-size:11px}
     .deal-table th,.deal-table td{padding:6px 4px}
@@ -104,7 +123,13 @@
 <div class="wrap">
   <div class="header">
     <h1>VC Daily Brief</h1>
-    <span class="updated">업데이트: 2026.04.07 (화)</span>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="updated">업데이트: 2026.04.08 (수)</span>
+      <button class="refresh-btn" id="refreshBtn" onclick="handleRefresh()">
+        <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        <span id="refreshLabel">수동 업데이트</span>
+      </button>
+    </div>
   </div>
   <p class="subtitle">Raw Feed — 팩트만. 판단은 네가 직접.</p>
 
@@ -114,114 +139,123 @@
         <div class="top3-item">
           <span class="top3-num">1</span>
           <div class="top3-content">
-            <p class="top3-headline">위플로, 시리즈A 55억 유치</p>
-            <p class="top3-sowhat">드론·모빌리티 진단 솔루션 기업 위플로의 투자 유치는 방산·공공 분야 기술 검증과 글로벌 진출을 준비하는 데 중요한 의미가 있다.</p>
-            <p class="top3-source"><a href="https://www.venturesquare.net/1074316/">벤처스퀘어</a></p>
+            <p class="top3-headline">씨엔티테크, 펨테크 산업 육성 사업 시작</p>
+            <p class="top3-sowhat">펨테크 산업의 성장으로 여성 건강 및 라이프스타일 기술 기업에 투자 기회가 증가할 수 있으며, 관련 기업의 밸류에이션이 상승할 가능성이 있다.</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1074560/">벤처스퀘어</a></p>
           </div>
         </div>
         <div class="top3-item">
           <span class="top3-num">2</span>
           <div class="top3-content">
-            <p class="top3-headline">한국딥러닝, 문서 AI로 수기 업무 대체</p>
-            <p class="top3-sowhat">금융권 문서 자동화 솔루션을 출시한 한국딥러닝의 기술은 업무 효율성과 정확성을 높일 수 있는 잠재력을 가지고 있다.</p>
-            <p class="top3-source"><a href="https://www.venturesquare.net/1074337/">벤처스퀘어</a></p>
+            <p class="top3-headline">에듀싱크, 공교육 디지털 전환 시장을 공략</p>
+            <p class="top3-sowhat">에듀싱크의 실시간 협업 플랫폼이 성공적으로 시장에 받아들여질 경우, 교육 기술 산업의 성장과 함께 관련 기업의 매출 증가가 예상된다. 또한, 교육용 기기 시장에도 긍정적인 영향을 미칠 수 있다.</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1074548/">벤처스퀘어</a></p>
           </div>
         </div>
         <div class="top3-item">
           <span class="top3-num">3</span>
           <div class="top3-content">
-            <p class="top3-headline">원포인트, AI로 프리랜서 매칭 실패율 감소</p>
-            <p class="top3-sowhat">프리랜서 매칭 플랫폼 원포인트의 AI 도입은 매칭 성공률과 기간 단축에 긍정적인 영향을 미쳤으며, 이는 효율적인 인재 매칭을 위한 기술의 잠재력을 보여준다.</p>
-            <p class="top3-source"><a href="https://www.venturesquare.net/1074299/">벤처스퀘어</a></p>
+            <p class="top3-headline">엔라이튼, 에너지 IT 기업 최초 연간 흑자 달성</p>
+            <p class="top3-sowhat">엔라이튼의 흑자 달성은 에너지 IT 산업의 성장 가능성을 보여주며, 관련 기업의 투자 기회를 증가시킬 수 있다. 또한, 태양광 플랫폼의 데이터를 기반으로 한 인프라 구축 매출의 증가로 인해 관련 산업에도 긍정적인 영향을 미칠 수 있다.</p>
+            <p class="top3-source"><a href="https://www.venturesquare.net/1074529/">벤처스퀘어</a></p>
           </div>
         </div></div>
 
   <p class="sec">딜 플로우 (DEAL FLOW)</p>
-  <div class="summary-bar"><div class="sum-chip"><span class="sum-dot" style="background:#008000"></span><span>국내 스타트업 투자 3건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#0000FF"></span><span>글로벌 진출 2건</span></div><div class="sum-chip"><span class="sum-dot" style="background:#FF0000"></span><span>AI 기술 도입 4건</span></div></div>
+  <div class="summary-bar"><div class="sum-chip"><span class="sum-dot" style="background:#34A85A"></span><span>국내 에너지 IT 기업 1개사, 연간 흑자 달성</span></div><div class="sum-chip"><span class="sum-dot" style="background:#8E24AA"></span><span>교육 기술 산업, 신규 투자 1건 유치</span></div><div class="sum-chip"><span class="sum-dot" style="background:#FFC107"></span><span>펨테크 산업, 신규 사업 1건 시작</span></div></div>
   
   
       <div class="card">
         <p class="sub-label">이번 주 글로벌 주요 딜</p>
         <table class="deal-table">
           <tr><th>회사</th><th>라운드</th><th>금액</th><th>투자자</th><th>섹터</th></tr>
-          <tr><td class="co">Halter</td><td>시리즈</td><td>220만달러</td><td>Founders Fund</td><td>AI</td></tr><tr><td class="co">Zero Shot</td><td>신규 펀드</td><td>$100M</td><td>미공개</td><td>AI</td></tr><tr><td class="co">Xoople</td><td>시리즈B</td><td>$130M</td><td>미공개</td><td>AI</td></tr>
+          <tr><td class="co">Halter</td><td>시리즈</td><td>220만달러</td><td>Founders Fund</td><td>AI</td></tr><tr><td class="co">Zero Shot</td><td>신규 펀드</td><td>$100M</td><td>미공개</td><td>AI</td></tr><tr><td class="co">Xoople</td><td>시리즈B</td><td>$130M</td><td>미공개</td><td>AI</td></tr><tr><td class="co">인텔</td><td>합작</td><td>미공개</td><td>테슬라</td><td>반도체</td></tr>
         </table>
         <p class="sig-source"></p>
       </div>
   <div class="card-muted">
     <p class="sub-label">CVC / 전략적 투자</p>
-    <p style="font-size:12px;color:#444;line-height:1.6;">해당 뉴스 없음</p>
-    <p class="sig-source"></p>
+    <p style="font-size:12px;color:#444;line-height:1.6;">인텔이 테라팹 프로젝트에 참여했다.</p>
+    <p class="sig-source"><a href="https://www.thelec.kr/news/articleView.html?idxno=54756">디일렉</a></p>
   </div>
   <div class="card-muted">
     <p class="sub-label">정부 / 정책 자금</p>
-    <p style="font-size:12px;color:#444;line-height:1.6;">R&amp;#038;D 기획부터 사업화까지 최대 34억 원을 3단계에 걸쳐 지원하는 'BIRD 프로그램'이 올해 1단계 지원 대상 63개사를 선정했다.</p>
-    <p class="sig-source"><a href="https://www.venturesquare.net/">벤처스퀘어</a></p>
+    <p style="font-size:12px;color:#444;line-height:1.6;">정부는 가상자산거래소의 출금지연 예외 기준을 통일하고 관리를 강화하기로 했다.</p>
+    <p class="sig-source"><a href="https://www.etnews.com/20260407000413">전자신문</a></p>
   </div>
 
   <p class="sec">시그널 (SIGNALS)</p>
   <p class="section-note">기술 · 대기업 · 산업 · 수요 · 정책 — 태그로 구분, 중복 없이, 시간순</p>
   <div class="card">
         <div class="sig">
+          <span class="sig-tag tag-industry">산업</span>
+          <p class="sig-fact">씨엔티테크, 펨테크 산업 육성 사업 시작</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074560/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
           <span class="sig-tag tag-tech">기술</span>
-          <p class="sig-fact">Google의 새로운 오프라인 AI 딕테이션 앱이 출시되었습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/google-quietly-releases-an-offline-first-ai-dictation-app-on-ios/">TechCrunch</a></p>
+          <p class="sig-fact">에듀싱크, 실시간 협업 플랫폼 개발</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074548/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-demand">수요</span>
+          <p class="sig-fact">엔라이튼, 에너지 IT 기업 최초 연간 흑자 달성</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074529/">벤처스퀘어</a></p>
+        </div>
+        <div class="sig">
+          <span class="sig-tag tag-policy">정책</span>
+          <p class="sig-fact">가상자산거래소, 출금지연 예외 기준 통일</p>
+          <p class="sig-source"><a href="https://www.etnews.com/20260407000413">전자신문</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-bigco">대기업</span>
-          <p class="sig-fact">Apple이 App Store 관련 소송에서 대법원에 항소할 계획입니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/apple-epic-games-lawsuit-supreme-court-appeal-app-store-commission/">TechCrunch</a></p>
-        </div>
-        <div class="sig">
-          <span class="sig-tag tag-industry">산업</span>
-          <p class="sig-fact">스페인의 Xoople이 지구를 AI용으로 매핑하기 위한 Series B에서 1.3억 달러를 투자받았습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/spains-xoople-raises-130-million-series-b-to-map-the-earth-for-ai/">TechCrunch</a></p>
+          <p class="sig-fact">인텔, 일론 머스크의 테라팹 프로젝트 참여</p>
+          <p class="sig-source"><a href="https://www.thelec.kr/news/articleView.html?idxno=54756">디일렉</a></p>
         </div>
         <div class="sig">
           <span class="sig-tag tag-demand">수요</span>
-          <p class="sig-fact">중국에서 사용된 EV의 판매량이 증가하고 있습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/gas-prices-arent-the-only-factor-fueling-used-ev-sales/">TechCrunch</a></p>
-        </div>
-        <div class="sig">
-          <span class="sig-tag tag-policy">정책</span>
-          <p class="sig-fact">OpenAI는 AI 경제에 대한 비전을 제시하며, 공공 재산 펀드, 로봇 세금, 4일 근무주를 포함한 안전망 확대를 제안합니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/openais-vision-for-the-ai-economy-public-wealth-funds-robot-taxes-and-a-four-day-work-week/">TechCrunch</a></p>
-        </div>
-        <div class="sig">
-          <span class="sig-tag tag-tech">기술</span>
-          <p class="sig-fact">Convicted 스파이웨어 제작자 Bryan Fleming은 징역을 피했습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/convicted-spyware-maker-bryan-fleming-avoids-jail-at-sentencing/">TechCrunch</a></p>
-        </div>
-        <div class="sig">
-          <span class="sig-tag tag-industry">산업</span>
-          <p class="sig-fact">Startup Battlefield 200의 신청이 시작되었습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/startup-battlefield-200-applications-open-get-vc-access-techcrunch-coverage-and-100k/">TechCrunch</a></p>
-        </div>
-        <div class="sig">
-          <span class="sig-tag tag-demand">수요</span>
-          <p class="sig-fact">Netflix는 새로운 독립형 어린이 게임 앱을 출시했습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/netflix-launches-a-standalone-app-for-kids-games/">TechCrunch</a></p>
-        </div>
-        <div class="sig">
-          <span class="sig-tag tag-policy">정책</span>
-          <p class="sig-fact">이란은 미국과 연결된 AI 데이터 센터를 위협하고 있습니다.</p>
-          <p class="sig-source"><a href="https://techcrunch.com/2026/04/06/iran-threatens-stargate-ai-data-centers/">TechCrunch</a></p>
+          <p class="sig-fact">한국딥러닝, 문서 AI로 수기 업무 대체</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074337/">벤처스퀘어</a></p>
         </div></div>
 
   <p class="sec">섹터 DEEP DIVE (SECTOR TRENDS)</p>
   <p class="section-note">이번 주 가장 뜨거운 섹터의 기술 동향 — 매일 구성이 달라짐</p>
   
         <div class="sector-card">
-          <p class="sector-name">📚 에듀테크</p>
+          <p class="sector-name">💡 에너지 IT</p>
           <p class="sector-label">왜 지금 뜨거운가</p>
-          <p class="sector-text">아보링고가 국내 50개 이상의 교육기관과 파트너십을 체결하며 수업 준비 시간을 90% 이상 줄이는 AI 교육 플랫폼을 제공하고 있습니다. 또한, 원포인트가 프리랜서 매칭 과정 전반에 AI를 도입하여 매칭 성공률 150% 증가, 소요 기간 40% 단축을 달성했습니다.</p>
+          <p class="sector-text">엔라이튼이 에너지 IT 기업 최초로 연간 흑자를 달성하면서 에너지 IT 산업의 성장 가능성이 부각되고 있다. 태양광 플랫폼 '발전왕'의 데이터를 기반으로 인프라 구축 매출을 견인했으며, K-IFRS 전환과 지정감사를 통과하며 상장 준비를 가속하고 있다.</p>
           <p class="sector-label">기술 동향</p>
-          <p class="sector-text">AI 기반의 교육 플랫폼과 프리랜서 매칭 기술이 발전하고 있습니다.</p>
+          <p class="sector-text">에너지 IT 산업의 성장으로 인해 관련 기술의 발전이 가속화되고 있다. 태양광 플랫폼, 에너지 저장 시스템 등이 발전하고 있으며, 이로 인해 에너지 효율성과 안정성이 향상되고 있다.</p>
           <p class="sector-label">주요 플레이어</p>
-          <p class="sector-text">아보링고, 원포인트</p>
+          <p class="sector-text">엔라이튼, 씨엔티테크</p>
           <p class="sector-label">투자 관점</p>
-          <p class="sector-text sector-angle">에듀테크와 인재 매칭 플랫폼에 대한 투자 기회가 있습니다.</p>
-          <p class="sig-source"><a href="https://www.venturesquare.net/1074189/">벤처스퀘어</a></p>
+          <p class="sector-text sector-angle">에너지 IT 산업의 성장 가능성을 고려하여 관련 스타트업에 투자하는 것을 고려할 수 있다. 특히, 태양광 플랫폼과 에너지 저장 시스템 등에 특화된 스타트업에 투자하는 것이 유망할 수 있다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074529/">벤처스퀘어</a></p>
+        </div>
+        <div class="sector-card">
+          <p class="sector-name">📚 교육 기술</p>
+          <p class="sector-label">왜 지금 뜨거운가</p>
+          <p class="sector-text">에듀싱크가 공교육 디지털 전환 시장을 공략하면서 교육 기술 산업의 성장 가능성이 부각되고 있다. 교실 내 전자칠판, PC, 태블릿을 하나로 연결하는 실시간 협업 플랫폼 '클래스메이트'를 개발했으며, 뉴패러다임인베스트먼트의 시드 투자를 유치했다.</p>
+          <p class="sector-label">기술 동향</p>
+          <p class="sector-text">교육 기술 산업의 성장으로 인해 관련 기술의 발전이 가속화되고 있다. 온라인 교육 플랫폼, 교육 소프트웨어 등이 발전하고 있으며, 이로 인해 교육의 효율성과 접근성이 향상되고 있다.</p>
+          <p class="sector-label">주요 플레이어</p>
+          <p class="sector-text">에듀싱크, 뉴패러다임인베스트먼트</p>
+          <p class="sector-label">투자 관점</p>
+          <p class="sector-text sector-angle">교육 기술 산업의 성장 가능성을 고려하여 관련 스타트업에 투자하는 것을 고려할 수 있다. 특히, 온라인 교육 플랫폼과 교육 소프트웨어 등에 특화된 스타트업에 투자하는 것이 유망할 수 있다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074548/">벤처스퀘어</a></p>
+        </div>
+        <div class="sector-card">
+          <p class="sector-name">👩‍👩‍👧‍👦 펨테크</p>
+          <p class="sector-label">왜 지금 뜨거운가</p>
+          <p class="sector-text">씨엔티테크가 펨테크 산업 육성 사업을 시작하면서 펨테크 산업의 성장 가능성이 부각되고 있다. 기초응용형 10개사, 기술선도형 2개사를 선발해 최대 8,000만 원 사업화 자금을 지원하며, 우수 3개사에는 3억 원 이상 직접 투자도 검토한다.</p>
+          <p class="sector-label">기술 동향</p>
+          <p class="sector-text">펨테크 산업의 성장으로 인해 관련 기술의 발전이 가속화되고 있다. 여성 건강, 라이프스타일 기술 등이 발전하고 있으며, 이로 인해 여성의 건강과幸福이 향상되고 있다.</p>
+          <p class="sector-label">주요 플레이어</p>
+          <p class="sector-text">씨엔티테크, 한국여성경제인협회</p>
+          <p class="sector-label">투자 관점</p>
+          <p class="sector-text sector-angle">펨테크 산업의 성장 가능성을 고려하여 관련 스타트업에 투자하는 것을 고려할 수 있다. 특히, 여성 건강과 라이프스타일 기술 등에 특화된 스타트업에 투자하는 것이 유망할 수 있다.</p>
+          <p class="sig-source"><a href="https://www.venturesquare.net/1074560/">벤처스퀘어</a></p>
         </div>
 
   <p class="sec">오늘의 주목 기업 (TODAY'S WATCHLIST)</p>
@@ -229,45 +263,38 @@
   <div class="watch-card">
         <div class="watch-row">
           <span class="watch-status">🟢</span>
-          <span class="watch-name">위플로</span>
-          <span class="watch-sector">AI</span>
-          <span class="watch-note">시리즈A 55억 유치를 통해 방산·공공 글로벌 진출을 준비하고 있습니다.</span>
-          <span class="watch-source"><a href="https://www.venturesquare.net/1074316/">벤처스퀘어</a></span>
+          <span class="watch-name">엔라이튼</span>
+          <span class="watch-sector">에너지 IT</span>
+          <span class="watch-note">에너지 IT 기업 최초로 연간 흑자를 달성했다. 태양광 플랫폼 '발전왕'의 데이터를 기반으로 인프라 구축 매출을 견인했으며, K-IFRS 전환과 지정감사를 통과하며 상장 준비를 가속하고 있다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1074529/">벤처스퀘어</a></span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">에듀싱크</span>
+          <span class="watch-sector">교육 기술</span>
+          <span class="watch-note">공교육 디지털 전환 시장을 공략하고 있다. 교실 내 전자칠판, PC, 태블릿을 하나로 연결하는 실시간 협업 플랫폼 '클래스메이트'를 개발했으며, 뉴패러다임인베스트먼트의 시드 투자를 유치했다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1074548/">벤처스퀘어</a></span>
+        </div>
+        <div class="watch-row">
+          <span class="watch-status">🟢</span>
+          <span class="watch-name">씨엔티테크</span>
+          <span class="watch-sector">펨테크</span>
+          <span class="watch-note">펨테크 산업 육성 사업을 시작했다. 기초응용형 10개사, 기술선도형 2개사를 선발해 최대 8,000만 원 사업화 자금을 지원하며, 우수 3개사에는 3억 원 이상 직접 투자도 검토한다.</span>
+          <span class="watch-source"><a href="https://www.venturesquare.net/1074560/">벤처스퀘어</a></span>
         </div>
         <div class="watch-row">
           <span class="watch-status">🟢</span>
           <span class="watch-name">한국딥러닝</span>
-          <span class="watch-sector">AI</span>
-          <span class="watch-note">문서 AI로 수기 업무 대체를 제공하고 있습니다.</span>
+          <span class="watch-sector">금융 기술</span>
+          <span class="watch-note">금융권 문서 자동화에 특화한 '딥에이전트 for 금융'을 출시했다. 대출심사, 피해구제, KYC 문서를 자동 분류하고 핵심값을 추출하며, 오류 위험 항목은 자동 검수 대상으로 분리해 금융 현업의 정밀도 요건을 충족한다.</span>
           <span class="watch-source"><a href="https://www.venturesquare.net/1074337/">벤처스퀘어</a></span>
         </div>
         <div class="watch-row">
           <span class="watch-status">🟢</span>
-          <span class="watch-name">원포인트</span>
-          <span class="watch-sector">AI</span>
-          <span class="watch-note">프리랜서 매칭 실패율을 감소시키는 AI 기술을 제공하고 있습니다.</span>
-          <span class="watch-source"><a href="https://www.venturesquare.net/1074299/">벤처스퀘어</a></span>
-        </div>
-        <div class="watch-row">
-          <span class="watch-status">🟢</span>
-          <span class="watch-name">아보링고</span>
-          <span class="watch-sector">에듀테크</span>
-          <span class="watch-note">국내 50개 이상의 교육기관과 파트너십을 체결하고 있습니다.</span>
-          <span class="watch-source"><a href="https://www.venturesquare.net/1074189/">벤처스퀘어</a></span>
-        </div>
-        <div class="watch-row">
-          <span class="watch-status">🟢</span>
-          <span class="watch-name">씨엔씨레볼루션</span>
-          <span class="watch-sector">콘텐츠</span>
-          <span class="watch-note">장르물 웹툰 작가 양성 사업을 진행하고 있습니다.</span>
-          <span class="watch-source"><a href="https://www.venturesquare.net/1074325/">벤처스퀘어</a></span>
-        </div>
-        <div class="watch-row">
-          <span class="watch-status">🟢</span>
-          <span class="watch-name">마이리얼트립</span>
-          <span class="watch-sector">여행</span>
-          <span class="watch-note">미 서부 스포츠 직관 여행 프로모션을 진행하고 있습니다.</span>
-          <span class="watch-source"><a href="https://www.venturesquare.net/1074213/">벤처스퀘어</a></span>
+          <span class="watch-name">인텔</span>
+          <span class="watch-sector">반도체</span>
+          <span class="watch-note">일론 머스크의 테라팹 프로젝트에 참여했다. 스페이스X와 xAI, 테슬라와 반도체 제조 공정 기술을 재구성하는 테라팹 프로젝트에 합류했다.</span>
+          <span class="watch-source"><a href="https://www.etnews.com/20260408000001">전자신문</a></span>
         </div></div>
 
   
@@ -279,29 +306,29 @@
         <div class="hw-item">
           <div class="hw-title-row">
             <span class="hw-num">1</span>
-            <span class="hw-type hwt-understand">이해</span>
-            <span class="hw-title-text">AI 교육 플랫폼의 시장 동향</span>
+            <span class="hw-type hwt-judge">판단</span>
+            <span class="hw-title-text">에너지 IT 산업의 성장 가능성</span>
           </div>
-          <p class="hw-desc">AI 교육 플랫폼의 시장 동향과 발전 방향을 이해해야 합니다. 아보링고와 같은 기업이 제공하는 AI 교육 플랫폼의 특징과 장점을 분석해야 합니다.</p>
-          <div class="hw-tags"><span class="hw-tag industry">에듀테크</span></div>
+          <p class="hw-desc">에너지 IT 산업의 성장 가능성을 평가하고, 관련 스타트업에 투자하는 것이 유망한지 판단해야 한다. 엔라이튼의 연간 흑자 달성과 태양광 플랫폼의 성장 등이 에너지 IT 산업의 성장 가능성을 부각하고 있다.</p>
+          <div class="hw-tags"><span class="hw-tag industry">에너지 IT</span></div>
         </div>
         <div class="hw-item">
           <div class="hw-title-row">
             <span class="hw-num">2</span>
-            <span class="hw-type hwt-judge">판단</span>
-            <span class="hw-title-text">프리랜서 매칭 플랫폼의 효율성</span>
+            <span class="hw-type hwt-connect">연결</span>
+            <span class="hw-title-text">펨테크 산업의 주요 플레이어</span>
           </div>
-          <p class="hw-desc">프리랜서 매칭 플랫폼의 효율성을 판단해야 합니다. 원포인트와 같은 기업이 제공하는 프리랜서 매칭 기술의 장점과 단점을 분석해야 합니다.</p>
-          <div class="hw-tags"><span class="hw-tag startup">원포인트</span></div>
+          <p class="hw-desc">펨테크 산업의 주요 플레이어를 연결하고, 펨테크 산업의 성장 가능성을 평가해야 한다. 씨엔티테크의 펨테크 산업 육성 사업과 한국여성경제인협회의 참여 등이 펨테크 산업의 성장 가능성을 부각하고 있다.</p>
+          <div class="hw-tags"><span class="hw-tag industry">펨테크</span></div>
         </div>
         <div class="hw-item">
           <div class="hw-title-row">
             <span class="hw-num">3</span>
-            <span class="hw-type hwt-connect">연결</span>
-            <span class="hw-title-text">에듀테크와 인재 매칭 플랫폼의 협력 가능성</span>
+            <span class="hw-type hwt-understand">이해</span>
+            <span class="hw-title-text">교육 기술 산업의 기술 동향</span>
           </div>
-          <p class="hw-desc">에듀테크와 인재 매칭 플랫폼의 협력 가능성을 조사해야 합니다. 아보링고와 원포인트와 같은 기업이 제공하는 플랫폼의 협력 가능성을 분석해야 합니다.</p>
-          <div class="hw-tags"><span class="hw-tag industry">에듀테크</span><span class="hw-tag industry">인재 매칭</span></div>
+          <p class="hw-desc">교육 기술 산업의 기술 동향을 이해하고, 관련 스타트업에 투자하는 것이 유망한지 평가해야 한다. 에듀싱크의 실시간 협업 플랫폼과 뉴패러다임인베스트먼트의 시드 투자 등이 교육 기술 산업의 성장 가능성을 부각하고 있다.</p>
+          <div class="hw-tags"><span class="hw-tag industry">교육 기술</span></div>
         </div></div>
 
   <div class="divider"></div>
@@ -309,16 +336,102 @@
     <summary>소스 &amp; 방법론</summary>
     <div class="card-muted" style="margin-top:8px;">
       <div class="source-list">
-        <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, TechCrunch, VentureBeat, Google News RSS)<br>
+        <strong>데이터 수집:</strong> RSS 피드 (플래텀, 벤처스퀘어, 블로터, 바이라인네트워크, 전자신문, ZDNet Korea, 디지털데일리, IT조선, 디일렉, 스타트업엔, TechCrunch, VentureBeat, Crunchbase, Google News RSS 등 40+개 소스)<br>
         <strong>분석 엔진:</strong> Gemini 2.0 Flash + Groq Llama 3.3 70B (무료)<br>
-        <strong>서치 키워드:</strong> 에듀테크, AI, 인재 매칭<br>
-        <strong>참고 매체:</strong> <a href="https://www.venturesquare.net/">벤처스퀘어</a><br>
-        <strong>한계:</strong> 수집된 뉴스의 한계점<br>
+        <strong>서치 키워드:</strong> ['에너지 IT', '펨테크', '교육 기술', '반도체']<br>
+        <strong>참고 매체:</strong> <a href="https://www.venturesquare.net/">벤처스퀘어</a>, <a href="https://www.etnews.com/">전자신문</a><br>
+        <strong>한계:</strong> 수집된 뉴스의 제한<br>
         <strong>신뢰도:</strong> 공식 발표 · 언론 보도 · 루머/관계자
       </div>
     </div>
   </details>
-  <div class="prev-link"><a href="prev.html">이전 브리프 (04/06 월)</a></div>
+  <div class="prev-link"><a href="prev.html">이전 브리프 (04/07 화)</a></div>
 </div>
+
+<div class="pat-modal" id="patModal">
+  <div class="pat-box">
+    <h3>GitHub Personal Access Token</h3>
+    <p>수동 업데이트를 실행하려면 GitHub PAT가 필요합니다.<br>
+    <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:#1a56db;font-size:11px;">토큰 생성하기</a> → 권한: <strong>Actions (Read & Write)</strong> 만 선택</p>
+    <input type="password" id="patInput" placeholder="github_pat_xxxxx..." />
+    <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:#888;margin-bottom:12px;cursor:pointer;">
+      <input type="checkbox" id="patSave" checked /> 이 브라우저에 저장 (다음에 다시 입력 불필요)
+    </label>
+    <div class="pat-actions">
+      <button class="pat-cancel" onclick="closeModal()">취소</button>
+      <button class="pat-go" onclick="triggerWorkflow()">실행</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var REPO='nyujyns/VC_DailyBrief', WF='daily.yml';
+  var btn=document.getElementById('refreshBtn'),
+      label=document.getElementById('refreshLabel'),
+      modal=document.getElementById('patModal'),
+      inp=document.getElementById('patInput');
+
+  var storedPat='';
+  try{ storedPat=localStorage.getItem('vc_pat')||''; }catch(e){}
+
+  window.handleRefresh=function(){
+    if(storedPat){ doTrigger(storedPat); return; }
+    inp.value='';
+    modal.classList.add('show');
+    inp.focus();
+  };
+
+  window.closeModal=function(){ modal.classList.remove('show'); };
+
+  window.triggerWorkflow=function(){
+    var pat=inp.value.trim();
+    if(!pat){ inp.style.borderColor='#c0392b'; return; }
+    if(document.getElementById('patSave').checked){
+      try{ localStorage.setItem('vc_pat',pat); }catch(e){}
+    }
+    storedPat=pat;
+    modal.classList.remove('show');
+    doTrigger(pat);
+  };
+
+  function doTrigger(pat){
+    btn.className='refresh-btn running';
+    label.textContent='실행 중...';
+
+    fetch('https://api.github.com/repos/'+REPO+'/actions/workflows/'+WF+'/dispatches',{
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer '+pat,
+        'Accept':'application/vnd.github+json',
+        'X-GitHub-Api-Version':'2022-11-28'
+      },
+      body:JSON.stringify({ref:'main'})
+    }).then(function(r){
+      if(r.status===204){
+        btn.className='refresh-btn done';
+        label.textContent='실행 완료! (2-3분 후 새로고침)';
+        setTimeout(function(){
+          btn.className='refresh-btn';
+          label.textContent='수동 업데이트';
+        },8000);
+      } else {
+        return r.json().then(function(d){
+          throw new Error(d.message||'API error '+r.status);
+        });
+      }
+    }).catch(function(e){
+      btn.className='refresh-btn fail';
+      label.textContent='실패: '+e.message;
+      storedPat='';
+      try{ localStorage.removeItem('vc_pat'); }catch(ex){}
+      setTimeout(function(){
+        btn.className='refresh-btn';
+        label.textContent='수동 업데이트';
+      },5000);
+    });
+  }
+})();
+</script>
 </body>
 </html>

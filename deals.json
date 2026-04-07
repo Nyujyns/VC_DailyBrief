@@ -30,6 +30,16 @@
       "date": "2026-04-06",
       "added_date": "2026-04-07",
       "source_html": "<a href=\"https://techcrunch.com/\">TechCrunch</a>"
+    },
+    {
+      "co": "인텔",
+      "round": "합작",
+      "amount": "미공개",
+      "investor": "테슬라",
+      "sector": "반도체",
+      "date": "2026-04-08",
+      "added_date": "2026-04-08",
+      "source_html": "<a href=\"https://www.etnews.com/20260408000001\">전자신문</a>"
     }
   ],
   "week_start": "2026-04-06"
