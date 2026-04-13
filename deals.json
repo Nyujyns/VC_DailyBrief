@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "토칼로",
+      "round": "미국 애리조나 주정부와 산업 공간 임대",
+      "amount": "미공개",
+      "investor": "미공개",
+      "sector": "반도체 제조 장비",
+      "date": "2026-04-14",
+      "added_date": "2026-04-14",
+      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-04-13"
 }
