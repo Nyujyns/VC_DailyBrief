@@ -226,7 +226,7 @@ JSON 스키마:
 
 
 def extract_json(text):
-    """Gemini 응답에서 JSON을 안전하게 추출"""
+    """LLM 응답에서 JSON을 안전하게 추출 (텍스트 혼합 대응)"""
     text = text.strip()
     # 마크다운 코드블록 제거
     text = re.sub(r'^```(?:json)?\s*', '', text)
@@ -237,8 +237,38 @@ def extract_json(text):
     start = text.find('{')
     end = text.rfind('}')
     if start != -1 and end != -1 and end > start:
-        text = text[start:end + 1]
+        candidate = text[start:end + 1]
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError:
+            pass
 
+        # JSON 내부의 제어 문자 제거 후 재시도
+        cleaned = re.sub(r'[\x00-\x1f\x7f]', ' ', candidate)
+        # 잘못된 trailing comma 제거 (,] 또는 ,})
+        cleaned = re.sub(r',\s*([}\]])', r'\1', cleaned)
+        try:
+            return json.loads(cleaned)
+        except json.JSONDecodeError:
+            pass
+
+        # 가장 큰 유효 JSON 블록을 찾기 (중첩 브레이스 매칭)
+        depth = 0
+        json_start = start
+        for idx in range(start, len(text)):
+            if text[idx] == '{':
+                depth += 1
+            elif text[idx] == '}':
+                depth -= 1
+                if depth == 0:
+                    block = text[json_start:idx + 1]
+                    block = re.sub(r',\s*([}\]])', r'\1', block)
+                    try:
+                        return json.loads(block)
+                    except json.JSONDecodeError:
+                        break
+
+    # 최후 수단: 원본 텍스트 그대로 시도
     return json.loads(text)
 
 
@@ -317,13 +347,13 @@ def make_user_msg(raw_news_text):
 위 내용을 기반으로 순수 JSON만 반환해라. 마크다운 코드블록 없이."""
 
 
-def try_gemini(articles):
-    """1순위: Gemini 2.0 Flash — 2단계 분석 (Think → Convert)"""
+def try_gemini_2step(articles):
+    """Gemini 2단계: 자유 분석 → JSON 변환 (깊이 우선)"""
     print("  [Gemini] 2단계 분석 시도...")
 
     full_text = articles_to_text(articles, compact=False)
 
-    # Step 1: 자유 형식 분석 (깊이 있는 사고)
+    # Step 1: 자유 형식 분석
     print("    Step 1: 자유 형식 분석...")
     analysis_msg = make_analysis_msg(full_text)
     analysis_response = gemini_client.models.generate_content(
@@ -338,7 +368,11 @@ def try_gemini(articles):
     analysis_text = analysis_response.text.strip()
     print(f"    Step 1 완료: {len(analysis_text)}자 분석")
 
-    # Step 2: JSON 변환 (구조화)
+    # Rate limit 보호: Step 1 → Step 2 사이 대기
+    print("    >> 20초 대기 (Gemini 무료 티어 rate limit 보호)...")
+    time.sleep(20)
+
+    # Step 2: JSON 변환
     print("    Step 2: JSON 변환...")
     convert_msg = f"""아래는 VC 시니어 심사역이 작성한 오늘의 분석이다. 이것을 JSON으로 변환해라.
 분석의 깊이를 그대로 유지하면서 구조만 바꿔라. 얕게 요약하지 마.
@@ -363,6 +397,23 @@ def try_gemini(articles):
         }
     )
     return convert_response.text.strip()
+
+
+def try_gemini_single(articles):
+    """Gemini 1단계 폴백: 기존 방식 (2단계 실패 시)"""
+    print("  [Gemini] 1단계 폴백 시도...")
+    full_text = articles_to_text(articles, compact=False)
+    user_msg = make_user_msg(full_text)
+    response = gemini_client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=user_msg,
+        config={
+            "system_instruction": GENERATE_SYSTEM,
+            "max_output_tokens": 16000,
+            "temperature": 0.3,
+        }
+    )
+    return response.text.strip()
 
 
 def groq_call(system_prompt, user_prompt, max_tokens=2000):
@@ -747,14 +798,24 @@ def generate_brief(articles):
     # 1순위: Gemini 2단계 (Think → Convert)
     if HAS_GEMINI:
         try:
-            raw = try_gemini(articles)
+            raw = try_gemini_2step(articles)
             print("  [Gemini] 2단계 분석 성공!")
             b = extract_json(raw)
             b = validate_and_fix(b)
             print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
             return b
         except Exception as e:
-            print(f"  [Gemini] 실패: {e}")
+            print(f"  [Gemini 2단계] 실패: {e}")
+            # 1.5순위: Gemini 단일 호출 폴백
+            try:
+                raw = try_gemini_single(articles)
+                print("  [Gemini] 단일 호출 성공!")
+                b = extract_json(raw)
+                b = validate_and_fix(b)
+                print(f"Phase 2 완료: JSON 파싱 성공 ({len(b)} keys)")
+                return b
+            except Exception as e2:
+                print(f"  [Gemini 단일] 실패: {e2}")
 
     # 2순위: Groq 섹션 분할
     if os.environ.get("GROQ_API_KEY"):
