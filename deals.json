@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "앤트로픽",
+      "round": "투자 유치",
+      "amount": "50억달러",
+      "investor": "아마존",
+      "sector": "컴퓨팅",
+      "date": "2026-04-20",
+      "added_date": "2026-04-21",
+      "source_html": "<a href=\"https://www.etnews.com/20260421000009\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-04-20"
 }
