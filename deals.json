@@ -1,46 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "앤트로픽",
-      "round": "투자 유치",
-      "amount": "50억달러",
-      "investor": "아마존",
-      "sector": "컴퓨팅",
-      "date": "2026-04-20",
-      "added_date": "2026-04-21",
-      "source_html": "<a href=\"https://www.etnews.com/20260421000009\">전자신문</a>"
-    },
-    {
-      "co": "딥시크",
-      "round": "시리즈",
-      "amount": "200억 달러",
-      "investor": "알리바바/텐센트",
-      "sector": "인공지능",
-      "date": "2026-04-23",
-      "added_date": "2026-04-23",
-      "source_html": "<a href=\"https://www.etnews.com/20260423000006\">전자신문</a>"
-    },
-    {
-      "co": "포인투테크놀로지",
-      "round": "전략적 투자",
-      "amount": "미공개",
-      "investor": "엔비디아, UMC, 매브릭실리콘",
-      "sector": "반도체",
-      "date": "2026-04-23",
-      "added_date": "2026-04-24",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=55585\">디일렉</a>"
-    },
-    {
-      "co": "텐센트",
-      "round": "AI 모델 Hy3 프리뷰 공개",
-      "amount": "미공개",
-      "investor": "텐센트",
-      "sector": "AI",
-      "date": "2026-04-24",
-      "added_date": "2026-04-26",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=55651\">디일렉</a>"
-    }
-  ],
-  "week_start": "2026-04-20"
+  "global": [],
+  "week_start": "2026-04-27"
 }
