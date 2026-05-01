@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "조비 에비에이션",
+      "round": "전기 에어택시 시연",
+      "amount": "미공개",
+      "investor": "미공개",
+      "sector": "전기 에어택시",
+      "date": "2026-05-02",
+      "added_date": "2026-05-02",
+      "source_html": "<a href=\"https://www.etnews.com/20260430000469\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-04-27"
 }
