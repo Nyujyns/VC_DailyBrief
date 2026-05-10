@@ -1,16 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "글렉",
-      "round": "Pre-A",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "물류",
-      "date": "2026-05-03",
-      "added_date": "2026-05-04",
-      "source_html": "<a href=\"https://www.venturesquare.net/1079719/\">벤처스퀘어</a>"
-    }
-  ],
-  "week_start": "2026-05-04"
+  "global": [],
+  "week_start": "2026-05-11"
 }
