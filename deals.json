@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "오픈AI",
+      "round": "",
+      "amount": "",
+      "investor": "TPG",
+      "sector": "AI",
+      "date": "",
+      "added_date": "2026-05-12",
+      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-05-11"
 }
