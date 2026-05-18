@@ -2,35 +2,15 @@
   "domestic": [],
   "global": [
     {
-      "co": "오픈AI",
-      "round": "",
-      "amount": "",
-      "investor": "TPG",
-      "sector": "AI",
-      "date": "",
-      "added_date": "2026-05-12",
-      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
-    },
-    {
-      "co": "엔비디아",
-      "round": "",
+      "co": "ST마이크로일렉트로닉스",
+      "round": "NXP MEMS 인수",
       "amount": "미공개",
-      "investor": "미국 투자자",
+      "investor": "미공개",
       "sector": "반도체",
-      "date": "2026-05-14",
-      "added_date": "2026-05-14",
-      "source_html": "<a href=\"https://www.etnews.com/20260514000014\">전자신문</a>"
-    },
-    {
-      "co": "세레브라스",
-      "round": "IPO",
-      "amount": "68% 상승",
-      "investor": "나스닥",
-      "sector": "AI 칩 제조",
-      "date": "2026-05-14",
-      "added_date": "2026-05-15",
+      "date": "2026-05-18",
+      "added_date": "2026-05-18",
       "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
     }
   ],
-  "week_start": "2026-05-11"
+  "week_start": "2026-05-18"
 }
