@@ -1,36 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "ST마이크로일렉트로닉스",
-      "round": "NXP MEMS 인수",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "반도체",
-      "date": "2026-05-18",
-      "added_date": "2026-05-18",
-      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
-    },
-    {
-      "co": "AMD",
-      "round": "",
-      "amount": "100억달러",
-      "investor": "",
-      "sector": "반도체",
-      "date": "2026-05-21",
-      "added_date": "2026-05-22",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=57034\">디일렉</a>"
-    },
-    {
-      "co": "마이크론",
-      "round": "미국 내 1α DDR4 생산",
-      "amount": "미공개",
-      "investor": "미국 정부",
-      "sector": "반도체",
-      "date": "2026-05-24",
-      "added_date": "2026-05-24",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=57097\">디일렉</a>"
-    }
-  ],
-  "week_start": "2026-05-18"
+  "global": [],
+  "week_start": "2026-05-25"
 }
