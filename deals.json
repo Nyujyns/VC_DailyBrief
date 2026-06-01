@@ -2,35 +2,15 @@
   "domestic": [],
   "global": [
     {
-      "co": "Stiltta",
-      "round": "시드 투자",
-      "amount": "1,050만 달러",
-      "investor": "a16z",
-      "sector": "AI",
-      "date": "2026-05-26",
-      "added_date": "2026-05-26",
-      "source_html": "<a href=\"https://www.venturesquare.net/1085282/\">벤처스퀘어</a>"
-    },
-    {
-      "co": "델 페더럴 시스템스",
-      "round": "계약",
-      "amount": "14.5조원",
-      "investor": "미국 전쟁부",
-      "sector": "소프트웨어",
-      "date": "2026-05-28",
-      "added_date": "2026-05-28",
-      "source_html": "<a href=\"https://www.etnews.com/20260528000014\">전자신문</a>"
-    },
-    {
-      "co": "스페이스X",
-      "round": "IPO",
-      "amount": "2700조 원",
-      "investor": "미공개",
-      "sector": "우주 기술",
-      "date": "2026-06",
-      "added_date": "2026-05-30",
-      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
+      "co": "소프트뱅크",
+      "round": "자금 투자",
+      "amount": "131조원",
+      "investor": "없음",
+      "sector": "AI 데이터센터",
+      "date": "2026-06-01",
+      "added_date": "2026-06-01",
+      "source_html": "<a href=\"https://www.etnews.com/20260601000005\">전자신문</a>"
     }
   ],
-  "week_start": "2026-05-25"
+  "week_start": "2026-06-01"
 }
