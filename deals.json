@@ -1,46 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "소프트뱅크",
-      "round": "자금 투자",
-      "amount": "131조원",
-      "investor": "없음",
-      "sector": "AI 데이터센터",
-      "date": "2026-06-01",
-      "added_date": "2026-06-01",
-      "source_html": "<a href=\"https://www.etnews.com/20260601000005\">전자신문</a>"
-    },
-    {
-      "co": "스트라타시스",
-      "round": "",
-      "amount": "4250만 달러",
-      "investor": "",
-      "sector": "산업용 적층제조",
-      "date": "2026년",
-      "added_date": "2026-06-02",
-      "source_html": "<a href=\"https://www.venturesquare.net/1087973/\">벤처스퀘어</a>"
-    },
-    {
-      "co": "앤트로픽",
-      "round": "차세대 AI 모델 접근권 확대",
-      "amount": "미공개",
-      "investor": "다수 기업 및 기관",
-      "sector": "인공지능(AI)",
-      "date": "2026-06-02",
-      "added_date": "2026-06-03",
-      "source_html": "<a href=\"https://www.etnews.com/20260603000034\">전자신문</a>"
-    },
-    {
-      "co": "엔비디아",
-      "round": "신제품 출시",
-      "amount": "미공개",
-      "investor": "젠슨 황",
-      "sector": "AI",
-      "date": "2026-06-05",
-      "added_date": "2026-06-06",
-      "source_html": "<a href=\"https://www.etnews.com/20260605000335\">전자신문</a>"
-    }
-  ],
-  "week_start": "2026-06-01"
+  "global": [],
+  "week_start": "2026-06-08"
 }
