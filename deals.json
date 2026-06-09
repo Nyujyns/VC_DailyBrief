@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "오픈AI",
+      "round": "IPO",
+      "amount": "미공개",
+      "investor": "미공개",
+      "sector": "AI",
+      "date": "2026-06-09",
+      "added_date": "2026-06-09",
+      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-06-08"
 }
