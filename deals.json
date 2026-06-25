@@ -10,6 +10,26 @@
       "date": "2026-06-22",
       "added_date": "2026-06-23",
       "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=58458\">디일렉</a>"
+    },
+    {
+      "co": "마이크론",
+      "round": "",
+      "amount": "414억5600만달러",
+      "investor": "",
+      "sector": "반도체",
+      "date": "2026-06-25",
+      "added_date": "2026-06-25",
+      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
+    },
+    {
+      "co": "퀄컴",
+      "round": "인수",
+      "amount": "미공개",
+      "investor": "",
+      "sector": "AI 소프트웨어",
+      "date": "2026-06-25",
+      "added_date": "2026-06-25",
+      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
     }
   ],
   "week_start": "2026-06-22"
