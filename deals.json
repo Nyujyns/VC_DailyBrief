@@ -1,56 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "앤트로픽",
-      "round": "전략적 협약",
-      "amount": "미공개",
-      "investor": "마이크론",
-      "sector": "AI 인프라",
-      "date": "2026-06-22",
-      "added_date": "2026-06-23",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=58458\">디일렉</a>"
-    },
-    {
-      "co": "마이크론",
-      "round": "",
-      "amount": "414억5600만달러",
-      "investor": "",
-      "sector": "반도체",
-      "date": "2026-06-25",
-      "added_date": "2026-06-25",
-      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
-    },
-    {
-      "co": "퀄컴",
-      "round": "인수",
-      "amount": "미공개",
-      "investor": "",
-      "sector": "AI 소프트웨어",
-      "date": "2026-06-25",
-      "added_date": "2026-06-25",
-      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
-    },
-    {
-      "co": "유니트리 로보틱스",
-      "round": "",
-      "amount": "769만원",
-      "investor": "",
-      "sector": "로봇",
-      "date": "2026-06-25",
-      "added_date": "2026-06-26",
-      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
-    },
-    {
-      "co": "SMIC",
-      "round": "",
-      "amount": "미공개",
-      "investor": "중국 정부",
-      "sector": "반도체",
-      "date": "2026-06-27",
-      "added_date": "2026-06-27",
-      "source_html": "<a href=\"https://www.etnews.com/20260626000194\">전자신문</a>"
-    }
-  ],
-  "week_start": "2026-06-22"
+  "global": [],
+  "week_start": "2026-06-29"
 }
