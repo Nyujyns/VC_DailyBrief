@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "위메이드",
+      "round": "",
+      "amount": "9200억원",
+      "investor": "네오펄스",
+      "sector": "게임",
+      "date": "",
+      "added_date": "2026-07-01",
+      "source_html": "<a href=\"https://www.etnews.com/20260630000422\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-06-29"
 }
