@@ -20,6 +20,26 @@
       "date": "2026-07-01",
       "added_date": "2026-07-02",
       "source_html": "<a href=\"https://www.etnews.com/20260701000591\">전자신문</a>"
+    },
+    {
+      "co": "마이크로소프트",
+      "round": "-",
+      "amount": "25억달러",
+      "investor": "-",
+      "sector": "AI",
+      "date": "2026-07-03",
+      "added_date": "2026-07-03",
+      "source_html": "<a href=\"https://www.etnews.com/20260703000008\">전자신문</a>"
+    },
+    {
+      "co": "앤트로픽",
+      "round": "-",
+      "amount": "-",
+      "investor": "삼성전자",
+      "sector": "AI",
+      "date": "2026-07-03",
+      "added_date": "2026-07-03",
+      "source_html": "<a href=\"https://www.etnews.com/20260703000008\">전자신문</a>"
     }
   ],
   "week_start": "2026-06-29"
