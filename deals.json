@@ -1,56 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "위메이드",
-      "round": "",
-      "amount": "9200억원",
-      "investor": "네오펄스",
-      "sector": "게임",
-      "date": "",
-      "added_date": "2026-07-01",
-      "source_html": "<a href=\"https://www.etnews.com/20260630000422\">전자신문</a>"
-    },
-    {
-      "co": "피규어 AI",
-      "round": "시리즈",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "로봇",
-      "date": "2026-07-01",
-      "added_date": "2026-07-02",
-      "source_html": "<a href=\"https://www.etnews.com/20260701000591\">전자신문</a>"
-    },
-    {
-      "co": "마이크로소프트",
-      "round": "-",
-      "amount": "25억달러",
-      "investor": "-",
-      "sector": "AI",
-      "date": "2026-07-03",
-      "added_date": "2026-07-03",
-      "source_html": "<a href=\"https://www.etnews.com/20260703000008\">전자신문</a>"
-    },
-    {
-      "co": "앤트로픽",
-      "round": "-",
-      "amount": "-",
-      "investor": "삼성전자",
-      "sector": "AI",
-      "date": "2026-07-03",
-      "added_date": "2026-07-03",
-      "source_html": "<a href=\"https://www.etnews.com/20260703000008\">전자신문</a>"
-    },
-    {
-      "co": "L-H 배터리 컴퍼니",
-      "round": "합작 투자",
-      "amount": "미공개",
-      "investor": "LG에너지솔루션, 혼다",
-      "sector": "배터리",
-      "date": "2026-07-03",
-      "added_date": "2026-07-04",
-      "source_html": "<a href=\"https://www.etnews.com/20260703000246\">전자신문</a>"
-    }
-  ],
-  "week_start": "2026-06-29"
+  "global": [],
+  "week_start": "2026-07-06"
 }
