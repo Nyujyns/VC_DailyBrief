@@ -1,5 +1,26 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "어플라이드 머티어리얼즈",
+      "round": "미공개",
+      "amount": "미공개",
+      "investor": "미공개",
+      "sector": "반도체 장비",
+      "date": "2026-07-07",
+      "added_date": "2026-07-07",
+      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
+    },
+    {
+      "co": "티센크루프마린시스템",
+      "round": "미공개",
+      "amount": "미공개",
+      "investor": "미공개",
+      "sector": "방산",
+      "date": "2026-07-07",
+      "added_date": "2026-07-07",
+      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
+    }
+  ],
   "week_start": "2026-07-06"
 }
