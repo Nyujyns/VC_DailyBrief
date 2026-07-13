@@ -2,55 +2,25 @@
   "domestic": [],
   "global": [
     {
-      "co": "어플라이드 머티어리얼즈",
-      "round": "미공개",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "반도체 장비",
-      "date": "2026-07-07",
-      "added_date": "2026-07-07",
-      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
-    },
-    {
-      "co": "티센크루프마린시스템",
-      "round": "미공개",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "방산",
-      "date": "2026-07-07",
-      "added_date": "2026-07-07",
-      "source_html": "<a href=\"https://www.etnews.com/\">전자신문</a>"
-    },
-    {
-      "co": "BTQ 테크놀로지",
-      "round": "인수",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "양자컴퓨팅",
-      "date": "2026-07-08",
-      "added_date": "2026-07-08",
-      "source_html": "<a href=\"https://www.venturesquare.net/1096713/\">벤처스퀘어</a>"
-    },
-    {
-      "co": "마이크론",
-      "round": "투자 확대",
-      "amount": "2500억달러",
-      "investor": "자체 투자",
-      "sector": "반도체",
-      "date": "2026-07-09",
-      "added_date": "2026-07-10",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=59352\">디일렉</a>"
-    },
-    {
       "co": "SK하이닉스",
       "round": "ADR 상장",
       "amount": "약 40조원",
-      "investor": "미국 나스닥",
+      "investor": "미공개",
       "sector": "반도체",
-      "date": "2026-07-12",
-      "added_date": "2026-07-12",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=59425\">디일렉</a>"
+      "date": "2026-07-10",
+      "added_date": "2026-07-13",
+      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=59424\">디일렉</a>"
+    },
+    {
+      "co": "보부하이테크",
+      "round": "중국 시안시와 MOU",
+      "amount": "미공개",
+      "investor": "중국 시안시 하이테크산업개발구",
+      "sector": "글로벌 생산 거점 확대",
+      "date": "2026-07-10",
+      "added_date": "2026-07-13",
+      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=59424\">디일렉</a>"
     }
   ],
-  "week_start": "2026-07-06"
+  "week_start": "2026-07-13"
 }
