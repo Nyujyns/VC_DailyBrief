@@ -30,6 +30,26 @@
       "date": "2026-07-13",
       "added_date": "2026-07-15",
       "source_html": "<a href=\"https://www.etnews.com/20260714000499\">전자신문</a>"
+    },
+    {
+      "co": "우버",
+      "round": "인수",
+      "amount": "지분 100% 가치 41.5유로(약 7만원)",
+      "investor": "우버",
+      "sector": "모빌리티",
+      "date": "2026-07-16",
+      "added_date": "2026-07-17",
+      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
+    },
+    {
+      "co": "DH",
+      "round": "인수",
+      "amount": "지분 100% 가치 41.5유로(약 7만원)",
+      "investor": "우버",
+      "sector": "모빌리티",
+      "date": "2026-07-16",
+      "added_date": "2026-07-17",
+      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
     }
   ],
   "week_start": "2026-07-13"
