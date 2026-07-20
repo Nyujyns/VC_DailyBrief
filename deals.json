@@ -2,55 +2,15 @@
   "domestic": [],
   "global": [
     {
-      "co": "SK하이닉스",
-      "round": "ADR 상장",
-      "amount": "약 40조원",
-      "investor": "미공개",
-      "sector": "반도체",
-      "date": "2026-07-10",
-      "added_date": "2026-07-13",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=59424\">디일렉</a>"
-    },
-    {
-      "co": "보부하이테크",
-      "round": "중국 시안시와 MOU",
+      "co": "문샷 AI",
+      "round": "상장 준비",
       "amount": "미공개",
-      "investor": "중국 시안시 하이테크산업개발구",
-      "sector": "글로벌 생산 거점 확대",
-      "date": "2026-07-10",
-      "added_date": "2026-07-13",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=59424\">디일렉</a>"
-    },
-    {
-      "co": "인텔",
-      "round": "자체 투자",
-      "amount": "8조4800억원",
-      "investor": "자체",
-      "sector": "반도체",
-      "date": "2026-07-13",
-      "added_date": "2026-07-15",
-      "source_html": "<a href=\"https://www.etnews.com/20260714000499\">전자신문</a>"
-    },
-    {
-      "co": "우버",
-      "round": "인수",
-      "amount": "지분 100% 가치 41.5유로(약 7만원)",
-      "investor": "우버",
-      "sector": "모빌리티",
-      "date": "2026-07-16",
-      "added_date": "2026-07-17",
-      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
-    },
-    {
-      "co": "DH",
-      "round": "인수",
-      "amount": "지분 100% 가치 41.5유로(약 7만원)",
-      "investor": "우버",
-      "sector": "모빌리티",
-      "date": "2026-07-16",
-      "added_date": "2026-07-17",
-      "source_html": "<a href=\"https://www.thelec.kr/\">디일렉</a>"
+      "investor": "미공개",
+      "sector": "AI",
+      "date": "2026-07-20",
+      "added_date": "2026-07-20",
+      "source_html": "<a href=\"https://www.etnews.com/20260720000002\">전자신문</a>"
     }
   ],
-  "week_start": "2026-07-13"
+  "week_start": "2026-07-20"
 }
