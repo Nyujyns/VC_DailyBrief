@@ -1,26 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "문샷 AI",
-      "round": "상장 준비",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "AI",
-      "date": "2026-07-20",
-      "added_date": "2026-07-20",
-      "source_html": "<a href=\"https://www.etnews.com/20260720000002\">전자신문</a>"
-    },
-    {
-      "co": "엔비디아",
-      "round": "전략적 투자",
-      "amount": "5000억달러",
-      "investor": "SK그룹",
-      "sector": "AI",
-      "date": "2026-07-24",
-      "added_date": "2026-07-26",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=60037\">디일렉</a>"
-    }
-  ],
-  "week_start": "2026-07-20"
+  "global": [],
+  "week_start": "2026-07-27"
 }
