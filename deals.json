@@ -1,46 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "CXMT",
-      "round": "상장",
-      "amount": "712조원",
-      "investor": "",
-      "sector": "반도체",
-      "date": "2026-07-27",
-      "added_date": "2026-07-28",
-      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=60129\">디일렉</a>"
-    },
-    {
-      "co": "마이크로소프트",
-      "round": "분기 실적",
-      "amount": "130조원",
-      "investor": "미공개",
-      "sector": "AI, 클라우드",
-      "date": "2026-07-30",
-      "added_date": "2026-07-30",
-      "source_html": "<a href=\"https://www.etnews.com/20260730000004\">전자신문</a>"
-    },
-    {
-      "co": "아마존",
-      "round": "분기 매출",
-      "amount": "2000억 달러",
-      "investor": "미공개",
-      "sector": "전자상거래",
-      "date": "2026-07-31",
-      "added_date": "2026-07-31",
-      "source_html": "<a href=\"https://www.etnews.com/20260731000010\">전자신문</a>"
-    },
-    {
-      "co": "Satyress",
-      "round": "",
-      "amount": "미공개",
-      "investor": "미공개",
-      "sector": "로봇",
-      "date": "2026-08-02",
-      "added_date": "2026-08-02",
-      "source_html": "<a href=\"https://www.etnews.com/20260731000321\">전자신문</a>"
-    }
-  ],
-  "week_start": "2026-07-27"
+  "global": [],
+  "week_start": "2026-08-03"
 }
