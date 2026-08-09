@@ -1,16 +1,5 @@
 {
   "domestic": [],
-  "global": [
-    {
-      "co": "AMD",
-      "round": "2분기 실적",
-      "amount": "사상 최대 매출",
-      "investor": "없음",
-      "sector": "데이터센터",
-      "date": "2026-08-05",
-      "added_date": "2026-08-05",
-      "source_html": "<a href=\"https://www.etnews.com/20260805000004\">전자신문</a>"
-    }
-  ],
-  "week_start": "2026-08-03"
+  "global": [],
+  "week_start": "2026-08-10"
 }
