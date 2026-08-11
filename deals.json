@@ -1,5 +1,16 @@
 {
   "domestic": [],
-  "global": [],
+  "global": [
+    {
+      "co": "엔비디아",
+      "round": "전략적 투자",
+      "amount": "5000억달러",
+      "investor": "아폴로 글로벌, 블랙록, 블랙스톤, 브룩필드, 골드만 삭스, KKR",
+      "sector": "AI",
+      "date": "2026-08-11",
+      "added_date": "2026-08-12",
+      "source_html": "<a href=\"https://www.thelec.kr/news/articleView.html?idxno=60820\">디일렉</a>"
+    }
+  ],
   "week_start": "2026-08-10"
 }
